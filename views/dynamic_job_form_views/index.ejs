@@ -1,0 +1,1113 @@
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 10px;
+      border: 2px solid black;
+    }
+
+    .left {
+      float: left;
+    }
+
+    .right {
+      float: right;
+    }
+
+    .gen {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .row1 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .next {
+      background-color: rgb(42, 75, 9);
+      color: white
+    }
+
+    .prev {
+      background-color: rgb(43, 11, 73);
+      color: aliceblue;
+    }
+
+    .err {
+      color: red;
+      font-weight: bold;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      gap: 50px;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .rcol {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Kajal Soni</h1>
+    <h1>Candidates Registration</h1>
+    <div class="btn"><a href="/ajax_form_list">List Of Users</a></div>
+    <div class="sub_container">
+      <form id="candidate_details">
+        <div class="form">
+          <div>
+            <input type="hidden" id="userId" name="userId" value="<%=result[0].candidate_id%>" />
+            <div class="left"><label for="fname">First Name</label><input type='text' id="fname" name="fname"
+                class="req" <%if(isUpdate){%>value="<%=result[0].first_name%>"<%}%> /><span class="err"></span></div>
+            <div class="right"><label for="lname">Last Name</label><input type='text' id="lname" name="lname"
+                class="req" <%if(isUpdate){%>value="<%=result[0].last_name%>"<%}%>/><span class="err"></span></div>
+          </div>
+          <div>
+            <div class="left"><label for="design">Designation</label><input type='text' id="design" name="design"
+                class="req" <%if(isUpdate){%>value="<%=result[0].design%>"<%}%>/><span class="err"></span></div>
+            <div class="right"><label for="email">Email</label><input type='text' id="email" name="email" class="req"
+                <%if(isUpdate){%>value="<%=result[0].email%>"<%}%> /><span class="err"></span></div>
+          </div>
+
+          <div>
+            <div class="left"><label for="add1">Current Address</label> <span class="err"></span><textarea id="add1"
+                name="add1" class="req"><%if(isUpdate){%><%=result[0].current_addreess%><%}%></textarea>
+            </div>
+            <div class="right"><label for="add2">Permanent Address</label> <span class="err"></span><textarea id="add2"
+                name="add2"><%if(isUpdate){%><%=result[0].permanent_address%><%}%></textarea>
+            </div>
+          </div>
+          <div>
+            <div class="left"><label for="state">Select State</label>
+              <select id="state" class="req" name="state" onchange="setCity(this.value)">
+                <option>select an option</option>
+                <%result1.forEach((element)=>{%>
+                  <option value="<%=element.state_id%>">
+                    <%=element.state_name%>
+                  </option>
+                  <%});%>
+              </select>
+              <span class="err"></span>
+            </div>
+            <div class="right"><label for="state">Select City</label>
+              <select id="city" name="city" class="req">
+                <option>select an option</option>
+              </select>
+              <span class="err"></span>
+            </div>
+          </div>
+          <div>
+            <div class="left"><label for="zipcode">Zipcode</label><input type='text' id="zipcode" name="zipcode"
+                <%if(isUpdate){%>value="<%=result[0].zip_code%>"<%}%> class="req"/><span class="err"></span></div>
+            <div class="right"><label for="contact">Contact</label><input type='text' id="contact" name="contact"
+                class="req" <%if(isUpdate){%>value="<%=result[0].phone%>"<%}%> /><span class="err"></span></div>
+          </div>
+
+          <div>
+            <div class="left gen">
+              <span class="err"></span>
+              <label>Gender</label>
+              <div><input type="radio" name="gender" value="male" <%if(isUpdate){if(result[0].gender=="male" ){%>checked
+                <%}}%> /><label>Male</label><span class="err"></span>
+              </div>
+              <div><input type="radio" name="gender" value="female" <%if(isUpdate){if(result[0].gender=="female" ){%>
+                checked
+                <%}}%> /><label>Female</label><span class="err"></span>
+              </div>
+              <div><input type="radio" name="gender" value="others" <%if(isUpdate){if(result[0].gender=="others"){%>checked
+                <%}}%> /><label>Others</label><span class="err"></span>
+              </div>
+            </div>
+            <div class="right">
+              <label>Marital Status</label>
+              <select name="relation">
+                <option <%if(isUpdate){if(result[0].relationship_status=="married" ){%> selected
+                   <%}}%>
+                    value="married">Married</option>
+                <option <%if(isUpdate){if(result[0].relationship_status=="married" ){%> selected <%}}%>
+                    value="unmarried">Unmarried</option>
+                <option <%if(isUpdate){if(result[0].relationship_status=="married" ){%> selected <%}}%>
+                    value="others">Others</option>
+              </select>
+            </div>
+          </div>
+          <div class="row1">
+            <button class="prev">Previous</button>
+            <button class="next" type="button" onclick=" return func_can()">Next</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    function addrowexp() {
+
+    }
+    function remrowexp() {
+
+    }
+    function addrowref() {
+
+    }
+    function remrowref() {
+
+    }
+    function setCity(id) {
+      console.log("calling cities");
+      $.ajax({
+        url: `http://localhost:8080/action/?action=fetch&id=${id}&table=cities&field=state_id`,
+        method: 'GET',
+        crossDomain: true,
+        processData: false,
+        contentType: false,
+
+        success: function (data) {
+          var html = '';
+          if (data.data.length > 0) {
+            data.data.forEach(element => {
+              html += `<option value='${element.city_id}'>${element.city_name}</option>`
+            });
+            $('#city').html(html);
+          }
+        }
+      });
+    }
+    function func_can() {
+      Array.from(document.getElementsByClassName('req')).forEach((element) => {
+        if (element.value == "") {
+          let div = element.parentElement;
+          div.getElementsByTagName('span')[0].innerHTML = "please enter the required value";
+          return false;
+        }
+        else {
+          let div = element.parentElement;
+          div.getElementsByTagName('span')[0].innerHTML = "";
+        }
+      });
+
+      let genFlag = 0;
+      let gender = document.getElementsByName('gender');
+      let genArr = Array.from(gender);
+      genArr.forEach((item) => {
+        if (item.checked) {
+          genFlag++;
+        }
+      });
+      console.log(genFlag);
+      if (genFlag == 0) {
+        let div = document.getElementsByName('gender')[0].parentElement.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "please select your gender";
+        return false;
+      }
+      else {
+        let div = document.getElementsByName('gender')[0].parentElement.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "";
+      }
+      let email = document.getElementsByName('email')[0];
+      let contact = document.getElementsByName('contact')[0];
+      let zipcode = document.getElementsByName('zipcode')[0];
+      let state = document.getElementsByName('state');
+      let city = document.getElementsByName('city');
+      let design = document.getElementsByName('design')[0];
+
+      let emailPtn = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+      if (!emailPtn.test(email.value)) {
+        let div = email.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "please enter correct email";
+        return false;
+      }
+      let phonePtn = /[0-9]{10}/;
+      if (!phonePtn.test(contact.value)) {
+        let div = contact.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "your phone number should be a 10 digit nummber";
+        return false;
+      }
+      var form = document.getElementById("candidate_details");
+      var formData = new FormData(form);
+      if (document.getElementById('userId').value == "") {
+        $.ajax({
+          url: `http://localhost:8080/candidate?fname=${formData.get('fname')}&lname=${formData.get('lname')}&design=${formData.get('design')}&email=${formData.get('email')}&state=${formData.get('state')}&city=${formData.get('city')}&gender=${formData.get('gender')}&add1=${formData.get('add1')}&add2=${formData.get('add2')}&zipcode=${formData.get('zipcode')}&contact=${formData.get('contact')}&relation=${formData.get('relation')}`,
+          method: 'get',
+          crossDomain: true,
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            console.log(data);
+            $('.sub_container').html(data.data);
+            document.getElementById('userId').value = data.userId;
+            return true;
+          }
+        });
+      }
+      else {
+        $.ajax({
+          url: `http://localhost:8080/update_candidate?id=${formData.get('userId')}&fname=${formData.get('fname')}&lname=${formData.get('lname')}&design=${formData.get('design')}&email=${formData.get('email')}&state=${formData.get('state')}&city=${formData.get('city')}&gender=${formData.get('gender')}&add1=${formData.get('add1')}&add2=${formData.get('add2')}&zipcode=${formData.get('zipcode')}&contact=${formData.get('contact')}&relation=${formData.get('relation')}`,
+          method: 'get',
+          crossDomain: true,
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            console.log(data);
+            $('.sub_container').html(data.data);
+            document.getElementById('userId').value = data.userId;
+            data.result1.forEach((element) => {
+              for (let i = 0; i < 4; i++) {
+                if (document.getElementsByName('course_type[]')[i].value == element.course_type) {
+                  document.getElementsByName('course_name[]')[i].value = element.course_name;
+                  document.getElementsByName('school_name[]')[i].value = element.school_name;
+                  document.getElementsByName('passing_year[]')[i].value = element.passing_year;
+                  document.getElementsByName('percent[]')[i].value = element.percent;
+                }
+              }
+            });
+            return true;
+          }
+        });
+      }
+    }
+      function func_edu() {
+        let course_name_arr = document.getElementsByName('course_name[]');
+        let passing_year_arr = document.getElementsByName('passing_year[]');
+        let school_name_arr = document.getElementsByName('school_name[]');
+        let percent_arr = document.getElementsByName('percent[]');
+        for (let i = 0; i < 4; i++) {
+          console.log(course_name_arr);
+          if (course_name_arr[i].value != "") {
+            if (passing_year_arr[i].value == "") {
+              let div = passing_year_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
+            }
+            if (school_name_arr[i].value == "") {
+              let div = school_name_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
+            }
+            if (percent_arr[i].value == "") {
+              let div = percent_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
+            }
+            if (passing_year_arr[i].value == "" && school_name_arr[i].value == "" && percent_arr[i].value == "") {
+              return false;
+            }
+          }
+
+
+          if (passing_year_arr[i].value != "") {
+            if (course_name_arr[i].value == "") {
+              let div = course_name_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
+            }
+            if (school_name_arr[i].value == "") {
+              let div = school_name_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
+            }
+            if (percent_arr[i].value == "") {
+              let div = percent_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
+            }
+            if (course_name_arr[i].value == "" && school_name_arr[i].value == "" && percent_arr[i].value == "") {
+              return false;
+            }
+          }
+
+          if (school_name_arr[i].value != "") {
+            if (passing_year_arr[i].value == "") {
+              let div = passing_year_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
+            }
+            if (course_name_arr[i].value == "") {
+              let div = course_name_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
+            }
+            if (percent_arr[i].value == "") {
+              let div = percent_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
+            }
+            if (passing_year_arr[i].value == "" && course_name_arr[i].value == "" && percent_arr[i].value == "") {
+              return false;
+            }
+          }
+          if (percent_arr[i].value != "") {
+            if (passing_year_arr[i].value == "") {
+              let div = passing_year_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
+            }
+            if (school_name_arr[i].value == "") {
+              let div = school_name_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
+            }
+            if (course_name_arr[i].value == "") {
+              let div = course_name_arr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
+            }
+            if (passing_year_arr[i].value == "" && school_name_arr[i].value == "" && course_name_arr[i].value == "") {
+              return false;
+            }
+          }
+        }
+
+        var form = document.getElementById("edu_detail");
+        let course_type = [];
+        document.getElementsByName('course_type[]').forEach((element) => {
+          course_type.push(element.value);
+        });
+        let course_name = [];
+        document.getElementsByName('course_name[]').forEach((element) => {
+          course_name.push(element.value);
+        });
+        let school_name = [];
+        document.getElementsByName('school_name[]').forEach((element) => {
+          school_name.push(element.value);
+        })
+        let passing_year = [];
+        document.getElementsByName('passing_year[]').forEach((element) => {
+          passing_year.push(element.value);
+        })
+        let percent = [];
+        document.getElementsByName('percent[]').forEach((element) => {
+          percent.push(element.value);
+        })
+        let userId = document.getElementsByName('userId')[0].value;
+        console.log(course_name);
+
+
+        $.ajax({
+          url: `http://localhost:8080/edu?course_type=${course_type}&course_name=${course_name}&school_name=${school_name}&passing_year=${passing_year}&percent=${percent}&userId=${userId}`,
+          method: 'get',
+          crossDomain: true,
+          processData: false,
+          contentType: false,
+
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            console.log(data.userId);
+            document.getElementById('userId').value = data.userId;
+            document.getElementsByName('lang[]').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.language) {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('lhskill[]').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.lang_skill && item.language == 'hindi') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('leskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.lang_skill && item.language == 'english') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('lgskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.lang_skill && item.language == 'gujararti') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            return true;
+          }
+        });
+      }
+      function func_lang() {
+        let langArr = document.getElementsByName('lang[]');
+        let lhskillArr = document.getElementsByName('lhskill[]');
+        let lgskillArr = document.getElementsByName('lgskill[]');
+        let leskillArr = document.getElementsByName('leskill[]');
+        for (let i = 0; i < langArr.length; i++) {
+          if (langArr[i].checked) {
+            let isCheckedFlag = 0;
+            if (lhskillArr[i].checked) {
+              isCheckedFlag++;
+            }
+            if (leskillArr[i].checked) {
+              isCheckedFlag++;
+            }
+            if (lgskillArr[i].checked) {
+              isCheckedFlag++;
+            }
+            if (isCheckedFlag == 0) {
+              let div = langArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please select any language";
+              return false;
+            }
+          }
+        }
+        let userId = document.getElementsByName('userId')[0].value;
+        console.log(userId);
+        let lang = [];
+        document.getElementsByName('lang[]').forEach((element) => {
+          if (element.checked) {
+            lang.push(element.value);
+          }
+        });
+        let lhskill = [];
+        document.getElementsByName('lhskill[]').forEach((element) => {
+          if (element.checked) {
+            lhskill.push(element.value);
+          }
+        });
+        let leskill = [];
+        document.getElementsByName('leskill[]').forEach((element) => {
+          if (element.checked) {
+            leskill.push(element.value);
+          }
+        })
+        let lgskill = [];
+        document.getElementsByName('lgskill[]').forEach((element) => {
+          if (element.checked) {
+            lgskill.push(element.value);
+          }
+        })
+         
+        $.ajax({
+          url: `http://localhost:8080/lang_detail/?lang=${lang}&lhskill=${lhskill}&leskill=${leskill}&lgskill=${lgskill}&userId=${userId}`,
+          method: 'get',
+          crossDomain: true,
+          processData: false,
+          contentType: false,
+
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementById('userId').value = data.userId;
+            console.log(data.result);
+            document.getElementsByName('tech[]').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech) {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('tpskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech_skill && item.tech == 'php') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('tjskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech_skill && item.tech == 'java') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('tmskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech_skill && item.tech == 'mysql') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            return true;
+          }
+        });
+      }
+      function func_tech() {
+
+        let techArr = document.getElementsByName('tech[]');
+        let tp = document.getElementsByName('tpskill');
+        let tj = document.getElementsByName('tjskill');
+        let tm = document.getElementsByName('tmskill');
+        for (let i = 0; i < techArr.length; i++) {
+          if (techArr[i].checked) {
+            let techFlag = 0;
+            if (tp[i].checked) {
+              techFlag++;
+            }
+            if (tj[i].checked) {
+              techFlag++;
+            }
+            if (tm[i].checked) {
+              techFlag++;
+            }
+            if (techFlag == 0) {
+              console.log(techFlag);
+              let div = techArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please select an option";
+              return false;
+            }
+            else {
+              let div = techArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "";
+            }
+          }
+        }
+        let userId = document.getElementsByName('userId')[0].value;
+        let tech = [];
+        document.getElementsByName('tech[]').forEach((element) => {
+          if (element.checked) {
+            tech.push(element.value);
+          }
+        });
+        let tpskill = '';
+        document.getElementsByName('tpskill').forEach((element) => {
+          if (element.checked) {
+            tpskill = element.value;
+          }
+        });
+        let tjskill = '';
+        document.getElementsByName('tjskill').forEach((element) => {
+          if (element.checked) {
+            tjskill = element.value;
+          }
+        });
+
+        let tmskill = '';
+        document.getElementsByName('tmskill').forEach((element) => {
+          if (element.checked) {
+            tmskill = element.value;
+          }
+        });
+
+        console.log(tech);
+        $.ajax({
+          url: `http://localhost:8080/tech_detail/?tech=${tech}&tpskill=${tpskill}&tjskill=${tjskill}&tmskill=${tmskill}&userId=${userId}`,
+          method: 'get',
+          crossDomain: true,
+          processData: false,
+          contentType: false,
+
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementById('userId').value = data.userId;
+            document.getElementsByName('location').forEach((element) => {
+              if (element.value == data.result.prefered_location) {
+                element.checked = true;
+              }
+            });
+            document.getElementsByName('cname[]')[0].value = data.result[0].company_name;
+            document.getElementsByName('design[]')[0].value = data.result[0].design;
+            document.getElementsByName('from[]')[0].value = data.result[0].worked_from;
+            document.getElementsByName('to[]')[0].value = data.result[0].worked_till;
+
+            return true;
+          }
+        });
+      }
+
+      function func_exp() {
+
+        let cnameArr = document.getElementsByName('cname[]');
+        let designArr = document.getElementsByName('design[]');
+        let fromArr = document.getElementsByName('from[]');
+        let toArr = document.getElementsByName('to[]');
+        for (let i = 0; i < cnameArr.length; i++) {
+          if (cnameArr[i].value != "") {
+            if (designArr[i].value == "") {
+              let div = designArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
+            }
+            if (fromArr[i].value == "") {
+              let div = fromArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
+            }
+            if (toArr[i].value == "") {
+              let div = toArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
+            }
+            if (designArr[i].value == "" && fromArr[i].value == "" && toArr[i].value == "") {
+              return false;
+            }
+          }
+          if (designArr[i].value != "") {
+            if (cnameArr[i].value == "") {
+              let div = cnameArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your company's name";
+            }
+            if (fromArr[i].value == "") {
+              let div = fromArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
+            }
+            if (toArr[i].value == "") {
+              let div = toArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
+            }
+            if (cnameArr[i].value == "" && fromArr[i].value == "" && toArr[i].value == "") {
+              return false;
+            }
+          }
+          if (fromArr[i].value != "") {
+            if (designArr[i].value == "") {
+              let div = designArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
+            }
+            if (cnameArr[i].value == "") {
+              let div = cnameArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your company name";
+            }
+            if (toArr[i].value == "") {
+              let div = toArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
+            }
+            if (designArr[i].value == "" && cnameArr[i].value == "" && toArr[i].value == "") {
+              return false;
+            }
+          }
+          if (toArr[i].value != "") {
+            if (designArr[i].value == "") {
+              let div = designArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
+            }
+            if (fromArr[i].value == "") {
+              let div = fromArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
+            }
+            if (cnameArr[i].value == "") {
+              let div = cnameArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your company's name";
+            }
+            if (designArr[i].value == "" && fromArr[i].value == "" && cnameArr[i].value == "") {
+              return false;
+            }
+          }
+        }
+        let userId = document.getElementsByName('userId')[0].value;
+        let cname = [];
+        document.getElementsByName('cname[]').forEach((element) => {
+          cname.push(element.value);
+        });
+        let design = [];
+        document.getElementsByName('design[]').forEach((element) => {
+          design.push(element.value);
+        });
+        let from = [];
+        document.getElementsByName('from[]').forEach((element) => {
+          from.push(element.value);
+        });
+        let to = [];
+        document.getElementsByName('to[]').forEach((element) => {
+          to.push(element.value);
+        });
+
+        $.ajax({
+          url: `http://localhost:8080/exp_detail/?cname=${cname}&design=${design}&from=${from}&to=${to}&userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          crossDomain: true,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementById('userId').value = data.userId;
+            document.getElementsByName('location').forEach((element) => {
+              if (element.value == data.result.prefered_location) {
+                element.checked = true;
+              }
+            });
+            document.getElementsByName('c_ctc')[0].value = data.result[0].current_ctc;
+            document.getElementsByName('e_ctc')[0].value = data.result[0].expected_ctc;
+            document.getElementsByName('n_period')[0].value = data.result[0].notice_period;
+            return true;
+          }
+        });
+      }
+
+      function func_pref() {
+
+        let loc = document.getElementsByName('location')[0];
+        let cctc = document.getElementsByName('c_ctc')[0];
+        let ectc = document.getElementsByName('e_ctc')[0];
+        let nperiod = document.getElementsByName('n_period')[0];
+        if (cctc.value == "") {
+          let div = cctc.parentElement;
+          div.getElementsByTagName('span')[0].innerHTML = "please enter your current ctc";
+        }
+        if (ectc.value == "") {
+          let div = ectc.parentElement;
+          div.getElementsByTagName('span')[0].innerHTML = "please enter your expected ctc";
+        }
+        if (nperiod.value == "") {
+          let div = nperiod.parentElement;
+          div.getElementsByTagName('span')[0].innerHTML = "please enter the notice period";
+        }
+        if (cctc.value == "" && ectc.value == "" && nperiod.value == "") {
+          return false;
+        }
+        let userId = document.getElementsByName('userId')[0].value;
+        let location = document.getElementsByName('location')[0].value;
+        let c_ctc = document.getElementsByName('c_ctc')[0].value;
+        let e_ctc = document.getElementsByName('e_ctc')[0].value;
+        let n_period = document.getElementsByName('n_period')[0].value;
+
+        $.ajax({
+          url: `http://localhost:8080/pref_detail/?location=${location}&c_ctc=${c_ctc}&e_ctc=${e_ctc}&n_period=${n_period}&userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          crossDomain: true,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementById('userId').value = data.userId;
+            for(let i=0; i<data.result.length; i++){
+            document.getElementsByName('ename[]')[i].value = data.result[i].e_name;
+            document.getElementsByName('edesign[]')[i].value = data.result[i].e_design;
+            document.getElementsByName('erelation[]')[i].value = data.result[i].e_relation;
+            }
+            return false;
+          }
+        });
+      }
+
+      function func_ref() {
+        let enameArr = document.getElementsByName('ename[]');
+        let edesignArr = document.getElementsByName('edesign[]');
+        let erelationArr = document.getElementsByName('erelation[]');
+
+        for (let i = 0; i < enameArr.length; i++) {
+          if (enameArr[i].value != "") {
+            if (edesignArr[i].value == "") {
+              let div = edesignArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's designation";
+            }
+            if (erelationArr[i].value == "") {
+              let div = erelationArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your relation with employee";
+            }
+            if (edesignArr[i].value == "" && erelationArr[i].value == "") {
+              return false;
+            }
+          }
+          if (erelationArr[i].value != "") {
+            if (edesignArr[i].value == "") {
+              let div = edesignArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's designation";
+            }
+            if (enameArr[i].value == "") {
+              let div = enameArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's name";
+            }
+            if (edesignArr[i].value == "" && enameArr[i].value == "") {
+              return false;
+            }
+          }
+          if (edesignArr[i].value != "") {
+            if (erelationArr[i].value == "") {
+              let div = erelationArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter your relation with employee";
+            }
+            if (enameArr[i].value == "") {
+              let div = enameArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's name";
+            }
+            if (erelationArr[i].value == "" && enameArr[i].value == "") {
+              return false;
+            }
+          }
+        }
+        let userId = document.getElementsByName('userId')[0].value;
+        let ename = document.getElementsByName('ename[]')[0].value;
+        let edesign = document.getElementsByName('edesign[]')[0].value;
+        let erelation = document.getElementsByName('erelation[]')[0].value;
+        console.log(erelation);
+        $.ajax({
+          url: `http://localhost:8080/ref_detail/?ename=${ename}&edesign=${edesign}&erelation=${erelation}&userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          crossDomain: true,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+
+            var html = '';
+            if (data.result.length > 0) {
+              data.result.forEach(element => {
+                html += `<option value='${element.state_id}'>${element.state_name}</option>`
+              });
+              $('#state').html(html);
+            }
+            return true;
+          }
+        });
+      }
+
+      function func_pref_prev() {
+        let userId = document.getElementsByName('userId')[0].value;
+        $.ajax({
+          url: `http://localhost:8080/pref_detail_pre?userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementsByName('location').forEach((element) => {
+              if (element.value == data.result.prefered_location) {
+                element.checked = true;
+              }
+            });
+            document.getElementsByName('c_ctc')[0].value = data.result[0].current_ctc;
+            document.getElementsByName('e_ctc')[0].value = data.result[0].expected_ctc;
+            document.getElementsByName('n_period')[0].value = data.result[0].notice_period;
+            document.getElementsByName('userId')[0].value = userId;
+          }
+        });
+      }
+
+      function func_exp_prev() {
+        console.log("calling");
+        let userId = document.getElementsByName('userId')[0].value;
+        $.ajax({
+          url: `http://localhost:8080/exp_detail_prev?userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementsByName('location').forEach((element) => {
+              if (element.value == data.result.prefered_location) {
+                element.checked = true;
+              }
+            });
+            document.getElementsByName('cname[]')[0].value = data.result[0].company_name;
+            document.getElementsByName('design[]')[0].value = data.result[0].design;
+            document.getElementsByName('from[]')[0].value = data.result[0].worked_from;
+            document.getElementsByName('to[]')[0].value = data.result[0].worked_till;
+            document.getElementById("userId").value = userId;
+          }
+        });
+      }
+      function func_tech_prev() {
+        let userId = document.getElementById('userId').value;
+        $.ajax({
+          url: `http://localhost:8080/tech_detail_prev?userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementById("userId").value = userId;
+            document.getElementsByName('tech[]').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech) {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('tpskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech_skill && item.tech == 'php') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('tjskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech_skill && item.tech == 'java') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('tmskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.tech_skill && item.tech == 'mysql') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+
+          }
+        });
+      }
+      function func_lang_prev() {
+        let userId = document.getElementById('userId').value;
+        $.ajax({
+          url: `http://localhost:8080/lang_detail_prev?userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            document.getElementById("userId").value = userId;
+
+            document.getElementsByName('lang[]').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.language) {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('lhskill[]').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.lang_skill && item.language == 'hindi') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('leskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.lang_skill && item.language == 'english') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+
+            document.getElementsByName('lgskill').forEach((element) => {
+              data.result.forEach((item) => {
+                if (!element.checked) {
+                  if (element.value == item.lang_skill && item.language == 'gujararti') {
+                    element.checked = true;
+                  }
+                }
+              })
+            });
+          }
+        });
+      }
+
+      function func_edu_prev() {
+        let userId = document.getElementsByName('userId')[0].value;
+        $.ajax({
+          url: `http://localhost:8080/edu_detail_prev?userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+            data.result.forEach((element) => {
+              for (let i = 0; i < 4; i++) {
+                if (document.getElementsByName('course_type[]')[i].value == element.course_type) {
+                  document.getElementsByName('course_name[]')[i].value = element.course_name;
+                  document.getElementsByName('school_name[]')[i].value = element.school_name;
+                  document.getElementsByName('passing_year[]')[i].value = element.passing_year;
+                  document.getElementsByName('percent[]')[i].value = element.percent;
+                }
+              }
+            });
+            document.getElementById('userId').value = userId;
+          }
+        });
+      }
+
+
+      function func_can_prev() {
+        let userId = document.getElementsByName('userId')[0].value;
+        $.ajax({
+          url: `http://localhost:8080/can_detail_prev?userId=${userId}`,
+          method: 'get',
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            $('.sub_container').html(data.data);
+           
+            let opt = '';
+            data.result1.forEach((element) => {
+              opt += `<option value="${element.state_id}">${element.state_name}</option>`;
+            });
+            document.getElementById('state').innerHTML += opt;
+            document.getElementsByName('fname')[0].value = data.result[0].first_name;
+            document.getElementsByName('lname')[0].value = data.result[0].last_name;
+            document.getElementsByName('design')[0].value = data.result[0].design;
+            document.getElementsByName('contact')[0].value = data.result[0].phone;
+            document.getElementsByName('email')[0].value = data.result[0].email;
+            document.getElementsByName('add1')[0].value = data.result[0].current_addreess;
+            document.getElementsByName('add2')[0].value = data.result[0].permanent_address;
+            document.getElementsByName('zipcode')[0].value = data.result[0].zip_code;
+            document.getElementsByName('gender').forEach((element) => {
+              if (element.value == data.result[0].gender) {
+                element.checked = true;
+              }
+            });
+            document.getElementsByName('state').forEach((element) => {
+              if (element.value == data.result[0].state) {
+                element.checked = true;
+              }
+            });
+            document.getElementsByName('city').forEach((element) => {
+              if (element.value == data.result[0].city) {
+                element.checked = true;
+              }
+            });
+
+            document.getElementsByName('relation').forEach((element) => {
+              if (element.value == data.result[0].relationship_status) {
+                element.checked = true;
+              }
+            })
+            document.getElementById('userId').value = userId;
+          }
+        });
+      }
+  </script>
+</body>
+
+</html>

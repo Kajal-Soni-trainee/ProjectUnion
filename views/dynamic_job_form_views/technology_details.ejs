@@ -1,0 +1,31 @@
+<form id="tech_detail">
+  <input type="hidden" id="userId" name="userId"/>
+<div>
+    <h1>Technological Details</h1>
+    <div>
+      <input type="checkbox" name="tech[]" value="php" id="php"/><label for="php">PHP</label>
+      <input type="radio" name="tpskill" value="high" id="phigh"/><label for="phigh">High</label>
+      <input type="radio" name="tpskill" value="medium" id="pmedium"/><label for="pmedium">Medium</label>
+      <input type="radio" name="tpskill" value="low" id="plow"/><label for="plow">Low</label>
+      <span class="err"></span>
+    </div>
+    <div>
+        <input type="checkbox" name="tech[]" value="java" id="java"/><label for="java">Java</label>
+        <input type="radio" name="tjskill" value="high" id="jhigh"/><label for="jhigh">High</label>
+        <input type="radio" name="tjskill" value="medium" id="jmedium"/><label for="jmedium">Medium</label>
+        <input type="radio" name="tjskill" value="low" id="jlow"/><label for="jlow">Low</label>
+        <span class="err"></span>
+      </div>
+      <div>
+        <input type="checkbox" name="tech[]" value="mysql" id="mysql"/><label for="mysql">MySQL</label>
+        <input type="radio" name="tmskill" value="high" id="mhigh"/><label for="mhigh">High</label>
+        <input type="radio" name="tmskill" value="medium" id="mmedium"/><label for="mmedium">Medium</label>
+        <input type="radio" name="tmskill" value="low" id="mlow"/><label for="mlow">Low</label>
+        <span class="err"></span>
+      </div>   
+</div>
+<div class="row1">
+    <button type="button" class="prev" onclick="func_lang_prev()" >Previous</button>
+    <button type="button" class="next"  onclick=" return func_tech()">Next</button>
+</div>
+</form>

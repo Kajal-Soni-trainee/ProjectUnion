@@ -1,0 +1,70 @@
+
+<form id="candidate_details">
+    <div class="form">
+    <div>
+        <input type="hidden" name="userId" id="userId" />
+        <div class="left"><label for="fname">First Name</label><input type='text' id="fname" name="fname" /><span
+              class="err"></span></div>
+        <div class="right"><label for="lname">Last Name</label><input type='text' id="lname" name="lname" /><span
+                class="err"></span></div>
+    </div>
+    <div >
+        <div class="left"><label for="design">Designation</label><input type='text' id="design" name="design" /><span
+                class="err"></span></div>
+        <div class="right"><label for="email">Email</label><input type='text' id="email" name="email" /><span
+                class="err"></span></div>
+    </div>
+
+    <div >
+        <div class="left"><label for="add1">Current Address</label> <span class="err"></span><textarea id="add1" name="add1"></textarea>
+        </div>
+        <div class="right"><label for="add1">Permanent Address</label> <span class="err"></span><textarea id="add2" name="add2"></textarea>
+        </div>
+    </div>
+    <div >
+        <div class="left"><label for="state">Select State</label>
+            <select id="state" name="state" onchange="setCity(this.value)">
+                <option>select an option</option>
+              
+            </select>
+            <span class="err"></span>
+        </div>
+        <div class="right"><label for="state">Select City</label>
+            <select id="city" name="city">
+                <option>select an option</option>
+            </select>
+            <span class="err"></span>
+        </div>
+    </div>
+    <div>
+        <div class="left"><label for="zipcode">Zipcode</label><input type='text' id="zipcode" name="zipcode" /><span
+                class="err"></span></div>
+        <div class="right"><label for="contact">Contact</label><input type='text' id="contact" name="contact" /><span
+                class="err"></span></div>
+    </div>
+
+    <div >
+        <div class="left gen">
+            <label>Gender</label>
+            <div><input type="radio" name="gender" value="male" /><label>Male</label><span
+                    class="err"></span></div>
+            <div><input type="radio" name="gender" value="female" /><label>Female</label><span
+                    class="err"></span></div>
+            <div><input type="radio" name="gender" value="others" /><label>Others</label><span
+                    class="err"></span></div>
+        </div>
+        <div class="right">
+            <label>Marital Status</label>
+            <select name="relation">
+                <option value="married">Married</option>
+                <option value="unmarried">Unmarried</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
+    </div>
+    <div class="row1">
+        <button type="button" class="prev" >Previous</button>
+        <button type="button" class="next"  onclick="func_can()">Next</button>
+    </div>
+</div>
+</form>

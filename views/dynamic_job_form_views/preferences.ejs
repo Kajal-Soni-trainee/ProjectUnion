@@ -1,0 +1,27 @@
+<form id="pref_detail">
+    <input type="hidden" id="userId" name="userId"/>
+    <div>
+    <div>
+       <label>Location</label> 
+       <select name="location"> 
+        <option value="ahmedabad">Ahmedabad</option>
+        <option value="vapi">Vapi</option>
+        <option value="surat">Surat</option>
+       </select>
+       <span class="err"></span>
+    </div>
+    <div>
+        <label>Current CTC</label><input type="text" name="c_ctc"/> <span class="err"></span>
+    </div>
+    <div>
+       <label>Expected CTC</label><input type="text" name="e_ctc"/> <span class="err"></span>
+    </div>
+    <div>
+        <label>Notice Period</label><input type="text" name="n_period"/> <span class="err"></span>
+    </div>
+    <div class="row1">
+        <button type="button" class="prev" onclick="func_exp_prev()" >Previous</button>
+        <button type="button" class="next"  onclick=" return func_pref()">Next</button>
+    </div>
+</div>
+</form>

@@ -1,0 +1,16 @@
+<form id="ref_detail">
+    <input type="hidden" id="userId" name="userId"/>
+    <div>
+        <h1>References</h1>
+    </div>
+    <div><button  onclick="addrowref()">+</button><button onclick="remrowref()">-</button></div>
+    <div>
+    <label>Employee's Name</label><input type="text" name="ename[]"/><span class="err"></span>
+    <label>Employee's Design</label><input type="text" name="edesign[]"/><span class="err"></span>
+    <label>Relation</label><input type="text" name="erelation[]"/><span class="err"></span>
+    </div>
+    <div class="row1">
+        <button type="button" class="prev" onclick="func_pref_prev()">Previous</button>
+        <button type="button" class="next" onclick="return func_ref()">Submit</button>
+    </div>
+</form>
