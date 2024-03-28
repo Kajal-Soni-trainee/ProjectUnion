@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <style>
+            .container{
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap:20px;
+            }
+            table,tr,td,th{
+                border:2px solid black;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Candidate Details</h1>
+            <div>
+            <table class="candidate_details">
+                <tr>
+                    <th>Candidate Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Design</th>
+                    <th>Current Address</th>
+                    <th>Permanent Address</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Gender</th>
+                    <th>Zipcode</th>
+                    <th>RelationShip</th>
+                    <th>Edit</th>
+                </tr>
+               <%can.forEach((element)=>{%>
+                <tr>
+                    <td><%=element.candidate_id%></td>
+                    <td><%=element.first_name%></td>
+                    <td><%=element.last_name%></td>
+                    <td><%=element.design%></td>
+                    <td><%=element.current_addreess%></td>
+                    <td><%=element.permanent_address%></td>
+                    <td><%=element.email%></td>
+                    <td><%=element.phone%></td>
+                    <td><%=element.state%></td>
+                    <td><%=element.city%></td>
+                    <td><%=element.gender%></td>
+                    <td><%=element.zip_code%></td>
+                    <td><%=element.relationship_status%></td>
+                    <td><a href="/update/?id=<%=element.candidate_id%>">Update</a></td>
+                </tr>
+               <%});%>
+
+            </table>
+            </div>
+            <h1>Educational Details</h1>
+            <div>
+                <table class="edu">
+                    <tr>
+                        <th>Candidate Id</th>
+                        <th>Course Type</th>
+                        <th>Course Name</th>
+                        <th>School Name</th>
+                        <th>Passing Year</th>
+                        <th>Percent</th>
+                    </tr>
+                    <%edu.forEach((item)=>{%>
+                       <tr>
+                        <td><%=item.candidate_id%></td>
+                        <td><%=item.course_type%></td>
+                        <td><%=item.course_name%></td>
+                        <td><%=item.school_name%></td>
+                        <td><%=item.passing_year%></td>
+                        <td><%=item.percent%></td>
+                       </tr>
+                    <%})%>
+                </table>
+            </div>
+            <h1>Language Details</h1>
+            <div>
+                <table class="lang">
+                   <tr>
+                    <th>Candidate Id</th>
+                    <th>Language</th>
+                    <th>Skill Level</th>
+                   </tr>
+                   <%lang.forEach((element)=>{%>
+                    <tr>
+                        <td><%=element.candidate_id%></td>
+                        <td><%=element.language%></td>
+                        <td><%=element.lang_skill%></td>
+                    </tr>
+                    <%})%>
+                </table>
+            </div>
+            <h1>Technology Details</h1>
+            <div>
+                <table class="tech">
+                   <tr>
+                    <th>Candidate Id</th>
+                    <th>Technology</th>
+                    <th>Skill Level</th>
+                   </tr>
+                   <%tech.forEach((element)=>{%>
+                    <tr>
+                        <td><%=element.candidate_id%></td>
+                        <td><%=element.tech%></td>
+                        <td><%=element.tech_skill%></td>
+                    </tr>
+                    <%})%>
+                </table>
+            </div>
+            <h1>Experiences Details</h1>
+            <div>
+                <table class="exp">
+                 <tr>
+                  <th>Company Name</th>
+                  <th>Designation</th>
+                  <th>From</th>
+                  <th>To</th>
+                 </tr>
+                 <%exp.forEach((element)=>{%>
+                 <tr>
+                    <td><%=element.candidate_id%></td>
+                    <td><%=element.company_name%></td>
+                    <td><%=element.design%></td>
+                    <td><%=element.worked_from%></td>
+                    <td><%=element.worked_till%></td>
+                 </tr>
+                 <%})%>
+                </table> 
+            </div>
+            <h1>References</h1>
+            <div>
+                <table class="ref">
+                <tr>
+                    <th>Employee's Name</th>
+                    <th>Employee's Designation </th>
+                    <th>Relation With Employee</th>
+                </tr>
+                <%ref.forEach((element)=>{%>
+                    <tr>
+                        <td><%=element.candidate_id%></td>
+                        <td><%=element.e_name%></td>
+                        <td><%=element.e_design%></td>
+                        <td><%=element.e_relation%></td>
+                    </tr>
+                <%});%>
+                </table>
+            </div>
+            <h1>Preferences</h1>
+            <div>
+            <table class="pref">
+            <tr>
+                <th>Candidate Id</th>
+                <th>Prefered Location</th>
+                <th>Department</th>
+                <th>Current CTC</th>
+                <th>Expected CTC</th>
+                <th>Notice Period</th>
+            </tr>
+            <%pref.forEach((element)=>{%>
+              <tr>
+                <td><%=element.candidate_id%></td>
+                <td><%=element.prefered_location%></td>
+                <td><%=element.department%></td>
+                <td><%=element.current_ctc%></td>
+                <td><%=element.expected_ctc%></td>
+                <td><%=element.notice_period%></td>
+              </tr>
+             <%})%>
+            </table>
+            </div>
+        </div>
+    </body>
+</html>
