@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <style>
+            *{
+                
+                margin:50px;
+        
+            }
+            table,tr,td,th{
+                border:2px solid black;
+                border-collapse: collapse;
+                text-align: center;
+            }
+            th,td{
+             font-size:small;
+            }
+            th{
+                background-color: cadetblue;
+            }
+          .container{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+            .pagination{
+                display: flex;
+            flex-direction: row;
+               justify-content: center;
+               align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>List Of Students</h1>
+            <table>
+                <div class="sort">
+                     <a id="asc" ><button style="float:left">Sort A-Z</button></a>
+                    <a  id="desc" ><button style="float:rigth"> Sort Z-A</button></a>
+                </div>
+                <tr>
+                    <th>Student Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Fullname</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th>Country</th>
+                    <th>Father Name</th>
+                    <th>Mother Name</th>
+                    <th>Contact</th>
+                    <th>City</th>
+                    <th>Date</th>
+                </tr>
+                <% obj.mydata.forEach((item)=>{%>
+                    <tr>
+                        <td><%=item.student_id%></td>
+                <td><%= item.student_firstName%></td>
+                <td><%= item.student_lastName%></td>
+                <td><%= item.student_fullname%></td>
+                <td><%= item.student_address%></td>
+                <td><%= item.student_email%></td>
+                <td><%= item.student_course%></td>
+                <td><%= item.student_country%></td>
+                <td><%= item.student_fatherName%></td>
+                <td><%= item.student_motherName%></td>
+                <td><%= item.parent_contact%></td>
+                <td><%= item.student_city%></td>
+                <td><%= item.created_date%></td>
+                    </tr>
+                <%});%>
+              
+            </table>
+            <div class="pagination">
+            <a id="disf"><button><<</button></a>
+            <a id="movel"><button><</button></a>
+            <a id="page"><%=obj.id%></a>
+            <a id="mover"><button>></button></a>
+            <a id="disl"><button>>></button></a>
+            </div>
+        </div>
+        <script>
+        const pages=200;
+        const records=250;
+        var sort="";
+        const page=document.getElementById("page");
+        const ascd =document.getElementById("asc");
+        const desc=document.getElementById("desc");
+        ascd.addEventListener('click',sortAsc);
+        function sortAsc(){
+            console.log("sort called");
+            sort="asc";
+        }
+      desc.addEventListener('click',sortDesc);
+      function sortDesc(){
+        sort="desc";
+      }
+        document.getElementById("disf").addEventListener('click',displayFirst);
+        function displayFirst(){
+            document.getElementById("page").innerHTML=1;
+            if(sort!=undefined){
+                document.getElementById("disf").href=`/pagi?id=1&sort=${sort}`;
+            }
+            else{
+                document.getElementById("disf").href=`/pagi?id=1`;
+            }
+          
+        }
+
+       const displ= document.getElementById("disl");
+       const movel=document.getElementById("movel");
+       const mover=document.getElementById("mover");
+
+       displ.addEventListener('click',displayLast);
+       function displayLast(){
+        document.getElementById("page").innerHTML=20;
+        if(sort!=undefined){
+            displ.href=`/pagi?id=20&sort=${sort}`;
+        }
+        else{
+            displ.href=`/pagi?id=20`;
+        }
+            
+       }
+   
+       movel.addEventListener("click",moveLeft);
+       function moveLeft(){
+        console.log("move left clicked  ");
+        let pageNo = parseInt(document.getElementById("page").innerHTML);
+        if(pageNo>1){
+            document.getElementById("page").innerHTML=pageNo-1;
+            if(sort!=undefined){
+                movel.href=`/pagi?id=${pageNo-1}&sort=${sort}`;
+            }
+            else{
+                movel.href=`/pagi?id=${pageNo-1}`;
+            }
+          
+        }
+       }
+       mover.addEventListener("click",moveRight);
+       function moveRight(){
+        let pageNo = parseInt(document.getElementById("page").innerHTML);
+        if(pageNo<200){
+        
+            document.getElementById("page").innerHTML=pageNo+1;
+            if(sort!=undefined){
+                mover.href=`/pagi?id=${pageNo+1}&sort=${sort}`;
+            }
+            else{
+                mover.href=`/pagi?id=${pageNo+1}`;
+            }
+        }
+       }
+       
+        </script>
+    </body>
+</html>

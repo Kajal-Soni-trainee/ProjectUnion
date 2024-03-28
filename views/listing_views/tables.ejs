@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <title>Records</title>
+        <style>
+            *{
+                font-size: 25px;
+            background-color:rgb(184, 184, 81);
+            margin:20px;
+            }
+
+            table,tr,td,th{
+             border:2px solid black;
+            }
+            table{
+            
+                text-align: center;
+            }
+            th,td{
+                
+            }
+            .container{
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap:50px;
+                margin:100px;
+            }
+            th{
+                background-color: rgb(8, 66, 66);
+                color:white;
+            }
+            td{
+                background-color: rgb(109, 158, 158); 
+            }
+           
+        
+            .button a{
+                text-decoration: none;
+                color:white;
+                font-size: 30px;
+                padding:20px;
+                border:5px solid rgb(109, 158, 158);
+                background-color:rgb(8, 66, 66) ;
+                border-radius: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+           <div id="field">
+
+           </div>
+            <div class="button">
+            <a href="/">Go to query page---></a>
+            </div>
+            <h1>Records as per your query</h1>
+            <table>
+                <tr>
+                <% let keys = Object.keys(data[0]);
+                keys.forEach((item)=>{%>
+                 <th><%=item%></th>
+                <%});%>
+            </tr>
+                <%data.forEach((item)=>{%>
+                 <tr>
+                   <%let values = Object.values(item);
+                    values.forEach((i)=>{%>
+                        <td><%=i%></td>
+                    <%});%>
+                 </tr>
+                <%});%>
+            </table>
+
+            <div id="pagi" class="pagination">
+                <a id="disf"><button><<</button></a>
+                <a id="movel"><button><</button></a>
+                <a id="page"></a>
+                <a id="mover"><button>></button></a>
+                <a id="disl"><button>>></button></a>
+               
+                </div>
+            
+        </div>
+    
+        <script>
+            const parser = new DOMParser();
+                var pagination ="<%=pagination%>";
+                console.log(pagination);
+                if(pagination=="true"){
+             const disf= document.getElementById("disf");
+            const disl=document.getElementById("disl");
+            const movel=document.getElementById("movel");
+            const mover=document.getElementById("mover");
+            const page =document.getElementById("page");
+            disf.addEventListener('click',displayFirst);
+            disl.addEventListener("click",displayLast);
+            movel.addEventListener("click",decrement);
+            mover.addEventListener("click",increment);
+           page.innerHTML="<%=id%>";
+            function displayFirst(){
+                console.log("dispaly first");
+                page.innerHTML=1;
+                disf.href=`/tables?id=${page.innerHTML}&query=<%=query%>&limit=<%=limit%>&pages=<%=pages%>&field=<%=field%>`;
+            }
+            function displayLast(){
+                page.innerHTML=parseInt("<%=pages%>");
+                disl.href=`/tables?id=${page.innerHTML}&query=<%=query%>&limit=<%=limit%>&pages=<%=pages%>&field=<%=field%>`;
+            }
+            function increment(){
+                console.log("inc");
+                if(parseInt(page.innerHTML)<parseInt("<%=pages%>")){
+                page.innerHTML=parseInt(page.innerHTML)+1;
+                mover.href=`/tables?id=${page.innerHTML}&query=<%=query%>&limit=<%=limit%>&pages=<%=pages%>&field=<%=field%>`;
+                }
+            }
+            function decrement(){
+                console.log("dec");
+                if(parseInt(page.innerHTML)>1){
+                    page.innerHTML=parseInt(page.innerHTML)-1;
+                movel.href=`/tables?id=${page.innerHTML}&query=<%=query%>&limit=<%=limit%>&pages=<%=pages%>&field=<%=field%>`;
+                } 
+            }
+           let field= parser.parseFromString("<%=field%>","text/html");
+            document.getElementById("field").innerHTML="<%=field%>";
+        }
+        else{
+            document.getElementById('pagi').style.display="none";
+        }
+        </script>
+    </body>
+</html>

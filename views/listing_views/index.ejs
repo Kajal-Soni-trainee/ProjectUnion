@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <style>
+           * {
+font-size: 20px;
+            }
+            table,tr,td{
+                border:2px solid black;
+                text-align: center;
+            }
+  table{
+    width:80%;
+  }
+            th{
+                background-color: cadetblue;
+            }
+            td{
+                background-color: rgb(161, 214, 196);
+                
+            }
+            .container{
+                margin:50px;
+                display:flex;
+                flex-direction:column;
+                justify-content: center;
+                align-items: center;
+                gap:20px;
+            }
+            .sub-con{
+                display:flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap:10px;
+            }
+            th,td{
+                padding:10px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Students Attendence Report</h1>
+            <h2 id="msg"><%=obj.msg%></h2>
+            <div class="sub-con">
+            <div class="month-con">
+                <label for="month">Select Month</label>
+                <select name="month" id="month" onchange="passMonth(this)">
+                    <option id="December" value="December" selected>December</option>
+                    <option id="January" value="January">January</option>
+                    <option id="February" value="February">February</option>
+                </select>
+            </div>
+           
+         
+            </div>
+            <table>
+             <tr>
+            
+                <th>Student Name</th>
+                <th>Total Working Days</th>
+                <th>Percentage</th>
+             </tr>
+             
+             <% obj.mydata.forEach((item)=>{%>
+              <tr>
+                
+                <td><%=item.student_name%></td>
+                <td><%=item.totalDays%></td>
+                <td><%=item.percent%>%</td>
+              </tr>
+             <%});%>
+            </table>
+           
+        </div>
+        <script>
+         /**   const disf= document.getElementById("disf");
+            const disl=document.getElementById("disl");
+            const movel=document.getElementById("movel");
+            const mover=document.getElementById("mover");
+            const page =document.getElementById("page");
+            const fieldCon =document.getElementById("field");
+            const orderCon= document.getElementById("order");
+            var order="<%=obj.order%>";
+            var field="<%=obj.field%>";
+             var month="<%=obj.month%>";
+             console.log(month);
+            disf.addEventListener('click',displayFirst);
+            disl.addEventListener("click",displayLast);
+            movel.addEventListener("click",decrement);
+            mover.addEventListener("click",increment);
+            
+ 
+            function displayFirst(){
+                console.log("dispaly first")
+                page.innerHTML=1;
+                disf.href=`/?id=${page.innerHTML}&month=${month}&field=${field}&order=${order}`;
+            }
+            function displayLast(){
+                page.innerHTML=9;
+                disl.href=`/?id=${page.innerHTML}&month=${month}&field=${field}&order=${order}`;
+            }
+            function increment(){
+                if(parseInt(page.innerHTML)<9){
+                page.innerHTML=parseInt(page.innerHTML)+1;
+                mover.href=`/?id=${page.innerHTML}&month=${month}&field=${field}&order=${order}`;
+                }
+            }
+            function decrement(){
+                if(parseInt(page.innerHTML)>1){
+                    page.innerHTML=parseInt(page.innerHTML)-1;
+                movel.href=`/?id=${page.innerHTML}&month=${month}&field=${field}&order=${order}`;
+                }
+                
+            }
+             document.getElementById("msg").innerHTML="<%= obj.msg%>";
+            */
+            var id="<%=obj.id%>";
+            id=parseInt(id);
+           function passMonth(element){
+
+              month=element.value;
+              console.log(document.getElementById(`${element.value}`));
+            document.getElementById(`${element.value}`).defaultSelected=true;
+            console.log(document.getElementById(`${element.value}`));
+            window.location=`http://localhost:8080/attend/?s_id=${id}&month=${month}`;
+           }
+          
+           
+           var selectedMonth="<%=obj.month%>";
+           console.log(selectedMonth);
+
+   document.getElementById("<%=obj.month%>").selected=true;
+           
+
+
+        </script>
+    </body>
+</html>
