@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <style>
+            .container{
+                display:flex;
+                flex-direction:column;
+                justify-content: center;
+                align-items: center;
+                padding:100px;
+                gap:20px;
+            }
+            table,tr,td,th{
+                border:2px solid black;
+                border-collapse: collapse;
+            }
+            th,td{
+                padding:5px 10px;
+                text-align:center;
+            }
+            button{
+            border: 2px solid white;
+            border-radius:5px;
+            padding:10px 15px;
+            background-color: rgb(16, 87, 168);
+            }
+            a{
+                text-decoration: none;
+                color:white;
+                font-size:medium;
+            }
+        .btns{
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap:10px;
+
+        }
+        .btn1{
+            padding:5px 10px;
+            border:2px solid black;
+            border-radius: 5px;
+            background-color: yellow;
+        }
+        .btn1 a{
+            color:black;
+        }
+        .btn2{
+            padding:5px 10px;
+            border:2px solid black;
+            border-radius: 5px;
+            background-color:red;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>List of Users</h1>
+            <table>
+                <tr>
+                    
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Pass</th>
+                    <th>Contact</th>
+                    <th>Gender</th>
+                    <th>Hobby</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                    
+                </tr>
+            
+                <% obj.forEach((item)=>{%>
+               <tr>
+                <td><%=item.fname%></td>
+                <td><%=item.lname%></td>
+                <td><%=item.age%></td>
+                <td><%=item.pass%></td>
+                <td><%=item.contact%></td>
+                <td><%=item.gender%></td>
+                <td><%=item.hobby%></td>
+                <td><%=item.email%></td>
+                <td><%=item.address%></td>
+                <td><div class="btns"><button class="btn1"><a href="/simple_crud_Update?id=<%=item.student_id%>">Update</a></button><button class="btn2"><a href="/simple_crud_delete?id=<%=item.student_id%>">Delete</a></button></div></td>
+               </tr>
+               <%});%>
+            </table>
+        
+        </div>
+    </body>
+</html>

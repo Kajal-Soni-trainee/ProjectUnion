@@ -225,4 +225,268 @@ app.get('/comments',(req,res)=>{
    let id = req.query.id;
    res.render('async_await_prac_views/comments',{id:id});
 });
+
+// simple crud
+var checkSession = function(req,res,next){
+   if(req.session.user){
+       next();
+   }
+   else{
+      // res.send("user is not logged in");
+       res.redirect('simple_crud/login');
+       res.end();
+   }
+}
+app.get("/simple_crud",(req,res)=>{
+   res.render('simple_crud/index',{error:"",dataObj:"",isError:false});
+   res.end();
+});
+
+app.post("/simple_crud",(req,res)=>{
+const fname=req.body.fname;
+const lname=req.body.lname;
+const age =req.body.age;
+const pass =req.body.pass;
+const con=req.body.con;
+const gen=req.body.gen;
+const hobby=req.body.hobbies;
+const email=req.body.email;
+const add=req.body.add;
+
+const dataObj=new Object();
+dataObj.fname=fname;
+dataObj.lname=lname;
+dataObj.age=age;
+dataObj.pass=pass;
+dataObj.con=con;
+dataObj.gen=gen;
+dataObj.hobby=hobby;
+dataObj.email=email;
+dataObj.add=add;
+
+const errElement= new Object();
+let errFlag=0;
+if(fname==""){
+   errElement.fname="please enter your first name";
+   errFlag++;
+}
+else if (fname.length > 15){
+   errElement.fname="your first name is exceeding the maximum length";
+}
+else{
+   errElement.fname="";
+}
+if(lname==""){
+   errElement.lname="please enter your last name";
+   errFlag++;
+}
+else if(lname.length>15){
+   errElement.fname="your last name is exceeding the maximum length";
+}
+else{
+   errElement.lname="";
+}
+if(age==""){
+   errElement.age="please enter your age";
+   errFlag++;
+}
+
+else if(!/^[0-9]{2}$/.test(age)){
+   errElement.age="your age should be number";
+}
+else if(age<15 && age>25){
+   errElement.age="your age should be greater than 15 and less than 25";
+}
+else{
+   errElement.age="";
+}
+if(pass==""){
+   errElement.pass="please enter your password";
+   errFlag++;
+}
+else{
+   errElement.pass="";
+}
+if(con==""){
+   errElement.con="please enter your contact";
+   errFlag++;
+}
+else if(!/^[0-9]{10}$/.test(con)){
+   errElement.con="your phone number should contain only 10 digits"
+}
+else{
+   errElement.con="";
+}
+if(gen==undefined){
+   errElement.gen="please enter your gender";
+   errFlag++;
+}
+else{
+   errElement.gen="";
+}
+if(hobby==undefined){
+   errElement.hobby="please enter your hobby";
+   errFlag++;
+}
+else{
+   errElement.hobby="";
+}
+if(email==""){
+   errElement.email="please enter your email";
+   errFlag++;
+}
+else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+   errElement.email="please enter a valid email";
+}
+else{
+   errElement.email="";
+}
+if(add==""){
+   errElement.add="please enter your add";
+   errFlag++;
+}
+else{
+   errElement.add="";
+}
+console.log(dataObj);
+if(errFlag>0){
+   res.render('simple_crud/index',{errElement:errElement,dataObj:dataObj,isError:true});
+}
+
+//let query="INSERT INTO `project1`.`student_detail` (`student_id`, `fname`, `lname`, `age`, `pass`, `contact`, `gender`, `hobby`, `email`, `address`) VALUES ('${}', 'soni', '21', 'kajal@123', '23545', 'female', 'singing', 'kajal@gmail.com', 'eteryt')";
+else{
+let query=`insert into student_detail(fname,lname,age , pass, contact, gender,hobby,email,address) values ("${fname}",
+   "${lname}",${parseInt(age)},"${pass}","${con}","${gen}","${hobby}","${email}","${add}")`;
+   conn.query(query,(err,result)=>{
+       if(err){
+           console.log(err);
+       }
+       else{
+        console.log(result);
+       }
+   })
+   res.render('simple_crud/index',{error:"",dataObj:"",isError:false});
+res.end();
+}
+})
+
+app.get('/simple_crud_list',(req,res)=>{
+   conn.query("select * from student_detail",(err,result)=>{
+       if(err){
+           console.log(err);
+       }
+       else{
+      
+      res.render('simple_crud/list',{obj:result});
+      res.end();
+       }
+   });
+})
+
+app.get('/simple_crud_details',checkSession,(req,res)=>{
+  console.log(req.session.user);
+   let id=req.query.id;
+   console.log(id);
+   conn.query(`select * from student_detail where student_id="${id}" `,(err,result)=>{
+       if(err){
+           console.log(err);
+       }
+       else{
+      console.log(result);
+      res.render('simple_crud/details',{obj:result});
+      res.end();
+       }
+   })
+})
+
+app.get("/simple_crud_login",(req,res)=>{
+   res.render('simple_crud/login');
+   res.end();
+});
+
+app.post("/simple_crud_index",(req,res)=>{
+   let email = req.body.email;
+   let pass=  req.body.pass;
+   let query=`select * from student_detail where email="${email}" and pass="${pass}"`;
+   conn.query(query,(err,data)=>{
+      
+     if(err){
+         console.log(err);
+     }
+     else if(data.length==1){
+       console.log(data);
+       console.log(data[0].student_id + "id :"+data[0].pass+ "pass");
+       const newUser={id:data[0].student_id,pass:data[0].pass};
+           req.session.user=newUser;
+           console.log(req.session.user);
+           req.session.save();
+         res.render('simple_crud/index',{error:"",dataObj:"",isError:false});
+         res.end();
+     }
+     else{
+         res.send("user is not registered");
+         res.end();
+     }
+});
+});
+app.get("/simple_crud_update",checkSession,(req,res)=>{
+   let id = req.query.id;
+   console.log(req.session.user+"logged in");
+   if(req.session.user.id==id){
+      
+   let query= `select * from student_detail where student_id=${id}`;
+   conn.query(query,(err,data)=>{
+       if(err){
+           console.log(err);
+       }
+       else{
+           res.render('simple_crud/update',{obj:data});
+       }
+   }) ;
+   }
+   else{
+       res.send("you cannot update the data of other user");
+   }
+})
+app.post("/simple_crud_update",(req,res)=>{
+   let id = req.body.id;
+   
+   let query=`update student_detail set fname="${req.body.fname}", lname="${req.body.lname}",age="${req.body.age}",pass="${req.body.pass}", contact="${req.body.con}",gender="${req.body.gen}",hobby="${req.body.hobbies}", email="${req.body.email}", address="${req.body.add}" where student_id=${id}`;
+   conn.query(query,req.body,(err,result)=>{
+       if(err){
+           console.log(err);
+       }
+       else{
+           //console.log(result);
+           conn.query(`select * from student_detail where student_id="${id}" `,(err,result)=>{
+               if(err){
+                   console.log(err);
+               }
+               else{
+              //console.log(result);
+              res.render('simple_crud/details',{obj:result});
+              res.end();
+               }
+           })
+       }
+   })
+});
+app.get("/simple_crud_delete",checkSession,(req,res)=>{
+   let id = req.query.id;
+   console.log(req.session.user[id]+"loggedin");
+  if(req.session.user.id==id){
+   conn.query(`delete from student_detail where student_id=${id};`,(err,res)=>{
+       if(err){
+           console.log(err);
+       }
+     });
+  }
+  else{
+   res.send("you cannot delete data of other user");
+  }  
+});
+
+
+
+
 app.listen(8080);
