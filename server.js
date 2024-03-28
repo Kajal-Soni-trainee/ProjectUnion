@@ -15,7 +15,7 @@ app.use(session({resave:false, saveUninitialized:true, secret:"your secret key"}
 app.use(cookieParser());
 const SECRET_KEY="Kajal123";
 const functions =require("./Projects/component_grid/middleware.js");
-//const functions_df= require('./Projects/dynamic_form_creation/middleware.js');
+const functions_df= require('./Projects/dynamic_form_creation/middleware.js');
 const {PORT} = process.env;
 console.log(PORT);
 app.set("view engine", "ejs");
@@ -2617,4 +2617,25 @@ app.get('/pref_detail', (req, res) => {
       res.render('event_table');
       res.end();
  });
+
+ //dynamic form creation routes
+
+ app.get('/dynamic_components',(req,res)=>{  
+   let element=`<p></p>`;
+   res.render('dynamic_form_create_view/index',{element:element});
+   res.end();
+   });
+   
+   
+   app.post('/dynamic_components',(req,res)=>{
+   let name=req.body.component_name;
+   let type=req.body.component_type;
+   functions_df.component(name,type).then((element)=>{
+       console.log( element);
+    res.render('dynamic_form_create_view/index',{element:element});
+       res.end();
+   }).catch((err)=>{
+       console.log(err);
+   });
+   });
 app.listen(8080);
