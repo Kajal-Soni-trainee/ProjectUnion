@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <style>
+            *{
+                
+            }
+            #submit{
+                border-radius:50%;
+                background-color: rgb(2, 39, 27);
+                border:2px solid rgb(108, 185, 161);
+                color:rgb(108, 185, 161) ;
+                padding:20px;
+            }
+            .container{
+        
+                border-radius: 10px;
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .query{
+                border-radius: 50px;
+                padding:20px;
+            }
+            table,th,tr,td{
+                width:50%;
+                border:2px solid black;
+            }
+        </style>
+    </head>
+    <body>
+      <div class="container">
+       
+        <div>
+        <% if (showData==true) { %>
+            <%-include(tables,{result:result});%>
+        <% } %>
+          
+
+        </div>
+      </div>
+    </body>
+</html>
