@@ -1,0 +1,123 @@
+<html>
+    <head></head>
+    <body>
+        <div><input type="text" id="arr" placeholder="Enter the number"/><button onclick="sortArr()">Sort</button></div>
+        <script>
+        
+              function sortArr(){
+                var arr=document.getElementById("arr").value;
+                var arr1=(arr.split(','));
+                var myarr =new Array();
+                for(let i=0; i<arr1.length; i++){
+                   myarr.push(parseInt(arr1[i])) ;
+                }
+                console.log(myarr);
+                bubbleSort(myarr);
+              }
+         
+            //sorting by using bubble sort
+            function bubbleSort(myarr){
+        for(let i=0; i<myarr.length; i++){
+            for(let j=0; j<myarr.length-1; j++){
+                if(myarr[j]>myarr[j+1]){
+                    let temp=myarr[j];
+                    myarr[j]=myarr[j+1];
+                    myarr[j+1]=temp;
+                }
+            }
+        }
+        document.write(myarr+"<br>");
+    }
+        //sorting by using selection sort
+        function selectionSort(){
+        for(let i=0; i<myarr.length; i++){
+            let mini=i;
+            let minx=myarr[i];
+            for(let j=i; j<myarr.length; j++){
+               if(myarr[j]<minx){
+                minx=myarr[j];
+                mini=j;
+               }
+            }
+               let temp = myarr[i];
+               myarr[i]=minx;
+               myarr[mini]=temp;     
+        }
+        document.write("sorting by using selection sort");
+        document.write("<br>");
+        document.write(myarr+"<br>");
+    }
+        //sorting by using insertion sort
+
+
+        function insertionSort(){
+        for(let i=1; i<myarr.length; i++){
+            for(let j=i; j>=1; j--){
+                if(myarr[j]<myarr[j-1]){
+                    let temp=myarr[j];
+                myarr[j]=myarr[j-1];
+                myarr[j-1]=temp;
+                }
+            }
+        }
+        document.write("sorting by using insertion sort <br>");
+        document.write(myarr+"<br>");
+    }
+
+
+    // sorting by using merge sort 
+      function mergeSort(myarr, l, r){
+       if(l<r){
+        let mid=l+(r-l)/2;
+        mergeSort(myarr,l,mid);
+        mergeSort(myarr,mid+1,r);
+        merge(myarr,l,mid,r);
+        document.write(myarr);
+       }
+      }
+      function merge(myarr, l, mid, r){
+        let n1=mid-l+1;
+
+        let n2=r-mid;
+     let arr1=new Array();
+     let arr2=new Array();
+     let arr=new Array(); 
+     for(let i=0; i<n1; i++){
+        arr1.push(myarr[l+i]);
+     }
+     for(let i=0; i<n2; i++){
+        arr2.push(myarr[mid+1+i]);
+     }
+     let i=0; 
+     let j=0;
+     let k=l;
+     while(i<n1 && j<n2){
+        if(arr1[i]<=arr2[j]){
+            myarr[k]=arr1[i];
+            i++;
+            
+        }
+        else{
+            myarr[k]=arr2[j];
+            j++;
+        
+        }
+        k++;
+     }
+     while(i<n1){
+        myarr[k]=arr1[i];
+        i++;
+        k++;
+     }
+     while(j<n2){
+        myarr[k]=arr2[j];
+        j++;
+        k++;
+     }
+      }
+      
+    
+      
+        </script>
+    </body>
+</html>

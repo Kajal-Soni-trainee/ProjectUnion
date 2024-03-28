@@ -2069,4 +2069,16 @@ app.post('/updated',(req,res)=>{
    }
 });
 
+// simplpe sorting
+app.get('/sorting',(req,res)=>{
+   res.render('sorting_in_js');
+   res.end();
+ });
+ 
+ app.get('/dynamic_cube',(req,res)=>{
+   res.render('assign1');
+   res.end();
+ });
+
+ 
 app.listen(8080);
