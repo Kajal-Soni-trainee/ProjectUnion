@@ -201,4 +201,11 @@ app.post('/action', (req, res) => {
     res.end();
  });
 
+
+// tic tac toe router
+app.get('/tic_tac_toe',(req,res)=>{
+   res.render('assignment3_tic-tac-toe');
+   res.end();
+});
+
 app.listen(8080);
