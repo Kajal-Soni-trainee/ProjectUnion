@@ -208,4 +208,11 @@ app.get('/tic_tac_toe',(req,res)=>{
    res.end();
 });
 
+//kuku cube
+
+app.get('/kuku_cube',(req,res)=>{
+   res.render('assign2_game');
+   res.end();
+});
+
 app.listen(8080);
