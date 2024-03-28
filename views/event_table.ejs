@@ -1,0 +1,169 @@
+<html>
+    <head>
+        <style>
+            table{
+                margin-top:80px;
+            }
+            table,tr,td{
+                border:2px solid black;
+                border-collapse: collapse;
+
+            }
+            td{
+                text-align: center;
+                padding: 25px;
+                
+                font-size: larger;
+                font-weight: bolder;
+                width:100px;
+                height: 100px;
+                cursor: pointer;
+                
+            }
+            td:hover{
+            font-size:25px;
+            }
+            tr:nth-child(even) td:nth-child(even){
+                background-color:rgb(47, 47, 107);
+                color:white;
+            }
+            
+            tr:nth-child(odd) td:nth-child(odd){
+                background-color:rgb(47, 47, 107);
+                color:white;
+            }
+            div{
+                width:100px;
+                height:100px;
+                overflow-y: scroll;
+                font-size: smaller;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <h1>Kajal Soni</h1>
+            <h4>Events Table</h4>
+            <table>
+                <tr>
+                    <td style="background-color: blueviolet; color:white">Mouse Events</td>
+                    <td style="background-color: blueviolet; color:white">Key Events</td>
+                    <td style="background-color: blueviolet; color:white">Window Events</td>
+                    <td style="background-color: blueviolet; color:white">Focus and Blur Events</td>
+                    <td style="background-color: blueviolet; color:white">Form Events</td>
+                </tr>
+                <tr>
+                    <td onclick="onClickFunction()">Click</td>
+                    <td>input <input type="text" oninput="onInputFunction(this)"/></td>
+                    <td>load <img onload="onLoadFunction()" height="50px" width="50px"  src="https://img.freepik.com/premium-photo/scenic-summer-lofoten-archipelago-norway-atlantic-ocean-green-dramatic-mountains-nordland-county_1066593-6208.jpg"/></td>
+                    <td>focus  <input type="text" onfocus="onFocusFunction(this)"/></td>
+                    <td>on change <select onchange="onChangeFunction(this)" name="flowers"><option value="Rose">Rose</option><option value="Jasmin">Jasmin</option><option value="Tulip">Tulip</option></select><br><span id="flower" ></span></td>
+                </tr>
+                <tr>
+                    <td ondblclick="onDbClickFunction()">DB Click</td>
+                    <td>key down <input type="text"  onkeydown="onKeyDownFunction()"/></td>
+                    <td>loadstart<img onloadstart="onLoadStartFunction()" height="50px" width="50px"  src="https://img.freepik.com/premium-photo/scenic-summer-lofoten-archipelago-norway-atlantic-ocean-green-dramatic-mountains-nordland-county_1066593-6208.jpg"/> </td>
+                    <td>blur <input type="text" onblur="onBlurFunction(this)"  /></td>
+                    <td>on submit <form onsubmit="onSubmitFunction()"><input type="text" /><input type="submit" value="submit" /></form></td>
+                </tr>
+                <tr>
+                    <td onmouseover="onMouseOverFunction()">Mouse Over</td>
+                    <td>key press <input type="text" onkeypress="onKeyPressFunction(this)"/></td>
+                    <td >scroll <div onscroll="onScrollFunction()">this is a paragraph to show the example of onscroll events if the length of the 
+                    paragraph exceeds the limit then we need to apply the scroller and once we scroll through the paragraph 
+                    on scroll event will be fired.</div></td>
+                    <td> onloadeddate<video  height="80px" width="80px" controls onloadeddata="myFunction()">
+                        <source src="https://www.shutterstock.com/shutterstock/videos/1098833901/preview/stock-footage-digital-blue-neon-modern-seconds-countdown-timer-clock-top-k-clean-dynamic-beautiful-circle.webm" >
+                      </video>
+                       </td>
+                    <td>on reset <form onreset="onRestFunction(this)"><input type="text" name="text" /><input type="reset" value="reset" /></form></td>
+                </tr>
+                <tr>
+                    <td onmouseout="onMouseOutFunction()">Mouse out</td>
+                    <td>key up <input type="text" onkeyup="onKeyUpFunction()"/></td>
+                    <td onclick="reSizeFunction()" onresize="onResizeFunction()">resize <span id="myspan"></span></td>
+                    <td> on pause <video onpause="onPauseFunction()"  height="80px" width="80px" controls onloadeddata="myFunction()">
+                        <source src="https://www.shutterstock.com/shutterstock/videos/1098833901/preview/stock-footage-digital-blue-neon-modern-seconds-countdown-timer-clock-top-k-clean-dynamic-beautiful-circle.webm" >
+                      </video></td>
+                    <td>  on play <video onplay="onPlayFunction()"  height="80px" width="80px" controls onloadeddata="myFunction()">
+                        <source src="https://www.shutterstock.com/shutterstock/videos/1098833901/preview/stock-footage-digital-blue-neon-modern-seconds-countdown-timer-clock-top-k-clean-dynamic-beautiful-circle.webm" >
+                      </video></td></td>
+                </tr>
+            </table>
+        </center>
+        <script>
+            function onClickFunction(){
+                alert("You clicked me !");
+            }
+            function onDbClickFunction(){
+                alert("Db click event is fired !");
+            }
+            function onMouseOverFunction(){
+                alert("mouse over event is fired !");
+            }
+            function onMouseOutFunction(){
+                alert("mouse out event is fired !");
+            }
+            function onInputFunction(element){
+            var input =element.value;
+            alert(input);
+            element.value="";
+            }
+            function onKeyDownFunction(){
+                alert("you have pushed a key");
+            }
+            function onKeyPressFunction(element){
+                alert(" key is pressed");
+            }
+            function onKeyUpFunction(){
+                alert("key up event is fired");
+            }
+            function onLoadFunction(){
+                alert("image is loaded");
+            }
+            function onLoadStartFunction(){
+                alert("image loading has started");
+            }
+            function onScrollFunction(){
+                alert("on scroll event is fired");
+            }
+            function reSizeFunction(){
+                var width = 400; 
+                var height = 600; 
+                window.resizeTo(width, height);
+                alert("Window is resized");
+            }
+            function onResizeFunction(){
+                let h = window.outerHeight;
+                let w =window.outerWidth;
+                alert("Windows height: "+h+ "width :"+ w);
+            }
+            
+          function onFocusFunction(e){
+            e.style.background="yellow";
+          }
+          function onChangeFunction(e){
+            document.getElementById("flower").innerHTML=e.value;
+          }
+          function onBlurFunction(e){
+            e.value=e.value.toUpperCase();
+          }
+          function onSubmitFunction(){
+        alert("form is submitted successfully");
+          }
+
+          function onRestFunction(e){
+            e["text"].value="";
+          }
+          function myFunction(){
+          alert("Data has been loaded successfully");
+          }
+          function onPauseFunction(){
+            alert("video is paused");
+          }
+          function onPlayFunction(){
+            alert("video started playing");
+          }
+        </script>
+    </body>
+</html>

@@ -215,4 +215,14 @@ app.get('/kuku_cube',(req,res)=>{
    res.end();
 });
 
+ // async await router
+
+ app.get('/json_placeholder', (req,res)=>{
+   res.render('async_await_prac_views/index');
+   res.end();
+});
+app.get('/comments',(req,res)=>{
+   let id = req.query.id;
+   res.render('async_await_prac_views/comments',{id:id});
+});
 app.listen(8080);

@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <style>
+              table ,tr,td,th{
+                border:2px solid black;
+                border-collapse: collapse;
+            }
+            td,th{
+                text-wrap: wrap;
+                padding:20px;
+            }
+            th{
+                background-color:rgb(125, 155, 96) ;
+            }
+            td{
+                background-color: rgb(241, 215, 183);
+            }
+        </style>
+    </head>
+    <body>
+        <table id="mytable">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Body</th>
+            </tr>
+        </table>
+        <script>
+            let id="<%=id%>";
+    fetchComments(id);
+ async function fetchComments(id){
+const url ="https://jsonplaceholder.typicode.com/comments";
+let data= await fetch(url);
+   let dataObj= await data.json();
+   console.log(dataObj);
+let txt="";
+   dataObj.forEach(element => {
+       if(element.postId==parseInt(id)){
+  txt+='<tr><td>'+element.id+'</td><td>'+element.name+'</td><td>'+element.email+'</td><td>'+element.body+'</td></tr>';
+       }
+});
+document.getElementById('mytable').innerHTML+=txt;
+}
+        </script>
+    </body>
+</html>
