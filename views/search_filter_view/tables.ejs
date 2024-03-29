@@ -1,0 +1,19 @@
+<table>
+      <tr>
+        <%let keys=Object.keys(result[0]);
+        keys.forEach((item)=>{%>
+            <th><%=item%></th>
+       <%});%>
+      </tr>
+    <% result.forEach(element=> {%>
+        <tr>
+            <% let values=Object.values(element);
+             values.forEach((item)=>{%>
+                <td>
+                    <%=item%>
+                </td>
+                <%});%>
+
+        </tr>
+        <%});%>
+</table>
