@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <style>
+            *{
+                font-size:50px;
+            }
+        .container{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap:50px;
+            margin:50px;
+            border:2px solod black;
+            border-radius: 15px;
+            background-color: rgb(99, 189, 189);
+            padding:200px;
+        }
+        h1{
+            color:red;
+        }
+        
+            .button a{
+                text-decoration: none;
+                color:white;
+                font-size: 30px;
+                padding:20px;
+                border:5px solid rgb(109, 158, 158);
+                background-color:rgb(8, 66, 66) ;
+                border-radius: 30px;
+            }
+        </style>
+    </head>
+        <body>
+
+            <div class="container">
+                <div class="button">
+                <a href="/">Go to query page---></a>
+                </div>
+                <h1>You have the following error in this sql query "<%=query%>" !</h1>
+                <div class="err">
+                    <%=err%>
+                </div>
+            </div>
+        </body>
+    
+</html>

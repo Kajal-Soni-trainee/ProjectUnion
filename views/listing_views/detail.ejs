@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <style>
+            *{
+                font-size: 20px;
+            }
+            table, tr,td,th{
+                  border:2px solid black;
+            
+                  text-align: center;
+            }
+            table{
+                width:80%;
+            }
+            .container{
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap:50px;
+            }
+            th{
+                background-color: aquamarine;
+            }
+            td{
+                background-color: rgb(160, 199, 186);
+            }
+            th,td{
+                padding:20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <h1><%=name%></h1>
+        <table>
+            <tr>
+                <th rowspan="2">Sr No</th>
+                <th rowspan="2">Student Name</th>
+                <th colspan="2">Prilims</th>
+                <th colspan="2">Prilims Total</th>
+                <th colspan="2">Mains</th>
+                <th colspan="2">Mains Total</th>
+                <th colspan="2">Finals</th>
+                <th colspan="2">Finals Total</th>
+                <th colspan="2">Total</th>
+                
+             </tr>
+             <tr>
+                <td>Practical</td>
+                <td>Theroy</td>
+                <td>Practical</td>
+                <td>Theroy</td>
+                <td>Practical</td>
+                <td>Theroy</td>
+                <td>Practical</td>
+                <td>Theroy</td>
+                <td>Practical</td>
+                <td>Theroy</td>
+                <td>Practical</td>
+                <td>Theroy</td>
+                <td>Practical</td>
+                <td>Theroy</td>
+             </tr>
+             <% var num=1%>
+             <% data.forEach((item)=>{%>
+                
+             <tr>
+                 <td><%=num++%></td>
+                <td><%=item.subject_name%></td>
+                <td><%=item.ppm%></td>
+                <td><%=item.ptm%></td>
+                <td><%=item.ppt%></td>
+                <td><%=item.ptt%></td>
+                <td><%=item.mpm%></td>
+                <td><%=item.mtm%></td>
+                <td><%=item.mpt%></td>
+                <td><%=item.mtt%></td>
+                <td><%=item.fpm%></td>
+                <td><%=item.ftm%></td>
+                <td><%=item.fpt%></td>
+                <td><%=item.ftt%></td>
+                <td><%=item.ppm+item.mpm+item.fpm%></td>
+                <td><%=item.ptm+item.mtm+item.ftm%></td>
+             </tr>
+             <%});%>
+        </table>
+        </div>
+    </body>
+</html>

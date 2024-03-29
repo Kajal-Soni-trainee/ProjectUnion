@@ -1,0 +1,654 @@
+<html>
+
+<head>
+    <style>
+        .mydiv1 {}
+
+        .mydiv2 {}
+
+        .mydiv3a {}
+
+        .mydiv3b {}
+
+        .mydiv4a {}
+
+        .mydiv4b {}
+
+        .container {
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mydiv3 {
+            display: flex;
+
+        }
+
+        .mydiv3a {
+            flex-basis: 100%;
+        }
+
+        .mydiv3b {
+            flex-basis: 100%;
+        }
+
+        .mydiv4 {
+            display: flex;
+        }
+
+        .mydiv4a {
+            flex-basis: 100%;
+        }
+
+        .mydiv4b {
+            flex-basis: 100%;
+        }
+
+        .container {
+
+            margin: 20px;
+
+        }
+
+        input {
+            margin: 2px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        span {
+            color: red;
+            font-weight: bold;
+        }
+
+        .btn {
+            float: right;
+            border: 2px solid black;
+            font-size: 20px;
+            background-color: yellow;
+            font-weight: bold;
+            padding: 2px;
+        }
+
+
+
+        .btns {
+            display: flex;
+            flex-direction: row;
+            justify-content: right;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <h1 style="text-align:center">Job Application Form</h1>
+    <div class="container">
+        <h4><a href="/job_app_form_list">List Of Users</a></h4>
+        <form method="post" <%if(isUpdate){%>action="/updated"<%}else{%>action="/job_app_form"<%}%> onsubmit="return validate(event)">
+            <div class="mydiv1">
+                <fieldset style=" border:2px solid black;">
+                    <legend>
+                        <h4>Personal Details</h4>
+                    </legend>
+
+                    <div><label>
+                        <input type="hidden" name="id" <%if(isUpdate){%>value="<%=can[0].candidate_id%>"<%}%>/>
+                            <p>First Name:</p>
+                        </label><input type="text" name="fname" id="fname" class="req"<%if(isError){%>value="
+                        <%=dataObj.fname%>"<%}%> <%if(isUpdate){%>value="<%=can[0].first_name%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.fname%>
+                                            <%}%>
+                                </span>
+                    </div>
+                    &nbsp;
+                    <div><label>
+                            <p>Last Name:</p>
+                        </label> <input type="text" name="lname" id="lname" class="req" <%if(isError){%>value="
+                        <%=dataObj.lname%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].last_name%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.lname%>
+                                            <%}%>
+                                </span>
+                    </div><br>
+                    <hr>
+                    <div><label>
+                            <p>Designation:</p>
+                        </label><input type="text" id="design" name="design" class="req onlychar"
+                            <%if(isError){%>value="<%=dataObj.design%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].design%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.design%>
+                                            <%}%>
+                                </span></div>&nbsp;
+                    <div><label>
+                            <p>Email:</p>
+                        </label><input type="text" id="email" name="email" class="req" <%if(isError){%>value="
+                        <%=dataObj.email%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].email%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.email%>
+                                            <%}%>
+                                </span>
+                    </div>
+                    <br>
+                    <hr>
+                    <div>
+                        <span class="err">
+                                <%if(isError){%>
+                                    <%=errorObj.add1%>
+                                        <%}%>
+                            </span><label>
+                            <p>Address line 1</p>
+                        </label><textarea id="add1" class="req onlychar"
+                            name="add1"> <%if(isError){%><%=dataObj.add1%><%}%> <%if(isUpdate){%><%=can[0].current_addreess%><%}%></textarea>
+                    </div><br>
+                    <hr>
+                    <div>
+                        <span class="err">
+                                <%if(isError){%>
+                                    <%=errorObj.add2%>
+                                        <%}%>
+                            </span><label>
+                            <p>Address line 2</p>
+                        </label><textarea id="add2" name="add2"
+                            class="onlychar"> <%if(isError){%><%=dataObj.add2%><%}%> <%if(isUpdate){%><%=can[0].permanent_address%><%}%></textarea>
+                    </div><br>
+                    <hr>
+                    <div><label>
+                            <p>State</p>
+                        </label><input type="text" id="state" name="state" class="req onlychar" <%if(isError){%>value="
+                        <%=dataObj.state%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].state%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.state%>
+                                            <%}%>
+                                </span>
+                    </div>&nbsp;
+                    <div><label>
+                            <p>City</p>
+                        </label><input type="text" id="city" name="city" class="req onlychar" <%if(isError){%>value="
+                        <%=dataObj.city%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].city%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.city%>
+                                            <%}%>
+                                </span>
+                    </div><br>
+                    <hr>
+                    <div class="gen">
+                        <p><span class="err"></span></p><label for=>
+                            <p>Gender</p>
+                        </label><input type="radio" name="gender" id="male" value="male"  <%if(isUpdate){ if(can[0].gender=="male"){%>checked<%}}%> /><label
+                            for="male">Male</label> &nbsp;
+                        <input type="radio" name="gender" value="female" id="female"  <%if(isUpdate){ if(can[0].gender=="female"){%>checked<%}}%> /> <label for="female">female
+                        </label>&nbsp;
+                        <input type="radio" name="gender" value="others" id="others"  <%if(isUpdate){ if(can[0].gender=="others"){%>checked<%}}%> /> <label for="others">others
+                        </label>
+
+                    </div><br>
+                    <hr>
+                    <div><label>
+                            <p>Zipcode:</p>
+                        </label><input type="text" name="zipcode" id="zipcode" class="req" <%if(isError){%>value="
+                        <%=dataObj.zipcode%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].zip_code%>"<%}%>/><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.zipcode%>
+                                            <%}%>
+                                </span>
+                    </div>&nbsp;
+                    <div><label>
+                            <p>Phone:</p>
+                        </label><input type="text" name="phone" id="phone" class="req" <%if(isError){%>value="
+                        <%=dataObj.phone%>"<%}%>  <%if(isUpdate){%>value="<%=can[0].phone%>"<%}%> /><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.phone%>
+                                            <%}%>
+                                </span>
+                    </div>
+                    <br>
+                    <hr>
+                    <div>
+                        <p><span class="err"></span></p>
+                        <label>
+                            <p>Relationship</p>
+                        </label>
+                        <select name="relation" class="req">
+                            <option  <%if(isUpdate){ if(can[0].relationship_status=="married"){%>selected<%}}%> value="married">Married</option>
+                            <option  <%if(isUpdate){ if(can[0].relationship_status=="unmarried"){%>selected<%}}%> value="unmarried">Unmarried</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="mydiv2">
+                <fieldset style="border: 2px solid black">
+                    <legend>
+                        <h4>Educational Details</h4>
+                    </legend>
+
+
+                    <h5>SSC Result</h5>
+                    <div><label>Board Name</label><input type="text" name="ssc_boardname" id="ssc_boardname"
+                            <%if(isError){%>value="<%=dataObj.ssc_boardname%>"<%}%>
+                            <%if(isUpdate){if(edu[0]!=undefined){%>value="<%=edu[0].course_name%>"<%}}%>
+                                class="req onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.ssc_boardname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>School Name</label><input type="text" name="ssc_sname" id="ssc_sname"
+                            <%if(isError){%>value="<%=dataObj.ssc_sname%>"<%}%>
+                            <%if(isUpdate){if(edu[0]!=undefined){%>value="<%=edu[0].school_name%>"<%}}%>
+                                class="req onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.ssc_sname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Passing Year</label><input type="text" name="ssc_pyear" id="ssc_pyear"
+                            <%if(isError){%>value="<%=dataObj.ssc_pyear%>"<%}%>
+                            <%if(isUpdate){if(edu[0]!=undefined){%>value="<%=edu[0].passing_year%>"<%}}%>
+                                class="req year" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.ssc_pyear%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Percent</label><input type="text" name="ssc_percent" id="ssc_percent"
+                            <%if(isError){%>value="<%=dataObj.ssc_percent%>"<%}%>
+                            <%if(isUpdate){if(edu[0]!=undefined){%>value="<%=edu[0].percent%>"<%}}%>
+                                class="req percent" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.ssc_percent%>
+                                                <%}%>
+                                    </span></p>
+                    </div><br>
+                    <hr>
+                    <h5>HSC/Diploma Result</h5>
+                    <div><label>Board Name</label><input type="text" name="hsc_boardname" id="hsc_boardname"
+                            <%if(isError){%>value="<%=dataObj.hsc_boardname%>"<%}%>
+                            <%if(isUpdate){if(edu[1]!=undefined){%>value="<%=edu[1].course_name%>"<%}}%>
+                                class="req onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.hsc_boardname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>School Name</label><input type="text" name="hsc_sname" id="hsc_sname"
+                            <%if(isError){%>value="<%=dataObj.hsc_sname%>"<%}%>
+                            <%if(isUpdate){if(edu[1]!=undefined){%>value="<%=edu[1].school_name%>"<%}}%>
+                                class="req onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.hsc_sname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Passing Year</label><input type="text" name="hsc_pyear" id="hsc_pyear"
+                            <%if(isError){%>value="<%=dataObj.hsc_pyear%>"<%}%>
+                            <%if(isUpdate){if(edu[1]!=undefined){%>value="<%=edu[1].passing_year%>"<%}}%>
+                                class="req year" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.hsc_pyear%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Percent</label><input type="text" name="hsc_percent" id="hsc_percent"
+                            <%if(isError){%>value="<%=dataObj.hsc_percent%>"<%}%>
+                            <%if(isUpdate){if(edu[1]!=undefined){%>value="<%=edu[1].percent%>"<%}}%>
+                                class="req percent" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.hsc_percent%>
+                                                <%}%>
+                                    </span></p>
+                    </div><br>
+                    <hr>
+                    <h5>Degree Result</h5>
+                    <div><label>Course Name</label><input type="text" name="d_boardname" id="d_boardname"
+                            <%if(isError){%>value="<%=dataObj.d_boardname%>"<%}%>
+                            <%if(isUpdate){if(edu[2]!=undefined){%>value="<%=edu[2].course_name%>"<%}}%>
+                                class="onlychar"/>
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.d_boardname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>University Name</label><input type="text" name="d_sname" id="d_sname"
+                            <%if(isError){%>value="<%=dataObj.d_sname%>"<%}%>
+                            <%if(isUpdate){if(edu[2]!=undefined){%>value="<%=edu[2].school_name%>"<%}}%>
+                                class="onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.d_sname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Passing Year</label><input type="text" name="d_pyear" id="d_pyear"
+                            <%if(isError){%>value="<%=dataObj.d_pyear%>"<%}%>
+                            <%if(isUpdate){if(edu[2]!=undefined){%>value="<%=edu[2].passing_year%>"<%}}%>
+                             class="year" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.d_pyear%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Percent</label><input type="text" name="d_percent" id="d_percent"
+                            <%if(isError){%>value="<%=dataObj.d_percent%>"<%}%>
+                            <%if(isUpdate){if(edu[2]!=undefined){%>value="<%=edu[2].percent%>"<%}}%>
+                             class="percent" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.d_percent%>
+                                                <%}%>
+                                    </span></p>
+                    </div><br>
+                    <hr>
+                    <h5>Master Degree Result</h5>
+                    <div><label>Course Name</label><input type="text" name="m_boardname" id="m_boardname"
+                            <%if(isError){%>value="<%=dataObj.m_boardname%>"<%}%>
+                            <%if(isUpdate){if(edu[3]!=undefined){%>value="<%=edu[3].course_name%>"<%}}%>
+                                class="onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.m_boardname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>University Name</label><input type="text" name="m_sname" id="m_sname"
+                            <%if(isError){%>value="<%=dataObj.m_sname%>"<%}%>
+                            <%if(isUpdate){if(edu[3]!=undefined){%>value="<%=edu[3].school_name%>"<%}}%>
+                                class="onlychar" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.m_sname%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Passing Year</label><input type="text" name="m_pyear" id="m_pyear"
+                            <%if(isError){%>value="<%=dataObj.m_pyear%>"<%}%> 
+                            <%if(isUpdate){if(edu[3]!=undefined){%>value="<%=edu[3].passing_year%>"<%}}%>
+                            class="year" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.m_pyear%>
+                                                <%}%>
+                                    </span></p>
+                    </div>&nbsp;
+                    <div><label>Percent</label><input type="text" name="m_percent" id="m_percent"
+                            <%if(isError){%>value="<%=dataObj.m_percent%>"<%}%>
+                            <%if(isUpdate){if(edu[3]!=undefined){%>value="<%=edu[3].percent%>"<%}}%>
+                             class="percent" />
+                                <p><span class="err">
+                                        <%if(isError){%>
+                                            <%=errorObj.m_percent%>
+                                                <%}%>
+                                    </span></p>
+                    </div><br>
+
+                </fieldset>
+            </div>
+            <div class="mydiv3">
+                <div class="mydiv3a">
+                    <fieldset style=" border:2px solid black;">
+                        <legend>
+                            <h4>Language Details</h4>
+                        </legend>
+                        <span class="err">
+                            <%if(isError){%>
+                                <%=errorObj.lang%>
+                                    <%}%>
+                        </span>
+                        <div>
+                            <input type="checkbox" name="lang" id="hindi" value="hindi"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="hindi"){%>checked<%}});}}%>/> <label
+                                for="hindi">Hindi</label> &nbsp;
+                            <input type="checkbox" name="lhskill" id="hread" value="read"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="hindi" && element.lang_skill=="read"){%>checked<%}});}}%>/> <label
+                                for="hread">Read</label> &nbsp;
+                            <input type="checkbox" name="lhskill" id="hwrite" value="write"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="hindi" && element.lang_skill=="write"){%>checked<%}});}}%>/> <label
+                                for="hwrite">Write</label> &nbsp;
+                            <input type="checkbox" name="lhskill" id="hspeak" value="speak"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="hindi" && element.lang_skill=="speak"){%>checked<%}});}}%> /> <label
+                                for="hspeak">Speak</label>
+                            <p><span class="err"></span></p>
+                        </div>
+                        <br>
+                        <hr>
+                        <div>
+                            <input type="checkbox" name="lang" id="english" value="english" <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="english"){%>checked<%}});}}%>  /> <label
+                                for="english">Engilsh</label> &nbsp;
+                            <input type="checkbox" name="leskill" id="eread" value="read"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="english" && element.lang_skill=="read"){%>checked<%}});}}%>  /> <label
+                                for="eread">Read</label> &nbsp;
+                            <input type="checkbox" name="leskill" id="ewrite" value="write"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="english" && element.lang_skill=="write"){%>checked<%}});}}%> /> <label
+                                for="ewrite">Write</label> &nbsp;
+                            <input type="checkbox" name="leskill" id="espeak" value="speak"   <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="english" && element.lang_skill=="speak"){%>checked<%}});}}%>/> <label
+                                for="espeak">Speak</label>
+                            <p><span class="err"></span></p>
+                        </div>
+                        <br>
+                        <hr>
+                        <div>
+                            <input type="checkbox" name="lang" id="gujarati" value="gujararti" <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="gujararti"){%>checked<%}});}}%>  />
+                            <label>Gujarati</label> &nbsp;
+                            <input type="checkbox" name="lgskill" id="gread" value="read"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="gujararti" && element.lang_skill=="read"){%>checked<%}});}}%>  /> <label
+                                for="gread">Read</label> &nbsp;
+                            <input type="checkbox" name="lgskill" id="gwrite" value="write"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="gujararti" && element.lang_skill=="write"){%>checked<%}});}}%>  /> <label
+                                for="gwrtie">Write</label> &nbsp;
+                            <input type="checkbox" name="lgskill" id="gspeak" value="speak"  <%if(isUpdate){if(lang!=undefined){lang.forEach((element)=>{if(element.language=="gujararti" && element.lang_skill=="speak"){%>checked<%}});}}%> /> <label
+                                for="gspeak">Speak</label>
+                            <p><span class="err"></span></p>
+                        </div>
+                        <br>
+                    </fieldset>
+                </div>
+                <div class="mydiv3b">
+                    <fieldset style=" border:2px solid black;">
+                        <legend>
+                            <h4>Technological Details</h4>
+                        </legend>
+                        <span class="err">
+                            <%if(isError){%>
+                                <%=errorObj.tech%>
+                                    <%}%>
+                        </span>
+                        <div>
+                            <input type="checkbox" name="tech" id="php" value="php" <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="php"){%>checked<%}});}}%>/> <label for="php">PHP</label>
+                            &nbsp;
+                            <input type="radio" name="tpskill" id="phigh" value="high" <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="php" && element.tech_skill=="high"){%>checked<%}});}}%>/> <label
+                                for="phigh">High</label> &nbsp;
+                            <input type="radio" name="tpskill" id="paverage" value="average" <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="php" && element.tech_skill=="average"){%>checked<%}});}}%> /> <label
+                                for="paverage">Average</label> &nbsp;
+                            <input type="radio" name="tpskill" id="plow" value="low" <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="php" && element.tech_skill=="low"){%>checked<%}});}}%>/> <label for="plow">Low</label>
+                            <p><span class="err"></span></p>
+                        </div>
+                        <br>
+                        <hr>
+                        <div>
+                            <input type="checkbox" name="tech" id="java" value="Java" <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="Java"){%>checked<%}});}}%> /> <label for="java">Java</label>
+                            &nbsp;
+                            <input type="radio" name="tjskill" id="jhigh" value="high"   <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="Java" && element.tech_skill=="high"){%>checked<%}});}}%> /> <label
+                                for="jhigh">High</label> &nbsp;
+                            <input type="radio" name="tjskill" id="javerage" value="average"  <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="Java" && element.tech_skill=="average"){%>checked<%}});}}%>/> <label
+                                for="javerage">Average</label> &nbsp;
+                            <input type="radio" name="tjskill" id="jlow" value="low"  <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="Java" && element.tech_skill=="low"){%>checked<%}});}}%> /> <label for="jlow">Low</label>
+                            <p><span class="err"></span></p>
+                        </div>
+                        <br>
+                        <hr>
+                        <div>
+                            <input type="checkbox" name="tech" id="oracle" value="oracle"  <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="oracle"){%>checked<%}});}}%>/> <label
+                                for="oracle">Oracle</label> &nbsp;
+                            <input type="radio" name="toskill" id="ohigh" value="high"  <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="oracle" && element.tech_skill=="high"){%>checked<%}});}}%>/> <label
+                                for="ohigh">High</label> &nbsp;
+                            <input type="radio" name="toskill" id="oaverage" value="average"  <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="oracle" && element.tech_skill=="average"){%>checked<%}});}}%>/> <label
+                                for="oaverage">Average</label> &nbsp;
+                            <input type="radio" name="toskill" id="olow" value="low"  <%if(isUpdate){if(tech!=undefined){tech.forEach((element)=>{if(element.tech=="oracle" && element.tech_skill=="low"){%>checked<%}});}}%>/> <label for="olow">Low</label>
+                            <p><span class="err"></span></p>
+                        </div>
+                        <br>
+                    </fieldset>
+
+                </div>
+            </div>
+            <div class="mydiv4">
+                <div class="mydiv4a">
+                    <fieldset style=" border:2px solid black;">
+                        <legend>
+                            <h4>Work Experience</h4>
+                        </legend>
+                        <div class="btns"><button type="button" class="btn" onclick="addExperience()">+</button><button
+                                class="btn" type="button" onclick="removeExperience()">-</button></div>
+                        <div class="work_exp_con">
+                            <span class="err"><%if(isError){%><%=errorObj.experience%><%}%></span>
+                            <div>
+                                <div><label>Company Name</label><input type="text" id="cname1" name="cname[]"
+                                        class="onlychar" <%if(isError){%>value="<%=dataObj.cname1%>"<%}%> <%if(isUpdate){if(exp[0]!=undefined){%>value="<%=exp[0].company_name%>"<%}}%>/>
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.cname1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div>&nbsp;
+                                <div><label>Position</label><input type="text" id="pos1" name="pos[]" class="onlychar"
+                                        <%if(isError){%>value="<%=dataObj.pos1%>"<%}%>
+                                        <%if(isUpdate){if(exp[0]!=undefined){%>value="<%=exp[0].design%>"<%}}%>
+                                        />
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.pos1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div>&nbsp;
+                                <div><label>From</label><input type="text" id="from1" name="from[]" class="year"
+                                        <%if(isError){%>value="<%=dataObj.from1%>"<%}%>
+                                        <%if(isUpdate){if(exp[0]!=undefined){%>value="<%=exp[0].worked_from%>"<%}}%>
+                                        />
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.from1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div>&nbsp;
+                                <div><label>To</label><input type="text" id="to1" name="to[]" class="year"
+                                        <%if(isError){%>value="<%=dataObj.to1%>"<%}%>
+                                        <%if(isUpdate){if(exp[0]!=undefined){%>value="<%=exp[0].worked_till%>"<%}}%>
+                                        />
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.to1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div><br>
+                                <hr>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="mydiv4b">
+                    <fieldset style=" border:2px solid black;">
+                        <legend>
+                            <h4>References</h4>
+                        </legend>
+                        <div class="btns"><button type="button" class="btn" onclick="addRef()">+</button><button
+                                type="button" class="btn" onclick="removeRef()">-</button></div>
+                        <div class="ref_con">
+                            <span class="err"><%if(isError){%><%=errorObj.ref%><%}%></span>
+                            <div>
+                                <div><label>Name</label><input type="text" id="ename1" name="ename[]" class="onlychar"
+                                        <%if(isError){%>value="<%=dataObj.ename1%>"<%}%>
+                                        <%if(isUpdate){if(ref[0]!=undefined){%>value="<%=ref[0].e_name%>"<%}}%>
+                                        />
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.ename1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div>&nbsp;
+                                <div><label>Designation</label><input type="text" id="edesign1" name="edesign[]"
+                                        <%if(isError){%>value="<%=dataObj.edesign1%>"<%}%>
+                                        <%if(isUpdate){if(ref[0]!=undefined){%>value="<%=ref[0].e_design%>"<%}}%>
+                                            class="onlychar" />
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.edesign1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div>&nbsp;
+                                <div><label>Relation</label><input type="text" id="erelation1" name="erelation[]"
+                                        <%if(isError){%>value="<%=dataObj.erelation1%>"<%}%>
+                                        <%if(isUpdate){if(ref[0]!=undefined){%>value="<%=ref[0].e_relation%>"<%}}%>
+                                            class="onlychar" />
+                                            <p><span class="err">
+                                                    <%if(isError){%>
+                                                        <%=errorObj.erelation1%>
+                                                            <%}%>
+                                                </span></p>
+                                </div><br>
+                                <hr>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="mydiv5">
+
+                <fieldset style=" border:2px solid black;">
+                    <legend>
+                        <h4>Preference Details</h4>
+                    </legend>
+                    <div>
+                        <p><span class="err"></span></p>
+                        <label>Prefered Location</label>
+                        <select name="location">
+                            <option    <%if(isUpdate){if(pref[0].prefered_location=="ahmedabad"){%>checked<%}}%> value="ahmedabad">Ahmedabad</option>
+                            <option <%if(isUpdate){if(pref[0].prefered_location=="rajkot"){%>checked<%}}%>  value="rajkot">Rajkot</option>
+                            <option <%if(isUpdate){if(pref[0].prefered_location=="surat"){%>checked<%}}%> value="surat"> Surat</option>
+                        </select>
+                    </div>
+                    &nbsp;
+                    <div><label>Current CTC</label><input type="text" id="c_ctc" name="c_ctc" class="req"
+                            <%if(isError){%>value="<%=dataObj.c_ctc%>"<%}%>
+                            <%if(isUpdate){%>value="<%=pref[0].current_ctc%>"<%}%>
+                            /><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.c_ctc%>
+                                            <%}%>
+                                </span></div>&nbsp;
+                    <div><label>Expected CTC</label><input type="text" id="e_ctc" name="e_ctc" class="req"
+                            <%if(isError){%>value="<%=dataObj.e_ctc%>"<%}%> 
+                            <%if(isUpdate){%>value="<%=pref[0].expected_ctc%>"<%}%>
+                            /><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.e_ctc%>
+                                            <%}%>
+                                </span></div>&nbsp;
+                    <div><label>Notice Period</label><input type="text" id="n_period" name="n_period"
+                            <%if(isError){%>value="<%=dataObj.n_period%>"<%}%>
+                            <%if(isUpdate){%>value="<%=pref[0].notice_period%>"<%}%>
+                                class="req" /><span class="err">
+                                    <%if(isError){%>
+                                        <%=errorObj.n_period%>
+                                            <%}%>
+                                </span></div><br>
+                </fieldset>
+            </div>
+            <center style="margin-top:10px; margin-bottom:10px;"><input type="submit" id="submit" value="submit"
+                    name="submit" /></center>
+        </form>
+    </div>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

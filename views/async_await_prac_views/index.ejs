@@ -1,0 +1,201 @@
+<html>
+    <head>
+        <style>
+            .container{
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap:50px;
+            }
+            table ,tr,td,th{
+                border:2px solid black;
+                border-collapse: collapse;
+            }
+            td,th{
+                text-wrap: wrap;
+                padding:20px;
+            }
+            .pagination{
+                display:flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap:5px;
+            }
+            .search{
+                display:flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap:10px;
+            }
+            #query{
+                border: 2px solid green;
+                padding:10px;
+                border-radius: 10px;
+            }
+            #go{
+             border: 2px solid green;
+             background-color: rgb(125, 155, 96);
+             color:rgb(17, 32, 2);
+             border-radius: 50%;
+             padding:10px;
+             font-size: 20px;
+             margin:5px;
+            }
+            th{
+                background-color:rgb(125, 155, 96) ;
+            }
+            td{
+                background-color: rgb(241, 215, 183);
+            }
+            #com{
+                
+                border: 2px solid green;
+                background-color: rgb(125, 155, 96);
+            
+                border-radius: 10px;
+            }
+            #com a{
+                text-decoration: none;
+                color:rgb(17, 32, 2);
+                padding:20px 10px;
+                font-size: 20px;
+            }
+            #error{
+                color:red;
+                font-size: 20px;
+                font-weight: 10px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <h1 style="color:rgb(17, 32, 2)">Kajal Soni</h1>
+            <div class="search">
+               <div><input type="text" id="query" autofocus/><input id="go" type="button" onclick="searchData()" value="go"></div>
+            </div>
+           <table id="mytable">
+            <tr>
+                <th>User Id</th>
+                <th>Id</th>
+                <th>title</th>
+                <th>body</th>
+                <th>details</th>
+            </tr>
+           </table>
+           <div id="error">
+
+           </div>
+         <div class="pagination">
+            <button onclick="first()"><<</button>
+            <button onclick="desc()"><</button>
+            <span id="pageNo">1</span>
+            <button onclick="inc()">></button>
+            <button onclick="last()">>></button>
+         </div>
+        </div>
+
+        <script>
+            const totalData=100;
+            const limit=10;
+            const pages=Math.ceil(totalData/limit);
+            async function getData(){
+            const url ="https://jsonplaceholder.typicode.com/posts";
+            let data= await fetch(url);
+            let dataObj= await data.json();
+             totalData=dataObj.length;
+             console.log("total data"+totalData);
+            }
+            getData();
+        
+            function first(){
+                document.getElementById('pageNo').innerHTML=1;
+                fetchData(1);
+            }
+            function last(){
+                console.log("calling last");
+                console.log(pages);
+                document.getElementById('pageNo').innerHTML=pages;
+                fetchData(pages);
+            }
+            function inc(){
+                console.log("calling increment");
+                let pageNo=parseInt(document.getElementById('pageNo').innerHTML);
+                if(pageNo<pages){
+                document.getElementById('pageNo').innerHTML=pageNo+1;
+                fetchData(pageNo+1);
+                }  
+            }
+            function desc(){
+                console.log("calling decrement");
+                let pageNo=parseInt(document.getElementById('pageNo').innerHTML);
+                if(pageNo>1){
+                document.getElementById('pageNo').innerHTML=pageNo-1;
+                fetchData(pageNo-1);
+                }  
+            }
+            fetchData(1);
+         async function fetchData(id){
+            document.getElementById("error").innerHTML="";
+            document.getElementById('mytable').innerHTML="";
+            const url ="https://jsonplaceholder.typicode.com/posts";
+            let data= await fetch(url);
+            let dataObj= await data.json();
+            let txt="";
+            let keys=Object.keys(dataObj[0]);
+            txt+="<tr><th>"+keys[0]+"</th><th>"+keys[1]+"</th><th>"+keys[2]+"</th><th>"+keys[3]+"</th><th>Comments</th></tr>";
+            let pagiData=[];
+            let startIdx=(id-1)*limit;
+            for(let i=startIdx; i<limit+startIdx; i++){
+               pagiData.push(dataObj[i]);
+            }
+            console.log(pagiData);
+            pagiData.forEach(element => {
+           txt+='<tr><td>'+element.userId+'</td><td>'+element.id+'</td><td>'+element.title+'</td><td>'+element.body+'</td><td><button id="com" ><a href="comments/?id='+element.id+'">comments</a></button></td></tr>';
+            });
+            document.getElementById('mytable').innerHTML+=txt;
+         }
+         
+           async function fetchTokens(token){
+            document.getElementById('mytable').innerHTML="";
+            const url ="https://jsonplaceholder.typicode.com/posts";
+            let data= await fetch(url);
+            let dataObj= await data.json();
+            let showData=[];
+            dataObj.forEach((element)=>{
+                let title=element.title;
+                let body=element.body;
+                if(title.includes(token) || body.includes(token)){
+                 showData.push(element);
+                }
+            });
+            if(showData.length==0){
+             document.getElementById("error").innerHTML="No such data found";
+            }
+            else{
+                document.getElementById("error").innerHTML="";
+            let txt="";
+            let keys=Object.keys(dataObj[0]);
+            txt+="<tr><th>"+keys[0]+"</th><th>"+keys[1]+"</th><th>"+keys[2]+"</th><th>"+keys[3]+"</th><th>Comments</th></tr>";
+            showData.forEach(element => {
+           txt+='<tr><td>'+element.userId+'</td><td>'+element.id+'</td><td>'+element.title+'</td><td>'+element.body+'</td><td><button  id="com" ><a href="comments/?id='+element.id+'">comments</a></button></td></tr>';
+            });
+            document.getElementById('mytable').innerHTML+=txt;
+        }
+         }
+
+          function searchData(){
+            console.log("calling search");
+           let token = document.getElementById('query').value;
+           console.log(token);
+           if(token!=""){
+            fetchTokens(token);
+           }
+          }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,106 @@
+<html>
+    <head>
+<style>
+    table,tr,td{
+        border:2px solid black;
+        padding:20px;
+        border-collapse: collapse;
+
+    }
+    #btn{
+        padding:5px;
+        text-decoration: underline;
+        font-size: 20px;
+        text-align: center;
+        background-color: brown;
+        border: 2px solid black;
+        border-radius: 5px;
+    }
+    body{
+        margin-top:20px;
+        background-color: rgb(175, 173, 69);
+    }
+</style>
+    </head>
+    <body>
+        <h1 style="text-align: center; font-size: 50px; text-decoration: underline;">Kajal Soni</h1>
+        <h4 id="score" style="text-align: center; margin-top:10px;">30 seconds left</h4>
+        <center>
+            <table id="mytable">
+                <tr><td  style="background-color: blueviolet;" id="1" class="td"></td><td   style="background-color: blueviolet;" id="2" class="td"></td></tr>
+                <tr><td onclick="playGame(this)" style="background-color: blueviolet; opacity: 0.25;" id="3" class="td"></td><td id="4"  style="background-color: blueviolet;" class="td"></td></tr>
+            </table>
+        </center>
+        <center style="margin-top:25px;">
+        <div>
+            <button id="btn" onclick="startGame()">Start</button>
+        </div>
+        </center>
+        <script>
+            var score=0;
+          function startGame(){
+            alert(" Your Game has Started");
+            var timeleft=30;
+            setInterval(timer,1000);
+            function timer(){
+             if(timeleft==0){
+                alert("your time is over, your scores are "+score);
+              let decision=confirm("Do you want to start game again");
+              if(decision==true){
+                timeleft=30;
+              }
+              else{
+                close();
+              }
+             }
+             document.getElementById("score").innerHTML=timeleft+ "seconds left";
+             timeleft--;
+            }
+        }
+
+        function playGame(element){
+        score=score+1;
+            element.removeAttribute("onclick");
+        const color=['navy','midnightblue','pink','lime','grey','orange','purple','yellow','yellowgreen','teal','tomato','violet'];
+        let num=Math.floor(Math.random()*color.length);
+       addColumn();
+       addRows();
+       let tds= document.getElementsByTagName("td");
+       for(let i=0; i<tds.length; i++){
+        tds[i].setAttribute("id",i.toString());
+        tds[i].setAttribute("style","background-color:"+color[num]);
+       }
+
+      let selected= document.getElementById(Math.floor(Math.random()*tds.length).toString());
+      selected.setAttribute("onclick","playGame(this)");
+      selected.style.opacity="0.5";
+       }  
+
+    
+       function addRows(){
+       let table =document.getElementById("mytable");
+       let rows=document.getElementsByTagName("tr");
+       let cols=rows[0].cells.length;
+       let tr=document.createElement("tr");
+       for(let i=0; i<cols; i++){
+        let td =document.createElement("td");
+        tr.appendChild(td);
+       }
+       table.appendChild(tr);
+       }
+   
+       function addColumn(){
+        let rows=document.getElementsByTagName("tr");
+        for(let i=0; i<rows.length; i++){
+      let td=document.createElement("td");
+      rows[i].appendChild(td);
+        }
+       }
+
+          
+      
+
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<form id="lang_detail">
+<div>
+
+    <h1>Language Details</h1>
+    <input type="hidden" id="userId" name="userId"/>
+    <div>
+        <input type="checkbox" name="lang[]" id="hindi" value="hindi"/><label for="hindi">Hindi</label>
+        <input type="checkbox" name="lhskill[]" id="hread" value="read"/><label for="hread">Read</label>
+        <input type="checkbox" name="lhskill[]" id="hwrite" value="write"/><label for="hwrite">Write</label>
+        <input type="checkbox" name="lhskill[]" id="hspeak" value="speak"/><label for="hspeak">Speak</label>  
+        <span class="err"></span>
+    </div>
+
+    <div>
+        <input type="checkbox" name="lang[]" id="english" value="english"/><label for="english">English</label>
+        <input type="checkbox" name="leskill[]" id="eread" value="read"/><label for="eread">Read</label>
+        <input type="checkbox" name="leskill[]" id="ewrite" value="write"/><label for="ewrite">Write</label>
+        <input type="checkbox" name="leskill[]" id="espeak" value="speak"/><label for="espeak">Speak</label>  
+        <span class="err"></span>
+    </div>
+    <div>
+        <input type="checkbox" name="lang[]" id="gujarati" value="gujarati"/><label for="gujarati">Gujarati</label>
+        <input type="checkbox" name="lgskill[]" id="gread" value="read"/><label for="gread">Read</label>
+        <input type="checkbox" name="lgskill[]" id="gwrite" value="write"/><label for="gwrite">Write</label>
+        <input type="checkbox" name="lgskill[]" id="gspeak" value="speak"/><label for="gspeak">Speak</label>  
+        <span class="err"></span>
+    </div>
+</div>
+<div class="row1">
+    <button type="button" class="prev" onclick="func_edu_prev()" >Previous</button>
+    <button type="button" class="next"  onclick="return func_lang()">Next</button>
+</div>
+</form>
