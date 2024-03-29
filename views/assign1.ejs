@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <style>
+            table,tr,td{
+                border:2px solid black;
+                border-collapse: collapse;
+
+            }
+            button{
+                margin:2px;
+                padding:5px;
+            }
+            .btn_top{
+                margin:10px;
+            }
+            .btn_down{
+                margin:10px;
+            }
+            td{
+                padding:20px;
+
+            }
+            center{
+                margin-top: 50px;
+            }
+            tr:nth-child(even) td:nth-child(even){
+                background-color: rgb(160, 67, 129);
+            }
+           tr:nth-child(odd) td:nth-child(odd){
+                background-color: rgb(160, 67, 129);
+            }
+            .btn_top{
+               
+            }
+            .container{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items:center;
+            height:100vh;
+               
+            }
+        </style>
+    </head>
+    <body>
+        
+        <h1 style="text-align: center; color:red">Kajal Soni</h1>
+
+      
+            <div class="container">
+           
+                <div  class="btn_top"><button id="add_col">Add Col</button><button id="del_col" >Del col</button></div>
+            <table id="mytbl">
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="btn_down"><button id="add_row" >Add Row</button><button id="del_row" >Del Row</button></div>
+       </div>
+            <script>
+               
+
+                document.getElementById("add_col").addEventListener('click',addColumn);
+                document.getElementById("add_row").addEventListener('click',addRow);
+                document.getElementById("del_col").addEventListener('click',delColumn);
+                document.getElementById("del_row").addEventListener('click',delRow);
+               
+                 function addColumn(){
+                    var table=document.getElementById('mytbl');
+                var rows=Array.from(table.rows);
+
+               
+               rows.forEach((row)=>{
+                let td=document.createElement("td");
+                row.appendChild(td);
+               })
+                 
+                 }
+                 function addRow(){
+                var table=document.getElementById('mytbl');
+                var n =table.children[0].rows[0].childElementCount;
+                var tr=document.createElement("tr");
+                for(let i=0; i<n; i++){
+                let td=document.createElement("td");
+                tr.appendChild(td);
+                }
+                table.appendChild(tr);
+                 }
+       
+                 function delColumn(){
+                    var table=document.getElementById('mytbl');
+                var rows=Array.from(table.rows);
+                rows.forEach((element)=>{
+                    element.deleteCell(2);
+                })
+
+                 }
+                 function delRow(){
+                    var table=document.getElementById('mytbl');
+                    table.deleteRow(2);
+                 }
+               </script>
+    </body>
+</html>

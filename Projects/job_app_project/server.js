@@ -738,6 +738,8 @@ async function renderData(){
 }
 renderData();
 });
+
+
 app.get('/update',(req,res)=>{
     let id = parseInt(req.query.id);
     console.log(id);
@@ -809,33 +811,88 @@ app.get('/update',(req,res)=>{
 
     async function renderData(){
         let can=await fetch_Can_Details();
-        if(can==undefined){
-            can="";
+        if(can.length==0){
+           can.push({
+            candidate_id:id,
+            first_name: '',
+            last_name: '',
+            design: '',
+            current_addreess: ' ',
+            permanent_address: ' ',
+            email: '',
+            phone:'',
+            city: '',
+            state: '',
+            gender: '',
+            zip_code: '',
+            relationship_status: ''
+           })
         }
         let exp=await fetch_Exp_Details();
-        if(exp==undefined){
-            exp="";
+        console.log(exp);
+        if(exp.length==0){
+            exp.push({          
+                candidate_id:id,
+                company_name: '',
+                design: '',
+                worked_from: '',
+                worked_till: ''
+            })
         }
         let edu=await fetch_Edu_Details();
-        if(edu==undefined){
-            edu="";
+        console.log(edu);
+        if(edu.length==0){
+         edu.push({           
+            candidate_id:id,
+            course_type: '',
+            passing_year: '',
+            percent: '',
+            course_name: '',
+            school_name: ''
+         })
         }
+
         let lang=await fetch_Lang_Details();
-        if(lang==undefined){
-            lang="";
+        console.log(lang);
+        if(lang.length==0){
+            lang.push({
+                candidate_id:id,
+                language: '',
+                lang_skill: ''
+            })
         }
         let tech= await fetch_Tech_Details();
-        if(tech==undefined){
-            tech="";
+        console.log(tech);
+        if(tech.length==0){
+         tech.push({
+            candidate_id: id,
+            tech: '',
+            tech_skill: ''
+         })
         }
         let ref=await fetch_Ref_Details();
-        if(ref==undefined){
-            ref="";
-        }
+       console.log(ref);
+       if(ref.length==0){
+            ref.push({
+                candidate_id:id,
+                e_name: '',
+                e_design: '',
+                e_relation: '' 
+            })
+       }
         let pref= await fetch_Pref_Details();
-        if(pref==undefined){
-            pref="";
+        console.log(pref);
+        if(pref.length==0){
+            pref.push({
+                candidate_id:id,
+                prefered_location: '',
+                notice_period: '',
+                department: '',
+                current_ctc: '',
+                expected_ctc:''
+            });
         }
+        
 res.render('index',{dataObj:"",errorObj:"", isError:false,isUpdate:true, can:can,exp:exp,edu:edu,lang:lang,tech:tech,ref:ref,pref:pref});
 res.end();
     }
@@ -1449,5 +1506,5 @@ app.post('/updated',(req,res)=>{
   res.end();
     }
 });
-app.listen(4000);
+app.listen(8000);
 
