@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <style>
+        .container{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items: center;
+            margin:50px;
+            gap:50px;
+        }
+         table,th,tr,td{
+            border:2px solid black;
+        }
+        table{
+            width:200px;
+            background-color: rgb(31, 14, 31);
+        }
+        th,td{
+            padding:20px;
+            text-align: center;
+            color:rgb(31, 14, 31); 
+        }
+        th{
+            background-color: rgb(95, 127, 233);
+        }
+        td{
+            background-color: rgb(169, 203, 245);
+        }
+        *{
+           color:black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        #token{
+            border:2px solid rgb(31, 14, 31);
+            padding:10px;
+            border-radius:20px;
+        }
+        #submit{
+            border:2px solid rgb(31, 14, 31);
+            border-radius:20px;
+            background-color: rgb(73, 117, 73);
+            color:white;
+            padding:10px;
+        }
+
+        .error h1{
+            color:red;
+            font-size: 50px;
+            font-weight: bolder;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+             <a href="/query?query=`select * from student where name='kajal'`">query</a>
+            <h1 style="color:rgb(31, 14, 31);">Kajal Soni</h1>
+            <table class="sym">
+                <tr>
+                    <th>Student_id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Password</th>
+                    <th>Contact</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Hobby</th>
+                    
+                </tr>
+                <tr>
+                    <td>_</td>
+                    <td>&</td>
+                    <td>$</td>
+                    <td>^</td>
+                    <td>#</td>
+                    <td>=</td>
+                    <td>+</td>
+                    <td>%</td>
+                    <td>/</td>
+                    <td>*</td>
+                </tr>
+            </table>
+            <form method="post" action="/search_filter">
+            <label for="tokens">Enter the tokens</label>
+            <input type="text" tabindex="0" id="token" name="token" autofocus/>
+            <input type="submit" value="Search" id="submit"/>
+            </form>
+            <%if(isError){%>
+                <%-include('error')%>
+                <%}%>
+            <%if(showData){%>
+               <%-include('tables',{result:result})%>
+            <%}%>
+            <%if(isPagi){%>
+                <%- include('pagination')%>
+                <%}%>     
+        </div>
+        <%if(isPagi){%>
+            <script>
+                let first = document.getElementById("first");
+                let last = document.getElementById("last");
+                let inc = document.getElementById("increment");
+                let dec = document.getElementById("decrement");
+                let pageNo = document.getElementById("pageNo");
+                pageNo.innerHTML = "<%=id%>";
+                first.addEventListener('click', moveFirst);
+                last.addEventListener('click', moveLast);
+                inc.addEventListener('click', increment);
+                dec.addEventListener('click', decrement);
+    
+                function moveFirst() {
+                    pageNo.innerHTML = 1;
+                    window.location = `/data?id=1&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&isError=<%=isError%>&error=<%=error%>`;
+                }
+                function moveLast() {
+    
+                    
+                    
+    
+                    pageNo.innerHTML = "<%=pages%>";
+                    window.location = `/data?id=<%=pages%>&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&isError=<%=isError%>&error=<%=error%>`;
+                }
+                function increment() {
+                    let pages = "<%=pages%>";
+                    if (parseInt(pageNo.innerHTML) < parseInt(pages)) {
+                        pageNo.innerHTML = parseInt(pageNo.innerHTML) + 1;
+                        inc.href = `/data?id=${pageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&isError=<%=isError%>&error=<%=error%>`;
+                    }
+                }
+                function decrement() {
+                    if (parseInt(pageNo.innerHTML) > 1) {
+                        console.log("true");
+                        pageNo.innerHTML = parseInt(pageNo.innerHTML) - 1;
+                        dec.href = `/data?id=${pageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&isError=<%=isError%>&error=<%=error%>`;
+                    }
+                }
+    
+            </script>
+            <%}%>
+    </body>
+</html>
