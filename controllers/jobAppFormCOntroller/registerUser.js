@@ -1,0 +1,503 @@
+const { insertEduDetail, insertLangDetail, insertTechDetail } = require("../../models/jobAppFormSql/insertJobApp");
+const { selectQuery } = require("../../models/studentReportSql");
+
+const registerUser = async (req, res) => {
+    console.log("form is submitted");
+    console.log(req.body);
+    let fname = req.body.fname;
+    let lname = req.body.lname;
+    let design = req.body.design;
+    let email = req.body.email;
+    let add1 = req.body.add1;
+    let add2 = req.body.add2;
+    let state = req.body.state;
+    let city = req.body.city;
+    let gender = req.body.gender;
+    let zipcode = req.body.zipcode;
+    let phone = req.body.phone;
+    let relation = req.body.relation;
+    let ssc_boardname = req.body.ssc_boardname;
+    let ssc_sname = req.body.ssc_sname;
+    let ssc_pyear = req.body.ssc_pyear;
+    let ssc_percent = req.body.ssc_percent;
+    let hsc_boardname = req.body.hsc_boardname;
+    let hsc_sname = req.body.hsc_sname;
+    let hsc_pyear = req.body.hsc_pyear;
+    let hsc_percent = req.body.hsc_percent;
+    let d_boardname = req.body.d_boardname;
+    let d_sname = req.body.d_sname;
+    let d_pyear = req.body.d_pyear;
+    let d_percent = req.body.d_percent;
+    let m_boardname = req.body.m_boardname;
+    let m_sname = req.body.m_sname;
+    let m_pyear = req.body.m_pyear;
+    let m_percent = req.body.m_percent;
+    let lang = req.body.lang;
+    let lhskill = req.body.lhskill;
+    let leskill = req.body.leskill;
+    let lgskill = req.body.lgskill;
+    let tech = req.body.tech;
+    let tpskill = req.body.tpskill;
+    let tjskill = req.body.tjskill;
+    let toskill = req.body.toskill;
+    let e_ctc = req.body.e_ctc;
+    let c_ctc = req.body.c_ctc;
+    let n_period = req.body.n_period;
+    let location = req.body.location;
+    let cname = req.body.cname;
+    let pos = req.body.pos;
+    let from = req.body.from;
+    let to = req.body.to;
+    let ename = req.body.ename;
+    let edesign = req.body.edesign;
+    let erelation = req.body.erelation;
+    if (cname != undefined) {
+        console.log(cname);
+    }
+    if (pos != undefined) {
+        console.log(pos);
+    }
+    if (from != undefined) {
+        console.log(from);
+    }
+    if (to != undefined) {
+        console.log(to);
+    }
+    console.log("ename");
+    console.log(ename);
+    console.log("edesign");
+    console.log(edesign);
+    console.log("erelation");
+    console.log(erelation);
+    let eduObj = [];
+    eduObj.push(["ssc", ssc_pyear, ssc_percent, ssc_boardname, ssc_sname]);
+    eduObj.push(["hsc", hsc_pyear, hsc_percent, hsc_boardname, hsc_sname]);
+    if (d_boardname != "" && d_percent != "" && d_pyear != "" && d_sname != "") {
+        eduObj.push(["degree", d_pyear, d_percent, d_boardname, d_sname]);
+    }
+    if (m_boardname != "" && m_percent != "" && m_pyear != "" && m_sname != "") {
+        eduObj.push(["master", m_pyear, m_percent, m_boardname, m_sname]);
+    }
+    console.log(eduObj);
+    let dataObj = new Object();
+    dataObj.fname = fname;
+    dataObj.lname = lname;
+    dataObj.design = design;
+    dataObj.email = email;
+    dataObj.add1 = add1;
+    dataObj.add2 = add2;
+    dataObj.state = state;
+    dataObj.city = city;
+    dataObj.zipcode = zipcode;
+    dataObj.phone = phone;
+    dataObj.ssc_boardname = ssc_boardname;
+    dataObj.ssc_sname = ssc_sname;
+    dataObj.ssc_pyear = ssc_pyear;
+    dataObj.ssc_percent = ssc_percent;
+    dataObj.hsc_boardname = hsc_boardname;
+    dataObj.hsc_sname = hsc_sname;
+    dataObj.hsc_pyear = hsc_pyear;
+    dataObj.hsc_percent = hsc_percent;
+    dataObj.d_boardname = d_boardname;
+    dataObj.d_sname = d_sname;
+    dataObj.d_pyear = d_pyear;
+    dataObj.d_percent = d_percent;
+    dataObj.m_boardname = m_boardname;
+    dataObj.m_sname = m_sname;
+    dataObj.m_pyear = m_pyear;
+    dataObj.m_percent = m_percent;
+    dataObj.e_ctc = e_ctc;
+    dataObj.c_ctc = c_ctc;
+    dataObj.n_period = n_period;
+    dataObj.lang = lang;
+    dataObj.lhskill = lhskill;
+    dataObj.leskill = leskill;
+    dataObj.lgskill = lgskill;
+    dataObj.tech = tech;
+    dataObj.tpskill = tpskill;
+    dataObj.tjskill = tjskill;
+    dataObj.toskill = toskill;
+    let errorFlag = 0;
+    let namePtn = /[a-zA-Z]/;
+    let phonePtn = /[0-9]{10}/;
+    let emailPtn = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let charPattern = /[0-9]/;
+    let percentPtn = /^(\d{1,2}\.\d{1,2})$/;
+    let yearPtn = /^(\d{1,2}\-\d{1,2}\-\d{4})$/;
+    let ctcPtn = /^(\d{1,2}\.\d{1,2})$/;
+    let period = /^[0-9]{2}$/;
+    const errorObj = new Object();
+    if (lang != undefined) {
+        if (typeof lang != 'string') {
+            if (lang.length != 0) {
+                lang.forEach((element) => {
+                    if (element == "hindi") {
+                        if (lhskill.length == 0) {
+                            errorObj.lang = "please select atleast one option for language hindi";
+                            errorFlag++;
+                        }
+                    }
+                    else if (element == "english") {
+                        if (leskill.length == 0) {
+                            errorObj.lang = "please select atleast one option for language english";
+                            errorFlag++;
+                        }
+                    }
+                    else {
+                        if (lgskill.length == 0) {
+                            errorObj.lang = "please select atleast one option for language guajrati";
+                            errorFlag++;
+                        }
+                    }
+                });
+            }
+            else {
+                errorObj.lang = "";
+            }
+        }
+        else {
+            if (lang == "hindi") {
+                if (lhskill == undefined) {
+                    errorObj.lang = "please select atleast one option for language english";
+                    errorFlag++;
+                }
+
+            }
+            else if (lang == "english") {
+                if (leskill == undefined) {
+                    errorObj.lang = "please select atleast one option for language english";
+                    errorFlag++;
+                }
+
+            }
+            else {
+                if (lgskill == undefined) {
+                    errorObj.lang = "please select atleast one option for language gujarati";
+                    errorFlag++;
+                }
+            }
+        }
+    }
+    if (tech != undefined) {
+        if (typeof tech != 'string') {
+            if (tech.length != 0) {
+                tech.forEach((element) => {
+                    if (element == "php") {
+                        if (tpskill == undefined) {
+                            errorObj.tech = "please select your skill level in php";
+                            errorFlag++;
+                        }
+                    }
+                    else if (element == "Java") {
+                        if (tjskill == undefined) {
+                            errorObj.tech = "please select your skill level in java";
+                            errorFlag++;
+                        }
+                    }
+                    else {
+                        if (toskill == undefined) {
+                            errorObj.tech = "please select your skill level in oracle";
+                            errorFlag++;
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            if (tech == "php") {
+                if (tpskill == undefined) {
+                    errorObj.tech = "please select your skill level in php";
+                    errorFlag++;
+                }
+            }
+            else if (tech == undefined) {
+                if (tjskill == "") {
+                    errorObj.tech = "please select your skill level in java";
+                    errorFlag++;
+                }
+            }
+            else {
+                if (toskill == undefined) {
+                    errorObj.tech = "please select your skill level in oracle";
+                    errorFlag++;
+                }
+            }
+        }
+    }
+    if (fname == "") {
+        errorObj.fname = "please enter your first name";
+        errorFlag++;
+    }
+    else if (!namePtn.test(fname)) {
+        errorObj.fname = "your name should only contain characters";
+        errorFlag++;
+    }
+    else {
+        errorObj.fname = "";
+    }
+    if (lname == "") {
+        errorObj.lname = "please enter your last name";
+        errorFlag++;
+    }
+    else if (!namePtn.test(lname)) {
+        errorObj.lname = "your name should only contain characters";
+        errorFlag++;
+    }
+    else {
+        errorObj.lname = "";
+    }
+    if (design == "") {
+        errorObj.design = "please enter your designation";
+        errorFlag++;
+    }
+    else {
+        errorObj.design = "";
+    }
+    if (add1 == "") {
+        errorObj.add1 = "please enter your address";
+        errorFlag++;
+    }
+    else {
+        errorObj.add1 = "";
+    }
+    if (email == "") {
+        errorObj.email = "please enter your email";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.email = "";
+    }
+    if (state == "") {
+        errorObj.state = "Please enter your state name";
+        errorFlag++;
+    }
+    else if (charPattern.test(state)) {
+        errorObj.state = "digits are not allowed";
+        errorFlag++;
+    }
+    else {
+        errorObj.state = "";
+    }
+    if (city == "") {
+        errorObj.city = "please enter your city name";
+        errorFlag++;
+    }
+    else if (charPattern.test(city)) {
+        errorObj.city = "only characters are allowed";
+        errorFlag++;
+    }
+    else {
+        errorObj.city = "";
+    }
+    if (zipcode == "") {
+        errorObj.zipcode = "please enter your zipcode";
+        errorFlag++;
+    }
+    if (phone == "") {
+        errorObj.phone = "please enter your phone number";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.phone = "";
+    }
+    if (ssc_boardname == "") {
+        errorObj.ssc_boardname = "please enter your ssc course name";
+        errorFlag++;
+    }
+    else if (charPattern.test(ssc_boardname)) {
+        errorObj.ssc_boardname = "digits are not allowed";
+        errorFlag++;
+    }
+    else {
+        errorObj.ssc_boardname = "";
+    }
+    if (ssc_percent == "") {
+        errorObj.ssc_percent = "please enter your ssc percent";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.ssc_percent = "";
+    }
+    if (ssc_sname == "") {
+        errorObj.ssc_sname = "please enter your school name";
+        errorFlag++;
+    }
+    else if (charPattern.test(ssc_sname)) {
+        errorObj.ssc_sname = "digits are not allowed";
+        errorFlag++;
+    }
+    else {
+        errorObj.ssc_sname = "";
+    }
+    if (ssc_pyear == "") {
+        errorObj.ssc_pyear = "please enter your passing year";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.ssc_pyear = "";
+    }
+    if (hsc_boardname == "") {
+        errorObj.hsc_boardname = "please enter your course name";
+        errorFlag++;
+    }
+    else if (charPattern.test(hsc_boardname)) {
+        errorObj.hsc_boardname = "digits are not allowed";
+        errorFlag++;
+    }
+    else {
+        errorObj.hsc_boardname = "";
+    }
+    if (hsc_percent == "") {
+        errorObj.hsc_percent = "please enter your percentage";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.hsc_percent = "";
+    }
+    if (hsc_pyear == "") {
+        errorObj.hsc_pyear = "please enter your passing year";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.hsc_pyear = "";
+    }
+    if (hsc_sname == "") {
+        errorObj.hsc_sname = "please enter your school name";
+        errorFlag++;
+    }
+    else if (charPattern.test(hsc_sname)) {
+        errorObj.hsc_sname = "digits are not allowed";
+        errorFlag++;
+    }
+    else {
+        errorObj.hsc_sname = "";
+    }
+    if (e_ctc == "") {
+        errorObj.e_ctc = "please enter your expected ctc";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.e_ctc = "";
+    }
+    if (c_ctc == "") {
+        errorObj.c_ctc = "please enter your current ctc";
+    }
+
+    else {
+        errorObj.c_ctc = "";
+    }
+    if (n_period == "") {
+        errorObj.n_period = "please enter notice period";
+        errorFlag++;
+    }
+
+    else {
+        errorObj.n_period = "";
+    }
+    for (let i = 0; i < cname.length; i++) {
+        if (cname[i] != "") {
+            if (pos[i] == "" && from[i] == "" && to[i] == "") {
+                errorObj.experience = "please fill all fields of experience";
+                errorFlag++;
+            }
+        }
+        if (pos[i] != "") {
+            if (cname[i] == "" && from[i] == "" && to[i] == "") {
+                errorObj.experience = "please fill all fields of experience";
+                errorFlag++;
+            }
+        }
+        if (from[i] != "") {
+            if (cname[i] == "" && pos[i] == "" && to[i] == "") {
+                errorObj.experience = "please fill all fields of experience";
+                errorFlag++;
+            }
+        }
+        if (to[i] != "") {
+            if (cname[i] == "" && pos[i] == "" && from[i] == "") {
+                errorObj.experience = "please fill all fields of experience";
+                errorFlag++;
+            }
+        }
+    }
+    for (let i = 0; i < ename.length; i++) {
+        if (ename[i] != "") {
+            if (edesign[i] == "" && erelation[i] == "") {
+                errorObj.ref = "please fill all fields of experience";
+            }
+        }
+        if (edesign[i] != "") {
+            if (ename[i] == "" && erelation[i] == "") {
+                errorObj.ref = "please fill all fields of experience";
+            }
+        }
+        if (erelation[i] != "") {
+            if (edesign[i] == "" && ename[i] == "") {
+                errorObj.ref = "please fill all fields of experience";
+            }
+        }
+    }
+    if (errorFlag != 0) {
+        console.log(errorFlag);
+        res.render('job_app_form_view/index', { dataObj: dataObj, errorObj: errorObj, isError: true, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
+    }
+    else {
+        let query = `insert into Candidate_Details (first_name, last_name, design, current_addreess, permanent_address,email,phone,city,state,gender,zip_code,relationship_status) values ("${fname}","${lname}","${design}",
+        "${add1}","${add2}","${email}","${phone}","${city}","${state}","${gender}","${zipcode}","${relation}")`;
+        let result = await selectQuery(query);
+        if (result.length > 0) {
+            let user_id = result.insertId;
+            let query1 = `insert into preference(candidate_id,prefered_location,notice_period,department,current_ctc,expected_ctc) values (${user_id},"${location}","${n_period}","${design}",${c_ctc},${e_ctc});`;
+            let insertPrefResult = await selectQuery(query1);
+            if (insertPrefResult.length > 0) {
+                console.log("successfully inserted pref details");
+            }
+            let insertEduResult = await insertEduDetail(eduObj);
+            if (insertEduResult.length > 0) {
+                console.log("successfully inserted edu details");
+            }
+            if (cname != undefined && pos != undefined && from != undefined && to != undefined) {
+                for (let i = 0; i < cname.length; i++) {
+                    if (cname[i] != '' && pos[i] != '' && from[i] != '' && to[i] != '') {
+                        let query13 = `insert into expreience (candidate_id,company_name,design,worked_from,worked_till) values(${user_id},"${cname[i]}","${pos[i]}","${from[i]}","${to[i]}");`;
+                        let insertExpResult = await selectQuery(query13);
+                        if (insertExpResult.length > 0) {
+                            console.log("successfully inseted exp details");
+                        }
+                    }
+                }
+            }
+
+            if (ename != undefined && edesign != undefined && erelation != undefined) {
+                for (let i = 0; i < ename.length; i++) {
+                    if (ename[i] != '' && edesign != '' && erelation != '') {
+                        let query14 = `insert into e_reference(candidate_id, e_name, e_design, e_relation) values(${user_id},"${ename[i]}","${edesign[i]}","${erelation[i]}");`;
+                        let insertRefResult = await selectQuery(query14);
+                        if (insertRefResult.length > 0) {
+                            console.log("successfully inserted rweference details");
+                        }
+                    }
+                }
+            }
+
+            let insertLangResult = await insertLangDetail(lang, lhskill, leskill, lgskill);
+            console.log(insertLangResult);
+
+            let insertTechResult = await insertTechDetail(tech, tpskill, tjskill, toskill);
+            console.log(insertTechResult);
+        }
+
+        res.render('job_app_form_view/index', { dataObj: "", errorObj: "", isError: false, isUpdate: false, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
+        res.end();
+    }
+
+}
+
+module.exports = { registerUser };

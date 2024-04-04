@@ -1,6 +1,5 @@
 const conn = require("./mysql.js");
 const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 
 const component = function (name, type) {
     return promise = new Promise((resolve, reject) => {

@@ -125,7 +125,7 @@ const updateExpDetails = (expObj) => {
         })
     });
 }
-const insertPref = (obj) => {
+const insertPrefDetails = (obj) => {
     let userId = obj.userId;
     let location = obj.location;
     let c_ctc = obj.c_ctc;
@@ -141,7 +141,7 @@ const insertPref = (obj) => {
     })
 
 }
-const updatePref = (obj) => {
+const updatePrefDetails = (obj) => {
     let userId = obj.userId;
     let location = obj.location;
     let c_ctc = obj.c_ctc;
@@ -156,8 +156,61 @@ const updatePref = (obj) => {
         });
     })
 }
+
+const insertRefDetails = async (obj) => {
+    let userId = obj.userId;
+    let ename = obj.ename;
+    let edesign = obj.edesign;
+    let erelation = obj.erelation;
+    return promise = new Promise((resolve, reject) => {
+        let query = `insert into e_reference(candidate_id, e_name, e_design, e_relation) values(${userId},"${ename}","${edesign}","${erelation}");`;
+        conn.query(query, (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+
+        });
+    })
+}
+const updateRefDetails = async (obj) => {
+    let userId = obj.userId;
+    let ename = obj.ename;
+    let edesign = obj.edesign;
+    let erelation = obj.erelation;
+    return promise = new Promise((resolve, reject) => {
+        let query = `update e_reference set e_name="${ename}",e_design="${edesign}", e_relation="${erelation}" where candidate_id=${userId};`;
+        conn.query(query, (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+            console.log("reference data updated successfully");
+        });
+    })
+}
+const updateCandidate = async (obj) => {
+    let id = obj.id;
+    let fname = obj.fname;
+    let lname = obj.lname;
+    let design = obj.design;
+    let state = obj.state;
+    let city = obj.city;
+    let gender = obj.gender;
+    let contact = obj.contact;
+    let add1 = obj.add1;
+    let add2 = obj.add2;
+    let relation = obj.relation;
+    let email = obj.email;
+    let zipcode = obj.zipcode;
+    return promise = new Promise((resolve, reject) => {
+        let query = `update Candidate_Details set first_name="${fname}", last_name="${lname}", design="${design}", current_addreess="${add1}", permanent_address="${add2}", email="${email}", phone="${contact}", city="${city}" , state="${state}", gender="${gender}", zip_code="${zipcode}", relationship_status="${relation}" where candidate_id=${id};`;
+        conn.query(query, (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+
+        })
+    })
+
+}
 module.exports = {
     insertCandidateDetails, insertEducationDetails, updateEducationDetails, insertLanguageDetails,
     updateLanguageDetails, insertTechDetails, updateTechDetails, insertExpDetails, updateExpDetails,
-    insertPref, updatePref
+    insertPrefDetails, updatePrefDetails, insertRefDetails, updateRefDetails, updateCandidate
 };
