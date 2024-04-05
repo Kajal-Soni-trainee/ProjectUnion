@@ -18,14 +18,11 @@ router.get('/ref_detail', refDetails);
 router.get('/pref_detail_pre', prefDetailPrev);
 router.get('/exp_detail_prev', expDetailPrev);
 router.get('/tech_detail_prev', techDetailPrev);
-router.get('/langDetailPrev', langDetailPrev);
+router.get('/lang_detail_Prev', langDetailPrev);
 router.get('/edu_detail_prev', eduDetailPrev);
 router.get('/can_detail_prev', canDetailPrev);
 router.get('/update_link', updateLink);
 router.get('/ajax_form_list', usersList);
 router.get('/update_candidate', updateCandidateDetails);
 
-app.get('/update_candidate', (req, res) => {
-  
-});
 module.exports = router;

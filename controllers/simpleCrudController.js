@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
     }
 
     else {
-        let result = await insertStudentDetails(obj);
+        let result = await insertStudentDetails(req.body);
         if (result) {
             res.render('simple_crud/index', { error: "", dataObj: "", isError: false });
             res.end();
@@ -79,7 +79,8 @@ const updateUser = async (req, res) => {
 
     let result1 = await updateUserSql(req.body);
     if (result1) {
-        let result = findById('student_detail', 'student_id', id);
+        let result = await findById('student_detail', 'student_id', id);
+        console.log(result);
         if (result.length > 0) {
             res.render('simple_crud/details', { obj: result });
             res.end();
@@ -91,10 +92,15 @@ const deleteUser = async (req, res) => {
     let id = req.query.id;
     console.log(req.session.user[id] + "loggedin");
     if (req.session.user.id == id) {
-        let result = await deleteById('student_detail', 'student_id', id);
-        if (result) {
+        let result1 = await deleteById('student_detail', 'student_id', id);
+        if (result1) {
             console.log("data successfully deleted");
+            req.session.destroy();
+            res.render('simple_crud/index', { error: "", dataObj: "", isError: false });
+            res.end();
         }
+
+
     }
     else {
         res.send("you cannot delete data of other user");

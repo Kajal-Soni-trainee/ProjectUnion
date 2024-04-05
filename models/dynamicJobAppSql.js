@@ -2,7 +2,7 @@ const conn = require('../mysql');
 
 const insertCandidateDetails = async (obj) => {
     let fname = obj.fname;
-    let lname = objlname;
+    let lname = obj.lname;
     let design = obj.design;
     let state = obj.state;
     let city = obj.city;
@@ -23,106 +23,120 @@ const insertCandidateDetails = async (obj) => {
         });
     })
 }
-const insertEducationDetails = async (eduObj) => {
-    eduObj.forEach((element) => {
-        return promise = new Promise((resolve, reject) => {
+const insertEducationDetails = async (eduObj, userId) => {
+
+    return promise = new Promise((resolve, reject) => {
+        eduObj.forEach((element) => {
             let query = `insert into edu_master (candidate_id, course_type, passing_year, percent,course_name,school_name) values(${userId},"${element[0]}","${element[1]}",${element[2]},"${element[3]}","${element[4]}")`;
             conn.query(query, (err, result) => {
                 if (err) reject(err);
-                resolve(err);
+                console.log(result);
             });
         });
+        resolve("success");
     });
+
 }
-const updateEducationDetails = async (eduObj) => {
-    eduObj.forEach((element) => {
-        return promise = new Promise((resolve, reject) => {
+const updateEducationDetails = async (eduObj, userId) => {
+
+    return promise = new Promise((resolve, reject) => {
+        eduObj.forEach((element) => {
             let query = `update edu_master set course_name="${element[3]}", school_name="${element[4]}",passing_year="${element[1]}", percent=${element[2]} where candidate_id=${userId} and course_type="${element[0]}";`;
             conn.query(query, (err, result) => {
                 if (err) reject(err);
-                resolve(result);
+                console.log(result);
             });
         })
+        resolve("success");
     })
 }
 
-const insertLanguageDetails = (langObj) => {
-    for (let [key, value] of Object.entries(langObj)) {
-        value.forEach((element) => {
-            return promise = new Promise((resolve, reject) => {
+const insertLanguageDetails = (langObj, userId) => {
+    return promise = new Promise((resolve, reject) => {
+        for (let [key, value] of Object.entries(langObj)) {
+            value.forEach((element) => {
                 let query = `insert into language_details (candidate_id, language, lang_skill) values (${userId},"${key}","${element}");`;
                 conn.query(query, (err, result) => {
                     if (err) reject(err);
-                    resolve(result);
+                    console.log(result);
                 });
             })
-
-        })
-    }
+        }
+        resolve("success");
+    });
 }
 
-const updateLanguageDetails = (langObj) => {
-    for (let [key, value] of Object.entries(langObj)) {
-        value.forEach((element) => {
-            return promise = new Promise((resolve, reject) => {
+const updateLanguageDetails = (langObj, userId) => {
+    return promise = new Promise((resolve, reject) => {
+        for (let [key, value] of Object.entries(langObj)) {
+            value.forEach((element) => {
                 let query = `update language_details set language="${key}", lang_skill="${element}" where candidate_id=${userId};`;
                 conn.query(query, (err, result) => {
                     if (err) reject(err);
-                    resolve(result);
+                    console.log(result);
                 });
             });
-
-        })
-    }
+        }
+        resolve(result);
+    })
 }
 
-const insertTechDetails = async (techObj) => {
-    for (let [key, value] of Object.entries(techObj)) {
-        return promise = new Promise((resolve, reject) => {
+
+const insertTechDetails = async (techObj, userId) => {
+    return promise = new Promise((resolve, reject) => {
+        for (let [key, value] of Object.entries(techObj)) {
             let query = `insert into tech_details (candidate_id, tech, tech_skill) values(${userId},"${key}","${value}");`;
             conn.query(query, (err, result) => {
                 if (err) reject(err);
-                resolve(result);
+                console.log(result);
             })
-        })
+        }
+        resolve("success");
+    })
 
-    }
+
 }
 
-const updateTechDetails = async (techObj) => {
-    for (let [key, value] of Object.entries(techObj)) {
-        return promise = new Promise((resolve, reject) => {
+const updateTechDetails = async (techObj, userId) => {
+    return promise = new Promise((resolve, reject) => {
+        for (let [key, value] of Object.entries(techObj)) {
+
             let query = `update tech_details set tech="${key}", tech_skill="${value}" where candidate_id=${userId};`;
             conn.query(query, (err, result) => {
                 if (err) reject(err);
-                resolve(result);
+                console.log(result);
             });
-        })
+        }
+        resolve("succeess");
+    })
 
-    }
 }
-const insertExpDetails = (expObj) => {
-    expObj.forEach((element) => {
-        return promise = new Promise((resolve, reject) => {
+
+const insertExpDetails = (expObj, userId) => {
+
+    return promise = new Promise((resolve, reject) => {
+        expObj.forEach((element) => {
             let query = `insert into expreience (candidate_id,company_name,design,worked_from,worked_till) values(${userId},"${element[0]}}","${element[1]}","${element[2]}","${element[3]}");`;
             conn.query(query, (err, result) => {
                 if (err) reject(err);
-                resolve(result);
                 console.log("inserted successfully");
             });
         })
+        resolve("success");
     });
 }
-const updateExpDetails = (expObj) => {
-    expObj.forEach((element) => {
-        return promise = new Promise((resolve, reject) => {
+const updateExpDetails = (expObj, userId) => {
+    return promise = new Promise((resolve, reject) => {
+        expObj.forEach((element) => {
+
             let query = `update expreience set company_name="${element[0]}", design="${element[1]}", worked_from="${element[2]}", worked_till="${element[3]}" where candidate_id=${userId};`;
             conn.query(query, (err, result) => {
                 if (err) reject(err);
-                resolve(result);
+                console.log(result);
                 console.log("updated successfully");
             });
-        })
+        });
+        resolve("success");
     });
 }
 const insertPrefDetails = (obj) => {
@@ -149,7 +163,7 @@ const updatePrefDetails = (obj) => {
     let n_period = obj.n_period;
     let design = 'jr developer';
     return promise = new Promise((resolve, reject) => {
-        let query = `update preference set prefered_location="${location}", notice_period="${n_period}",department="${design}", current_ctc=${c_ctc} , expected_ctc=${e_ctc};`;
+        let query = `update preference set prefered_location="${location}", notice_period="${n_period}",department="${design}", current_ctc=${c_ctc} , expected_ctc=${e_ctc} where candidate_id=${userId};`;
         conn.query(query, (err, result) => {
             if (err) reject(err);
             resolve(result);

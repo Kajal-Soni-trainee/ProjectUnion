@@ -1,56 +1,70 @@
 <html>
-    <head>
-        <style>
-            table,tr,th,td{
-                border:2px solid black;
-                border-collapse: collapse;
-            }
-            table{
-                width:80%;
-                text-align: center;
-            }
-            .container{
-                display:flex;
-                flex-direction:column;
-                justify-content: center;
-                align-items: center;
-                gap:50px;
-            }
-            th,td{
-                padding:10px;
-                font-size: 30px;
-            }
-            th{
-                background-color: aquamarine;
-            }
-            td{
-                background-color: rgb(160, 199, 186);
-            }
-            button{
-                padding:10px;
-                font-size: 15px;
-            }
-           td button a{
-                text-decoration: none;
-                color:white;
-            }
-            td button{
-                background-color: darkcyan;
-                border:2px solid  rgb(0, 10, 10);
-                border-radius: 5px;
-                font-size:20px;
-                padding:10px;
-                
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1 style="color:rgb(7, 43, 31); font-size: 50px;">Kajal Soni</h1>
-            <h1>Students Anual Report</h1>
-            
-            <table>
-             <tr>
+
+<head>
+    <style>
+        table,
+        tr,
+        th,
+        td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+
+        table {
+            width: 80%;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            font-size: 30px;
+        }
+
+        th {
+            background-color: aquamarine;
+        }
+
+        td {
+            background-color: rgb(160, 199, 186);
+        }
+
+        button {
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        td button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        td button {
+            background-color: darkcyan;
+            border: 2px solid rgb(0, 10, 10);
+            border-radius: 5px;
+            font-size: 20px;
+            padding: 10px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="color:rgb(7, 43, 31); font-size: 50px;">Kajal Soni</h1>
+        <h1>Students Anual Report</h1>
+
+        <table>
+            <tr>
                 <th rowspan="2">Student Id</th>
                 <th rowspan="2">Student Name</th>
                 <th colspan="2">Prilims</th>
@@ -59,8 +73,8 @@
                 <th colspan="2">Total</th>
                 <th rowspan="2">View Report</th>
                 <th rowspan="2">View Attendence</th>
-             </tr>
-             <tr>
+            </tr>
+            <tr>
                 <td>Practical</td>
                 <td>Theroy</td>
                 <td>Practical</td>
@@ -69,67 +83,92 @@
                 <td>Theroy</td>
                 <td>Practical</td>
                 <td>Theroy</td>
-                
-             </tr>
+
+            </tr>
             <%data.forEach((item)=>{%>
                 <tr>
-                    <td><%=item.student_id%></td>
-                    <td><%=item.student_name%></td>
-                    <td><%=item.pre_prac%></td>
-                    <td><%=item.pre_theory%></td>
-                    <td><%=item.mains_prac%></td>
-                    <td><%=item.mains_theory%></td>
-                    <td><%=item.final_prac%></td>
-                    <td><%=item.final_theory%></td>
-                    <td><%=item.total_prac%></td>
-                    <td><%=item.total_theory%></td>
+                    <td>
+                        <%=item.student_id%>
+                    </td>
+                    <td>
+                        <%=item.student_name%>
+                    </td>
+                    <td>
+                        <%=item.pre_prac%>
+                    </td>
+                    <td>
+                        <%=item.pre_theory%>
+                    </td>
+                    <td>
+                        <%=item.mains_prac%>
+                    </td>
+                    <td>
+                        <%=item.mains_theory%>
+                    </td>
+                    <td>
+                        <%=item.final_prac%>
+                    </td>
+                    <td>
+                        <%=item.final_theory%>
+                    </td>
+                    <td>
+                        <%=item.total_prac%>
+                    </td>
+                    <td>
+                        <%=item.total_theory%>
+                    </td>
                     <td><button><a id="view" href="/detail?s_id=<%=item.student_id%>">Report</a></button></td>
                     <td><button><a id="view" href="/attend?s_id=<%=item.student_id%>">Attendence</a></button></td>
                 </tr>
-            <%});%>
-            </table>
-            <div class="pagination">
-                <a id="disf"><button><<</button></a>
-                <a id="movel"><button><</button></a>
-                <a id="page"><%=id%></a>
-                <a id="mover"><button>></button></a>
-                <a id="disl"><button>>></button></a>
-                </div>
+                <%});%>
+        </table>
+        <div class="pagination">
+            <a id="disf"><button>
+                    << </button></a>
+            <a id="movel"><button>
+                    < </button></a>
+            <a id="page">
+                <%=id%>
+            </a>
+            <a id="mover"><button>></button></a>
+            <a id="disl"><button>>></button></a>
         </div>
-    
+    </div>
+
     <script>
-            const disf= document.getElementById("disf");
-            const disl=document.getElementById("disl");
-            const movel=document.getElementById("movel");
-            const mover=document.getElementById("mover");
-            const page =document.getElementById("page");
-            disf.addEventListener('click',displayFirst);
-            disl.addEventListener("click",displayLast);
-            movel.addEventListener("click",decrement);
-            mover.addEventListener("click",increment);
-            
-            function displayFirst(){
-                console.log("dispaly first")
-                page.innerHTML=1;
-                disf.href=`report/?id=${page.innerHTML}`;
+        const disf = document.getElementById("disf");
+        const disl = document.getElementById("disl");
+        const movel = document.getElementById("movel");
+        const mover = document.getElementById("mover");
+        const page = document.getElementById("page");
+        disf.addEventListener('click', displayFirst);
+        disl.addEventListener("click", displayLast);
+        movel.addEventListener("click", decrement);
+        mover.addEventListener("click", increment);
+
+        function displayFirst() {
+            console.log("dispaly first")
+            page.innerHTML = 1;
+            disf.href = `http://localhost:8080/report/?id=${page.innerHTML}`;
+        }
+        function displayLast() {
+            page.innerHTML = 10;
+            disl.href = `http://localhost:8080/report/?id=${page.innerHTML}`;
+        }
+        function increment() {
+            if (parseInt(page.innerHTML) < 10) {
+                page.innerHTML = parseInt(page.innerHTML) + 1;
+                mover.href = `http://localhost:8080/report/?id=${page.innerHTML}`;
             }
-            function displayLast(){
-                page.innerHTML=10;
-                disl.href=`report/?id=${page.innerHTML}`;
+        }
+        function decrement() {
+            if (parseInt(page.innerHTML) > 1) {
+                page.innerHTML = parseInt(page.innerHTML) - 1;
+                movel.href = `http://localhost:8080/report/?id=${page.innerHTML}`;
             }
-            function increment(){
-                if(parseInt(page.innerHTML)<10){
-                page.innerHTML=parseInt(page.innerHTML)+1;
-                mover.href=`report/?id=${page.innerHTML}`;
-                }
-            }
-            function decrement(){
-                if(parseInt(page.innerHTML)>1){
-                    page.innerHTML=parseInt(page.innerHTML)-1;
-                movel.href=`report/?id=${page.innerHTML}`;
-                } 
-            }
+        }
 
     </script>
-    </body>
+</body>
+
 </html>

@@ -1,6 +1,6 @@
 const { component } = require("../models/dynamicComponents");
-
-const express = require(express);
+const conn = require('../mysql');
+const express = require('express');
 const router = express.Router();
 
 router.get('/dynamic_components', (req, res) => {

@@ -19,7 +19,8 @@ const functions_df = require('./Projects/dynamic_form_creation/middleware.js');
 const { PORT } = process.env;
 console.log(PORT);
 app.set("view engine", "ejs");
-
+let filename = path.join(__dirname, 'views/dynamic_job_form_views');
+module.exports = filename;
 const router = require('./routes/loginSystemRoute.js');
 const ticTacToeRoute = require('./routes/ticTacToeRoute.js');
 const kukuCubeRouter = require('./routes/kukuCubeRoute.js');
@@ -51,4 +52,5 @@ app.use('/', dynamicCubeRouter);
 app.use('/', paginationRouter);
 app.use('/', studentReportRouter);
 app.use('/', jobAppFormRouter);
+
 app.listen(8080);

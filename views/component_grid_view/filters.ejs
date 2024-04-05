@@ -1,40 +1,38 @@
-<% let keys = Object.keys(result[0])
-let s_id= keys[0];
- %>
-<div class="all_filters">
-    <div class="id_filter">
-        <form method="post" action="/id">
-            <label for="s_id">Enter your id</label><input type="text" id="<%=s_id%>1"
-                name="<%=s_id%>" />
-                <input type="hidden" name="query" value="<%=query%>"/>
-              
-            <input type="submit" value="go" />
-        </form>
-    </div>
-    <button onclick="addFilter()">show filters</button>
-    <div style="visibility: collapse;" class="filters">
-        <form method="post" action="/">
-            <% let fields=Object.keys(result[0]);
-             for(let i=1; i<fields.length; i++){%>
-                <div class="item">
-                    <label>
-                        <%=fields[i]%>
-                    </label>
-                    <input type="text" id="<%=fields[i]%>1" name="<%=fields[i]%>" />
-                </div>
-                <%}%>
-                    <div class="item"><label>Select Mode </label>
-                        <select id="mode" name="mode">
-                            <option id="or" value="or">OR</option>
-                            <option id="and" value="and">AND</option>
-                        </select>
-                    </div>
-                    <div class="item">
-                        <input type="hidden" name="query" value="<%=query%>"/>
-                        <input type="hidden"  name="element" value="<%=element%>"/>
-                        <input type="hidden"  name="order" value="<%=order%>"/>
-                        <input type="submit" value="go" />
-                    </div>
-        </form>
-    </div>
-</div>
+<% let keys=Object.keys(result[0]); %>
+    <% let s_id=keys[0]; %>
+        <div class="all_filters">
+            <div class="id_filter">
+                <form method="post" action="/id">
+                    <label for="s_id">Enter your id</label>
+                    <input type="text" id="<%=s_id%>1" name="<%=s_id%>" />
+                    <input type="hidden" name="query" value="<%=query%>" />
+
+                    <input type="submit" value="go" />
+                </form>
+            </div>
+            <button onclick="addFilter()">show filters</button>
+            <div style="visibility: collapse;" class="filters">
+                <form method="post" action="/">
+                    <% let fields=Object.keys(result[0]); for(let i=1; i<fields.length; i++){%>
+                        <div class="item">
+                            <label>
+                                <%=fields[i]%>
+                            </label>
+                            <input type="text" id="<%=fields[i]%>1" name="<%=fields[i]%>" />
+                        </div>
+                        <%}%>
+                            <div class="item"><label>Select Mode </label>
+                                <select id="mode" name="mode">
+                                    <option id="or" value="or">OR</option>
+                                    <option id="and" value="and">AND</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <input type="hidden" name="query" value="<%=query%>" />
+                                <input type="hidden" name="element" value="<%=element%>" />
+                                <input type="hidden" name="order" value="<%=order%>" />
+                                <input type="submit" value="go" />
+                            </div>
+                </form>
+            </div>
+        </div>

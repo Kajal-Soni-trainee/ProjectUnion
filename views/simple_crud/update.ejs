@@ -11,12 +11,12 @@
         }
 
         .nav {
-            width:100%;
+            width: 100%;
             padding: 10px 5px;
-            display:flex;
+            display: flex;
             justify-content: center;
             align-items: center;
-            gap:500px;
+            gap: 500px;
             background-color: rgb(47, 70, 24);
         }
 
@@ -30,39 +30,44 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap:30px;
+            gap: 30px;
         }
-        .btn{
+
+        .btn {
             background-color: rgb(56, 122, 223);
-            color:white;
-            border:2px solid white;
-            padding:5px 10px;
+            color: white;
+            border: 2px solid white;
+            padding: 5px 10px;
             border-radius: 10px;
         }
-        a{
-            color:white;
+
+        a {
+            color: white;
             text-decoration: none;
         }
-        .hobby{
+
+        .hobby {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap:30px;
+            gap: 30px;
         }
-        .gender{
+
+        .gender {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap:30px;
+            gap: 30px;
         }
-        .item{
+
+        .item {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap:10px;
+            gap: 10px;
         }
     </style>
 </head>
@@ -74,32 +79,34 @@
                 <h2 style="color:white">Student Portal</h2>
             </div>
 
-            <div class="btns"><button class="btn" id="login"><a href="/login">Login</a></button>
-                <button class="btn" id="view"><a href="/list">View List</a></button>
+            <div class="btns"><button class="btn" id="login"><a href="http://localhost:8080/login">Login</a></button>
+                <button class="btn" id="view"><a href="http://localhost:8080/list">View List</a></button>
             </div>
         </div>
         <form action="/simple_crud_update" method="post">
             <table>
-                <caption><h4>Students Registration Form</h4></caption>
+                <caption>
+                    <h4>Students Registration Form</h4>
+                </caption>
                 <tr>
                     <td><label for="fname">First Name:</label></td>
                     <td><input type="text" id="fname" name="fname" value="<%=obj[0].fname%>" /></td>
                 </tr>
                 <tr>
                     <td><label for="lname">Last Name:</label></td>
-                    <td><input type="text" id="lname" name="lname"  value="<%=obj[0].lname%>"/></td>
+                    <td><input type="text" id="lname" name="lname" value="<%=obj[0].lname%>" /></td>
                 </tr>
                 <tr>
                     <td><label for="age">Age:</label></td>
-                    <td><input type="text" id="age" name="age"  value="<%=obj[0].age%>" /></td>
+                    <td><input type="text" id="age" name="age" value="<%=obj[0].age%>" /></td>
                 </tr>
                 <tr>
                     <td><label for="pass">Password:</label></td>
-                    <td><input type="text" id="pass" name="pass"  value="<%=obj[0].pass%>" /></td>
+                    <td><input type="text" id="pass" name="pass" value="<%=obj[0].pass%>" /></td>
                 </tr>
                 <tr>
                     <td><label for="con">Contact:</label></td>
-                    <td><input type="text" id="con" name="con"  value="<%=obj[0].contact%>"/> </td>
+                    <td><input type="text" id="con" name="con" value="<%=obj[0].contact%>" /> </td>
                 </tr>
                 <tr>
                     <td><label for="gender">Gender</label></td>
@@ -120,24 +127,25 @@
                     <td><label for="hobbies">Hobbies</label></td>
                     <td>
                         <div class="hobby">
-                            <div class="item"><input type="checkbox" id="singing" value="singing" name="hobbies" /><label
-                                    for="singing">Singing</label></div>
-                            <div class="item"><input type="checkbox" id="dancing" value="dancing" name="hobbies" /><label
-                                    for="dancing">Dancing</label></div>
-                            <div class="item"><input type="checkbox" id="swimming" value="swimming" name="hobbies" /><label
-                                    for="swimming">Swimming</label></div>
-                            <div class="item"><input type="checkbox" id="reading" value="reading "name="hobbies" /><label
-                                    for="reading">Reading</label></div>
+                            <div class="item"><input type="checkbox" id="singing" value="singing"
+                                    name="hobbies" /><label for="singing">Singing</label></div>
+                            <div class="item"><input type="checkbox" id="dancing" value="dancing"
+                                    name="hobbies" /><label for="dancing">Dancing</label></div>
+                            <div class="item"><input type="checkbox" id="swimming" value="swimming"
+                                    name="hobbies" /><label for="swimming">Swimming</label></div>
+                            <div class="item"><input type="checkbox" id="reading" value="reading "
+                                    name="hobbies" /><label for="reading">Reading</label></div>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="email">Email:</label></td>
-                    <td><input type="text" id="email" name="email"  value="<%=obj[0].email%>"/></td>
+                    <td><input type="text" id="email" name="email" value="<%=obj[0].email%>" /></td>
                 </tr>
                 <tr>
                     <td><label for="add">Address:</label></td>
-                    <td><input type="text" id="id" hidden name="id" value="<%=obj[0].student_id%>"/><textarea id="add" name="add"><%=obj[0].address%></textarea>
+                    <td><input type="text" id="id" hidden name="id" value="<%=obj[0].student_id%>" /><textarea id="add"
+                            name="add"><%=obj[0].address%></textarea>
                 </tr>
                 <tr>
                     <td style="text-align:center" colspan="2"><input type="submit" value="Submit" /></td>
@@ -145,28 +153,28 @@
             </table>
         </form>
     </div>
-    
-<script>
-var gender="<%=obj[0].gender%>"
-var hobby="<%=obj[0].hobby%>"
-console.log(gender);
-console.log(hobby);
-switch(gender){
-    case "male":
-        document.getElementById("male").checked=true;
-        break;
-    case "female":
-        document.getElementById("female").checked=true;
-        break;
-    case "others":
-        document.getElementById("others").checked=true;
-        break;
-}
-var hobbies = hobby.split(',');
-hobbies.forEach((item)=>{
-    document.getElementById(item).checked=true;
-})
-</script>
+
+    <script>
+        var gender = "<%=obj[0].gender%>"
+        var hobby = "<%=obj[0].hobby%>"
+        console.log(gender);
+        console.log(hobby);
+        switch (gender) {
+            case "male":
+                document.getElementById("male").checked = true;
+                break;
+            case "female":
+                document.getElementById("female").checked = true;
+                break;
+            case "others":
+                document.getElementById("others").checked = true;
+                break;
+        }
+        var hobbies = hobby.split(',');
+        hobbies.forEach((item) => {
+            document.getElementById(item).checked = true;
+        })
+    </script>
 </body>
 
 </html>

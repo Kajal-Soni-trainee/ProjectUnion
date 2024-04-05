@@ -9,8 +9,8 @@ async function fetch_Can_Details() {
         });
     })
 }
-s
-async function fetch_Edu_Detail() {
+
+async function fetch_Edu_Details() {
     return promise = new Promise((resolve, reject) => {
         let query = 'select * from edu_master;';
         conn.query(query, (err, result) => {
@@ -69,4 +69,4 @@ async function fetch_Tech_Details() {
     })
 }
 
-module.exports = { fetch_Can_Details, fetch_Edu_Detail, fetch_Exp_Details, fetch_Ref_Details, fetch_Pref_Details, fetch_Lang_Details, fetch_Tech_Details };
+module.exports = { fetch_Can_Details, fetch_Edu_Details, fetch_Exp_Details, fetch_Ref_Details, fetch_Pref_Details, fetch_Lang_Details, fetch_Tech_Details };

@@ -13,7 +13,7 @@ router.get("/grid", (req, res) => {
 });
 
 router.post("/grid", grid);
-router.get('/data', dataList);
+router.get('/datalist', dataList);
 router.post('/id', sortById);
 router.get('/filter_data', filterData);
 

@@ -446,7 +446,7 @@ const registerUser = async (req, res) => {
     }
     if (errorFlag != 0) {
         console.log(errorFlag);
-        res.render('job_app_form_view/index', { dataObj: dataObj, errorObj: errorObj, isError: true, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
+        res.render('job_app_form_view/index', { dataObj: dataObj, errorObj: errorObj, isError: true, isUpdate: false, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
     }
     else {
         let query = `insert into Candidate_Details (first_name, last_name, design, current_addreess, permanent_address,email,phone,city,state,gender,zip_code,relationship_status) values ("${fname}","${lname}","${design}",

@@ -1,0 +1,255 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 50px;
+            gap: 50px;
+        }
+
+        table,
+        th,
+        tr,
+        td {
+            border: 2px solid black;
+        }
+
+        table {
+            width: 200px;
+            background-color: rgb(31, 14, 31);
+        }
+
+        th,
+        td {
+            padding: 20px;
+            text-align: center;
+            color: rgb(31, 14, 31);
+        }
+
+        th {
+            background-color: rgb(95, 127, 233);
+        }
+
+        td {
+            background-color: rgb(169, 203, 245);
+        }
+
+        * {
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #token {
+            border: 2px solid rgb(31, 14, 31);
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+        #submit {
+            border: 2px solid rgb(31, 14, 31);
+            border-radius: 20px;
+            background-color: rgb(73, 117, 73);
+            color: white;
+            padding: 10px;
+        }
+
+        .error h1 {
+            color: red;
+            font-size: 50px;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/query?query=`select * from student where name='kajal'`">query</a>
+        <h1 style="color:rgb(31, 14, 31);">Kajal Soni</h1>
+        <table class="sym">
+            <tr>
+                <th>Student_id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Password</th>
+                <th>Contact</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Hobby</th>
+
+            </tr>
+            <tr>
+                <td>_</td>
+                <td>&</td>
+                <td>$</td>
+                <td>^</td>
+                <td>#</td>
+                <td>=</td>
+                <td>!</td>
+                <td>%</td>
+                <td>/</td>
+                <td>*</td>
+            </tr>
+        </table>
+        <form method="post" id="queryForm">
+            <label for="tokens">Enter the tokens</label>
+            <input type="text" tabindex="0" id="token" name="token" autofocus />
+            <input type="button" onclick="getData()" value="Search" id="submit" />
+        </form>
+        <table id="mytable">
+
+        </table>
+        <div style="display:none" class="pagination">
+            <button onclick="displayFirst()" id="first">
+                << </button>
+                    <button onclick="decrement()" id="decrement">
+                        < </button>
+                            <span id="pageNo">1</span>
+                            <button onclick="increment()" id="increment">></button>
+                            <button onclick="displayLast()" id="last"> >> </button>
+        </div>
+    </div>
+    <script>
+
+        async function submitData() {
+            let myobj = '';
+            console.log("calling token");
+            let token = document.getElementById("token").value;
+            console.log(token);
+
+            return promise = new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `http://localhost:8080/data/?token=${token}`,
+                    method: "",
+                    success: function (data) {
+                        if (data.result.length > 0) {
+                            resolve(data.result);
+                        }
+
+                    }
+                })
+            })
+        }
+
+
+        const getData = async () => {
+            const myobj = await submitData();
+            console.log(myobj);
+            if (myobj.length <= 20) {
+                txt = '<tr>';
+                let keys = Object.keys(myobj[0]);
+                keys.forEach((element) => {
+                    txt += `<th>${element}</th>`;
+                });
+                txt += '</tr>';
+                myobj.forEach((element) => {
+                    txt += '<tr>';
+                    let values = Object.values(element);
+                    values.forEach((value) => {
+                        txt += `<td>${value}</td>`;
+                    });
+                    txt += '</tr>';
+                })
+                $("#mytable").html(txt);
+            }
+            else {
+                document.getElementsByClassName("pagination")[0].style.display = "block";
+                let limit = 20;
+                txt = '<tr>';
+                let keys = Object.keys(myobj[0]);
+                keys.forEach((element) => {
+                    txt += `<th>${element}</th>`;
+                });
+                txt += '</tr>';
+                for (let i = 0; i < limit; i++) {
+                    txt += '<tr>';
+                    let values = Object.values(myobj[i]);
+                    values.forEach((value) => {
+                        txt += `<td>${value}</td>`;
+                    });
+                    txt += '</tr>';
+                }
+            }
+            $("#mytable").html(txt);
+        }
+
+        let limit = 20;
+
+
+        function displayData(myobj, startIdx, limit) {
+            txt = '<tr>';
+            let keys = Object.keys(myobj[0]);
+            keys.forEach((element) => {
+                txt += `<th>${element}</th>`;
+            });
+            txt += '</tr>';
+            for (let i = startIdx; i < limit + startIdx; i++) {
+                txt += '<tr>';
+                let values = Object.values(myobj[i]);
+                values.forEach((value) => {
+                    txt += `<td>${value}</td>`;
+                });
+                txt += '</tr>';
+            }
+
+            return txt;
+        }
+
+        async function displayFirst() {
+            const myobj = await submitData();
+            let pages = Math.floor(myobj.length / limit);
+            let pageNo = document.getElementById("pageNo");
+            let id = 1;
+            pageNo.innerHTML = id;
+            let startIdx = (id - 1) * limit;
+            let txt = displayData(myobj, startIdx, limit);
+            document.getElementById('mytable').innerHTML = txt;
+        }
+        async function displayLast() {
+            const myobj = await submitData();
+            let pages = Math.floor(myobj.length / limit);
+            let pageNo = document.getElementById("pageNo");
+            let id = pages;
+            pageNo.innerHTML = id;
+            let startIdx = (id - 1) * limit;
+            let txt = displayData(myobj, startIdx, limit);
+            document.getElementById('mytable').innerHTML = txt;
+        }
+        async function increment() {
+            const myobj = await submitData();
+            let pages = Math.floor(myobj.length / limit);
+            let pageNo = document.getElementById("pageNo");
+
+            if (parseInt(pageNo.innerHTML) < pages) {
+                let id = parseInt(pageNo.innerHTML) + 1;
+                pageNo.innerHTML = id;
+                let startIdx = (id - 1) * limit;
+                let txt = displayData(myobj, startIdx, limit);
+                document.getElementById('mytable').innerHTML = txt;
+            }
+        }
+        async function decrement() {
+            const myobj = await submitData();
+            let pages = Math.floor(myobj.length / limit);
+            let pageNo = document.getElementById("pageNo");
+            if (parseInt(pageNo.innerHTML) > 0) {
+                let id = parseInt(pageNo.innerHTML) - 1;
+                pageNo.innerHTML = id;
+                let startIdx = (id - 1) * limit;
+                let txt = displayData(myobj, startIdx, limit);
+                document.getElementById('mytable').innerHTML = txt;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

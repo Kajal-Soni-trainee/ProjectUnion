@@ -1,10 +1,9 @@
 const { insertCandidateDetails, insertEducationDetails, updateEducationDetails,
     insertLanguageDetails, updateLanguageDetails, insertExpDetails, updateExpDetails,
-    insertTechDetails, updateTechDetails, insertRefDetails, updateRefDetails, insertPrefDetails, updatePrefDetails } = require('../models/dynamicJobAppSql');
+    insertTechDetails, updateTechDetails, insertRefDetails, updateRefDetails, insertPrefDetails, updatePrefDetails, updateCandidate } = require('../models/dynamicJobAppSql');
 const { findAll, findById } = require('../models/sql_function');
-const path = require('path');
 const fs = require('fs');
-let filename = path.join(__dirname, 'views/dynamic_job_form_views');
+const filename = '/home/kajal-soni/Documents/Updated Project/ProjectUnion/views/dynamic_job_form_views';
 const showIndexPage = async (req, res) => {
     console.log("data");
     let query = 'select * from states';
@@ -89,20 +88,21 @@ const educationDetails = async (req, res) => {
         let result = await findById('edu_master', 'candidate_id', userId);
         if (result.length > 0) {
             try {
-                let insertResult = await insertEducationDetails(eduObj);
-                if (insertResult != 0) {
-                    console.log("successfully inserted");
+                let updateResult = await updateEducationDetails(eduObj, userId);
+                if (updateResult != undefined) {
+                    console.log("successfully updated");
                 }
             }
             catch (err) {
                 console.log(err);
             }
+
         }
         else {
             try {
-                let updateResult = await updateEducationDetails(eduObj);
-                if (updateResult.length != 0) {
-                    console.log("successfully updated");
+                let insertResult = await insertEducationDetails(eduObj, userId);
+                if (insertResult != undefined) {
+                    console.log("successfully inserted");
                 }
             }
             catch (err) {
@@ -162,7 +162,10 @@ const languageDetails = async (req, res) => {
         let result = await findById('language_details', 'candidate_id', userId);
         if (result.length > 0) {
             try {
-                let insertResult = await insertLanguageDetails(langObj);
+                let updateResult = await updateLanguageDetails(langObj, userId);
+                if (updateResult != undefined) {
+                    console.log("updated lang");
+                }
             }
             catch (err) {
                 console.log(err);
@@ -170,11 +173,15 @@ const languageDetails = async (req, res) => {
         }
         else {
             try {
-                let updateResult = await updateLanguageDetails(langObj);
+                let insertResult = await insertLanguageDetails(langObj, userId);
+                if (insertResult != undefined) {
+                    console.log("inserted lang ");
+                }
             }
             catch (err) {
-                console.lo9g(err);
+                console.log(err);
             }
+
         }
     }
     catch (err) {
@@ -227,11 +234,11 @@ const techDetails = async (req, res) => {
     console.log(techObj);
     try {
         let result = findById('tech_details', 'candidate_id', userId);
-        if (result.length == 0) {
+        if (result.length > 0) {
             try {
-                let insertResult = await insertTechDetails(techObj);
-                if (insertResult.length1 = 0) {
-                    console.log("successfully inserted tech details")
+                let updateResult = await updateTechDetails(techObj, userId);
+                if (updateResult != undefined) {
+                    console.log("successfully updated tech details")
                 }
             }
             catch (err) {
@@ -240,14 +247,15 @@ const techDetails = async (req, res) => {
         }
         else {
             try {
-                let updateResult = await updateTechDetails(techObj);
-                if (updateResult.length1 = 0) {
-                    console.log("successfully updated tech details")
+                let insertResult = await insertTechDetails(techObj, userId);
+                if (insertResult != undefined) {
+                    console.log("successfully inserted tech details")
                 }
             }
             catch (err) {
                 console.log(err);
             }
+
 
         }
     }
@@ -288,25 +296,27 @@ const experienceDetails = async (req, res) => {
     }
     try {
         let result = findById('expreience', 'candidate_id', userId);
-        if (result.length == 0) {
+        if (result.length > 0) {
             try {
-                let insertResult = await insertExpDetails(expObj);
-                console.log("succeefully inserted exp details");
+                let updateResult = await updateExpDetails(expObj, userId);
+                if (updateResult != undefined) {
+                    console.log("success fully update exp details");
+                }
             }
             catch (err) {
                 console.log(err);
             }
-
         }
         else {
             try {
-                let updateResult = await updateExpDetails(expObj);
-                console.log("success fully update exp details");
+                let insertResult = await insertExpDetails(expObj, userId);
+                if (insertResult != undefined) {
+                    console.log("succeefully inserted exp details");
+                }
             }
             catch (err) {
                 console.log(err);
             }
-
         }
     }
     catch (err) {
@@ -327,12 +337,16 @@ const experienceDetails = async (req, res) => {
 }
 
 const preferenceDetails = async (req, res) => {
+    let userId = req.query.userId;
     try {
         let result = findById('preference', 'candidate_id', userId);
-        if (result.length == 0) {
+        if (result.length > 0) {
             try {
-                let insertResult = insertPrefDetails(req.query);
-                console.log("inserted pref");
+                let updateResult = await updatePrefDetails(req.query);
+                if (updateResult != undefined) {
+                    console.log('updated pref');
+                }
+
             }
             catch (err) {
                 console.log(err);
@@ -340,12 +354,16 @@ const preferenceDetails = async (req, res) => {
         }
         else {
             try {
-                let updateResult = updatePrefDetails(req.query);
-                console.log('updated pref');
+                let insertResult = await insertPrefDetails(req.query);
+                if (insertResult != undefined) {
+                    console.log("inserted pref");
+                }
+
             }
             catch (err) {
                 console.log(err);
             }
+
         }
     }
     catch (err) {
@@ -365,14 +383,20 @@ const preferenceDetails = async (req, res) => {
 }
 
 const refDetails = async (req, res) => {
-
+    let userId = req.query.userId;
     try {
         let result = findById('e_reference', 'candidate_id', userId);
-        if (result.length == 0) {
-            let insertResult = insertRefDetails(req.query);
+        if (result.length > 0) {
+            let updateResult = updateRefDetails(req.query);
+            if (updateResult != undefined) {
+                console.log('updated ref');
+            }
         }
         else {
-            let updateResult = updateRefDetails(req.query);
+            let insertResult = insertRefDetails(req.query);
+            if (insertResult != undefined) {
+                console.log('inserted ref ');
+            }
         }
     }
     catch (err) {
@@ -392,8 +416,10 @@ const refDetails = async (req, res) => {
 
 const prefDetailPrev = async (req, res) => {
     let userId = req.query.userId;
+    console.log(userId);
     try {
-        let result = await findById('preference', 'candidate', userId);
+        let result = await findById('preference', 'candidate_id', userId);
+        console.log(result);
         fs.readFile(`${filename}/preferences.ejs`, 'utf-8', function (err, data) {
             if (err) throw err;
             res.json({ data: data, result: result });
@@ -405,8 +431,10 @@ const prefDetailPrev = async (req, res) => {
 }
 const expDetailPrev = async (req, res) => {
     let userId = req.query.userId;
+    console.log(userId);
     try {
-        let result = await findById('expreinece', 'candidate_id', userId);
+        let result = await findById('expreience', 'candidate_id', userId);
+        console.log(result);
         fs.readFile(`${filename}/experience.ejs`, 'utf-8', function (err, data) {
             if (err) throw err;
             res.json({ data: data, result: result });
@@ -421,8 +449,10 @@ const expDetailPrev = async (req, res) => {
 
 const techDetailPrev = async (req, res) => {
     let userId = req.query.userId;
+    console.log(userId);
     try {
         let result = await findById('tech_details', 'candidate_id', userId);
+        console.log(result);
         fs.readFile(`${filename}/technology_details.ejs`, 'utf-8', function (err, data) {
             if (err) throw err;
             res.json({ data: data, result: result });
@@ -435,8 +465,10 @@ const techDetailPrev = async (req, res) => {
 
 const langDetailPrev = async (req, res) => {
     let userId = req.query.userId;
+    console.log(userId);
     try {
         let result = findById('language_details', 'candidate_id', userId);
+        console.log(result);
         fs.readFile(`${filename}/language_details.ejs`, 'utf-8', function (err, data) {
             if (err) throw err;
             res.json({ data: data, result: result });
@@ -449,8 +481,10 @@ const langDetailPrev = async (req, res) => {
 
 const eduDetailPrev = async (req, res) => {
     let userId = req.query.userId;
+    console.log(userId);
     try {
         let result = await findById('edu_master', 'candidate_id', userId);
+        console.log(result);
         fs.readFile(`${filename}/education_details.ejs`, 'utf-8', function (err, data) {
             if (err) throw err;
             res.json({ data: data, result: result });
@@ -463,8 +497,10 @@ const eduDetailPrev = async (req, res) => {
 }
 const canDetailPrev = async (req, res) => {
     let userId = req.query.userId;
+    console.log(userId);
     try {
-        let result = await findById('candidate_details', 'candidate_id', userId);
+        let result = await findById('Candidate_Details', 'candidate_id', userId);
+        console.log(result);
         let result1 = await findAll('states');
         fs.readFile(`${filename}/candidate_details.ejs`, 'utf-8', function (err, data) {
             if (err) throw err;
@@ -478,8 +514,10 @@ const canDetailPrev = async (req, res) => {
 
 const updateLink = async (req, res) => {
     let id = req.query.id;
+    console.log(id);
     try {
-        let result = await findById('candidate_Details', 'candidate_id', id);
+        let result = await findById('Candidate_Details', 'candidate_id', id);
+        console.log(result);
         let result1 = await findAll('states');
         res.render('dynamic_job_form_views/index', { result: result, result1: result1, isUpdate: true });
         res.end();
@@ -491,7 +529,8 @@ const updateLink = async (req, res) => {
 
 const usersList = async (req, res) => {
     try {
-        let result = findAll('Candidate_Details');
+        let result = await findAll('Candidate_Details');
+        console.log(result)
         res.render('dynamic_job_form_views/list', { result: result });
     }
     catch (err) {
@@ -499,24 +538,24 @@ const usersList = async (req, res) => {
     }
 }
 
-const updateCandidateDetails = async (req,res)=>{
+const updateCandidateDetails = async (req, res) => {
 
     let id = req.query.id;
 
-    try{
-    let result = await updateCandidate(req.query);
-       if(result){
-         let result1 = await findById('edu_master','candidate_details',id);
-         fs.readFile(`${filename}/education_details.ejs`, 'utf-8', function (err, data) {
-            if (err) throw err;
-            res.json({ data: data, result1: result1, userId: id });
-        });
-       }
+    try {
+        let result = await updateCandidate(req.query);
+        if (result) {
+            let result1 = await findById('edu_master', 'candidate_id', id);
+            console.log(result1);
+            fs.readFile(`${filename}/education_details.ejs`, 'utf-8', function (err, data) {
+                if (err) throw err;
+                res.json({ data: data, result1: result1, userId: id });
+            });
+        }
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
-   
 }
 module.exports = {
     showIndexPage, action, candidateDetails, educationDetails, languageDetails, techDetails, experienceDetails, preferenceDetails, refDetails, prefDetailPrev, expDetailPrev, techDetailPrev, langDetailPrev

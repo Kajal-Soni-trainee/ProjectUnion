@@ -1,3 +1,5 @@
+const conn = require('../mysql')
+
 const generateQuery = (req, res) => {
     let token = req.query.token;
     console.log("mytoken" + token);
@@ -206,10 +208,19 @@ const generateQuery = (req, res) => {
     }
     let query = txt.substring(0, txt.length - 4);
     console.log(query);
-    conn.query(`${query} ;`, (err, result) => {
-        if (err) throw err;
-        res.json({ result: result });
-        res.end();
+    conn.query(`${query};`, (err, result) => {
+        if (err) {
+            console.log(err);
+            conn.query('select * from student_detail;', (err, result1) => {
+                res.json({ result: result1 });
+            })
+        }
+        else {
+
+            res.json({ result: result });
+            res.end();
+        }
+
     });
 }
 
