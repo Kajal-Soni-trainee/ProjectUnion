@@ -77,7 +77,7 @@ const updateLanguageDetails = (langObj, userId) => {
                 });
             });
         }
-        resolve(result);
+        resolve("success");
     })
 }
 
