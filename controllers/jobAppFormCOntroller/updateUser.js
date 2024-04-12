@@ -52,43 +52,83 @@ const updateUser = async (req, res) => {
     let erelation = req.body.erelation;
     let langObj = new Object();
     if (lang != undefined) {
-        lang.forEach((element) => {
-            if (element == 'hindi') {
+        console.log(lang);
+        if (typeof lang != "string") {
+            lang.forEach((element) => {
+                if (element == 'hindi') {
+                    if (lhskill != undefined) {
+                        langObj.hindi = lhskill;
+                    }
+                }
+                if (element == 'english') {
+                    if (leskill != undefined) {
+                        langObj.english = leskill;
+                    }
+                }
+                if (element == 'gujararti') {
+                    if (lgskill != undefined) {
+                        langObj.gujarati = lgskill;
+                    }
+                }
+            });
+        }
+        else {
+            if (lang == 'hindi') {
                 if (lhskill != undefined) {
                     langObj.hindi = lhskill;
                 }
             }
-            if (element == 'english') {
+            else if (lang == 'english') {
                 if (leskill != undefined) {
                     langObj.english = leskill;
                 }
             }
-            if (element == 'gujararti') {
+            else {
                 if (lgskill != undefined) {
                     langObj.gujarati = lgskill;
                 }
             }
-        });
+        }
     }
+
     const techObj = new Object();
     if (tech != undefined) {
-        tech.forEach((element) => {
-            if (element == "php") {
+        if (typeof tech != 'string') {
+            tech.forEach((element) => {
+                if (element == "php") {
+                    if (tpskill != undefined) {
+                        techObj.php = tpskill;
+                    }
+                }
+                if (element == "Java") {
+                    if (tjskill != undefined) {
+                        techObj.Java = tjskill;
+                    }
+                }
+                if (element == 'oracle') {
+                    if (toskill != undefined) {
+                        techObj.oracle = toskill;
+                    }
+                }
+            });
+        }
+        else {
+            if (tech == 'php') {
                 if (tpskill != undefined) {
                     techObj.php = tpskill;
                 }
             }
-            if (element == "Java") {
+            else if (tech == 'Java') {
                 if (tjskill != undefined) {
                     techObj.Java = tjskill;
                 }
             }
-            if (element == 'oracle') {
+            else {
                 if (toskill != undefined) {
                     techObj.oracle = toskill;
                 }
             }
-        });
+        }
     }
     if (cname != undefined) {
         console.log(cname);
@@ -488,53 +528,48 @@ const updateUser = async (req, res) => {
     }
     if (errorFlag != 0) {
         console.log(errorFlag);
-        res.render('index', { dataObj: dataObj, errorObj: errorObj, isError: true, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
+        res.render('job_app_form_view/index', { dataObj: dataObj, errorObj: errorObj, isError: true, isUpdate:false, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
     }
     else {
         let query1 = `update Candidate_Details set first_name="${fname}", last_name="${lname}", design="${design}", current_addreess="${add1}", permanent_address="${add2}", email="${email}", phone="${phone}", city="${city}" , state="${state}", gender="${gender}", zip_code="${zipcode}", relationship_status="${relation}" where candidate_id=${id};`;
-        let result = await selectQuery(query1);
-        if (result.length >= 0) {
+        let result1 = await selectQuery(query1);
+        if (result1.length >= 0) {
             console.log('suceesfully updated candidate details');
         }
 
         let updateEduResult = await updateEduDetail(eduObj);
 
-        let updateLangDetail = await updateLangDetail(langObj);
+        let updateLangResult = await updateLangDetail(langObj);
 
-        let updateTechDetail = await updateTechDetail(techObj);
+        let updateTechResult = await updateTechDetail(techObj);
 
         if (cname != undefined && design != undefined && from != undefined && to != undefined) {
             if (cname[0] != "" && pos[0] != "" && from[0] != "" && to[0] != "") {
                 let query5 = `update expreience set company_name="${cname[0]}", design="${pos[0]}", worked_from="${from[0]}", worked_till="${to[0]}" where candidate_id=${id};`;
-                return promise = new Promise((resolve, reject) => {
-                    conn.query(query5, (err, result) => {
-                        if (err) throw reject(err);
-                        console.log("successfully added expereience");
-                    });
-                })
-
+                let result2 = await selectQuery(query5);
+                if (result2.length > 0) {
+                    console.log("successfully added expereience");
+                }
             }
         }
 
         if (ename != undefined && edesign != undefined && erelation != undefined) {
             if (ename[0] != "" && edesign[0] != "" && erelation[0] != "") {
-                return promise = new Promise((resolve, reject) => {
-                    let query6 = `update  e_reference set e_name="${ename[0]}", e_design="${edesign[0]}", e_relation="${erelation[0]}" where candidate_id=${id};`;
-                    conn.query(query6, (err, result) => {
-                        if (err) reject(err);
-                        console.log("successfully added references");
-                    });
-                })
+
+                let query6 = `update  e_reference set e_name="${ename[0]}", e_design="${edesign[0]}", e_relation="${erelation[0]}" where candidate_id=${id};`;
+                let result3 = await selectQuery(query6);
+                if (result3.length > 0) {
+                    console.log("successfully added references");
+                }
+
             }
         }
-        return promise = new Promise((resolve, reject) => {
-            let query7 = `update preference set prefered_location="${location}", notice_period="${n_period}", department="${design}", current_ctc=${c_ctc}, expected_ctc=${e_ctc} where candidate_id=${id};`;
-            conn.query(query7, (err, result) => {
-                if (err) reject(err);
-                console.log("successfully added preferences");
-            });
-        })
 
+        let query7 = `update preference set prefered_location="${location}", notice_period="${n_period}", department="${design}", current_ctc=${c_ctc}, expected_ctc=${e_ctc} where candidate_id=${id};`;
+        let result4 = await selectQuery(query7);
+        if (result4.length > 0) {
+            console.log("successfully added preferences");
+        }
         res.render('job_app_form_view/index', { dataObj: "", errorObj: "", isError: false, isUpdate: false, can: "", exp: "", edu: "", lang: "", tech: "", ref: "", pref: "" });
         res.end();
     }

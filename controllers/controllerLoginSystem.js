@@ -1,5 +1,9 @@
-const { insertUser, findById, updatePassword, findByValue, deleteById , findAll} = require('../models/sql_function');
-
+const { insertUser, findById, updatePassword, findByValue, deleteById, findAll } = require('../models/sql_function');
+const md5 = require('md5');
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const SECRET_KEY = "Kajal123";
 const openLoginSystem = (req, res) => {
     res.render('login_system_views/index', { errMsg: "", id: 0, otp: 0, isReg: false });
     res.end();
@@ -42,7 +46,7 @@ const openLoginPage = (req, res) => {
     res.end();
 }
 
-const loginUser =async (req, res) => {
+const loginUser = async (req, res) => {
     let email = req.body.email;
     let pass = req.body.pass;
     let result = await findByValue('users', 'u_email', email);
@@ -75,68 +79,68 @@ const loginUser =async (req, res) => {
     }
 }
 
-const checkdb = async (req,res)=>{
-        let id = req.query.id;
-        let result = await findById('users' , 'user_id', id);
-           if (result[0].u_pass == null) {
-            let result1 = await deleteById('users', 'user_id', id);
-            if(result1.length!=0){
-                console.log("successfully deleted");
-            }
-           }
-        
+const checkdb = async (req, res) => {
+    let id = req.query.id;
+    let result = await findById('users', 'user_id', id);
+    if (result[0].u_pass == null) {
+        let result1 = await deleteById('users', 'user_id', id);
+        if (result1.length != 0) {
+            console.log("successfully deleted");
+        }
+    }
+
 }
 
-const forgetPass = async (req,res)=>{
-        let email = req.query.email;
-        if (email == "") {
-           let errMsg = "please try first";
-           res.render('login_system_views/login', { email: "", errMsg: errMsg, successMsg: "" });
-           res.end();
-        }
-        else {
-        let result = await findByValue('users', 'u_email', email)
-              if (result.length != 0) {
-                 let id = result[0].user_id;
-                 let otp = result[0].u_otp;
-                 if (result[0].u_pass != null) {
-                    res.render('login_system_views/password', { id: id, otp: otp, isSuccess: false, errMsg: "" });
-                    res.end();
-                 }
-              }
-              else {
-                 let errMsg = "Invalid credentials";
-                 res.render('login_system_views/login', { email: "", errMsg: errMsg, successMsg: "" });
-                 res.end();
-              }
-        }
-}
-
-const displayList = async (req,res)=>{
-    let token = req.headers.cookie.split("=")[1];
-    if (token) {
-       console.log(token);
-       let result = await findAll('users');
-       if(result.length!=0){
-        res.render('login_system_views/list', { result: result });
+const forgetPass = async (req, res) => {
+    let email = req.query.email;
+    if (email == "") {
+        let errMsg = "please try first";
+        res.render('login_system_views/login', { email: "", errMsg: errMsg, successMsg: "" });
         res.end();
-       }
     }
     else {
-       let errMsg = "You need to login first";
-       res.render('login_system_views/login', { email: "", errMsg: errMsg, successMsg: "" });
-       res.end();
+        let result = await findByValue('users', 'u_email', email)
+        if (result.length != 0) {
+            let id = result[0].user_id;
+            let otp = result[0].u_otp;
+            if (result[0].u_pass != null) {
+                res.render('login_system_views/password', { id: id, otp: otp, isSuccess: false, errMsg: "" });
+                res.end();
+            }
+        }
+        else {
+            let errMsg = "Invalid credentials";
+            res.render('login_system_views/login', { email: "", errMsg: errMsg, successMsg: "" });
+            res.end();
+        }
     }
 }
 
-const openHomePage = (req,res)=>{
+const displayList = async (req, res) => {
+    let token = req.headers.cookie.split("=")[1];
+    if (token) {
+        console.log(token);
+        let result = await findAll('users');
+        if (result.length != 0) {
+            res.render('login_system_views/list', { result: result });
+            res.end();
+        }
+    }
+    else {
+        let errMsg = "You need to login first";
+        res.render('login_system_views/login', { email: "", errMsg: errMsg, successMsg: "" });
+        res.end();
+    }
+}
+
+const openHomePage = (req, res) => {
     res.render('home');
     res.end();
 }
 
-const logoutUser = (req,res)=>{
+const logoutUser = (req, res) => {
     res.clearCookie("token");
     res.render('login_system_views/login', { email: "", errMsg: "", successMsg: "" });
     res.end();
 }
-module.exports = { openLoginSystem, registerUser, openPasswordPage, createPassword, openLoginPage, loginUser, checkdb , forgetPass, displayList, openHomePage, logoutUser};
+module.exports = { openLoginSystem, registerUser, openPasswordPage, createPassword, openLoginPage, loginUser, checkdb, forgetPass, displayList, openHomePage, logoutUser };

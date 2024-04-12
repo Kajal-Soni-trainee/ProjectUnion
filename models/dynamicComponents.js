@@ -1,4 +1,4 @@
-const conn = require("./mysql.js");
+const conn = require("../mysql");
 
 
 const component = function (name, type) {

@@ -27,10 +27,13 @@ const insertStudentDetails = async (obj) => {
 const validateUserLogin = async (obj) => {
     let email = obj.email;
     let pass = obj.pass;
+    console.log("email" + email);
+    console.log("pass" + pass);
     return promise = new Promise((resolve, reject) => {
         let query = `select * from student_detail where email="${email}" and pass="${pass}"`;
         conn.query(query, (err, data) => {
-            if (err) reject(err);
+            if (err) console.log(err);
+            console.log(data);
             resolve(data);
         })
     })
@@ -46,11 +49,12 @@ const updateUserSql = async (obj) => {
     let hobbies = obj.hobbies;
     let email = obj.email;
     let add = obj.add;
-    let id = req.body.id;
+    let id = obj.id;
     return promise = new Promise((resolve, reject) => {
         let query = `update student_detail set fname="${fname}", lname="${lname}",age="${age}",pass="${pass}", contact="${con}",gender="${gen}",hobby="${hobbies}", email="${email}", address="${add}" where student_id=${id}`;
         conn.query(query, (err, result) => {
             if (err) reject(err);
+            console.log(result);
             resolve(result);
         })
     });

@@ -147,7 +147,8 @@
                 checked
                 <%}}%> /><label>Female</label><span class="err"></span>
               </div>
-              <div><input type="radio" name="gender" value="others" <%if(isUpdate){if(result[0].gender=="others"){%>checked
+              <div><input type="radio" name="gender" value="others" <%if(isUpdate){if(result[0].gender=="others" ){%>
+                checked
                 <%}}%> /><label>Others</label><span class="err"></span>
               </div>
             </div>
@@ -155,8 +156,9 @@
               <label>Marital Status</label>
               <select name="relation">
                 <option <%if(isUpdate){if(result[0].relationship_status=="married" ){%> selected
-                   <%}}%>
-                    value="married">Married</option>
+                  <%}}%>
+                    value="married">Married
+                </option>
                 <option <%if(isUpdate){if(result[0].relationship_status=="married" ){%> selected <%}}%>
                     value="unmarried">Unmarried</option>
                 <option <%if(isUpdate){if(result[0].relationship_status=="married" ){%> selected <%}}%>
@@ -298,815 +300,927 @@
         });
       }
     }
-      function func_edu() {
-        let course_name_arr = document.getElementsByName('course_name[]');
-        let passing_year_arr = document.getElementsByName('passing_year[]');
-        let school_name_arr = document.getElementsByName('school_name[]');
-        let percent_arr = document.getElementsByName('percent[]');
-        for (let i = 0; i < 4; i++) {
-          console.log(course_name_arr);
-          if (course_name_arr[i].value != "") {
-            if (passing_year_arr[i].value == "") {
-              let div = passing_year_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
-            }
-            if (school_name_arr[i].value == "") {
-              let div = school_name_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
-            }
-            if (percent_arr[i].value == "") {
-              let div = percent_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
-            }
-            if (passing_year_arr[i].value == "" && school_name_arr[i].value == "" && percent_arr[i].value == "") {
-              return false;
-            }
-          }
+    function func_edu() {
+      let course_name_arr = document.getElementsByName('course_name[]');
+      let passing_year_arr = document.getElementsByName('passing_year[]');
+      let school_name_arr = document.getElementsByName('school_name[]');
+      let percent_arr = document.getElementsByName('percent[]');
 
-
-          if (passing_year_arr[i].value != "") {
-            if (course_name_arr[i].value == "") {
-              let div = course_name_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
-            }
-            if (school_name_arr[i].value == "") {
-              let div = school_name_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
-            }
-            if (percent_arr[i].value == "") {
-              let div = percent_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
-            }
-            if (course_name_arr[i].value == "" && school_name_arr[i].value == "" && percent_arr[i].value == "") {
-              return false;
-            }
+      course_name_arr.forEach((element) => {
+        if (element.value != "") {
+          let alphaPtn = /[a-zA-Z]/;
+          if (!alphaPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "your course name should  only contain charaters";
+            return false;
           }
+        }
+      });
 
-          if (school_name_arr[i].value != "") {
-            if (passing_year_arr[i].value == "") {
-              let div = passing_year_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
-            }
-            if (course_name_arr[i].value == "") {
-              let div = course_name_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
-            }
-            if (percent_arr[i].value == "") {
-              let div = percent_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
-            }
-            if (passing_year_arr[i].value == "" && course_name_arr[i].value == "" && percent_arr[i].value == "") {
-              return false;
-            }
+      school_name_arr.forEach((element) => {
+        if (element.value != "") {
+          let alphaPtn = /[a-zA-Z]/;
+          if (!alphaPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "your school name should  only contain charaters";
+            return false;
           }
-          if (percent_arr[i].value != "") {
-            if (passing_year_arr[i].value == "") {
-              let div = passing_year_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
-            }
-            if (school_name_arr[i].value == "") {
-              let div = school_name_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
-            }
-            if (course_name_arr[i].value == "") {
-              let div = course_name_arr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
-            }
-            if (passing_year_arr[i].value == "" && school_name_arr[i].value == "" && course_name_arr[i].value == "") {
-              return false;
-            }
+        }
+      });
+
+      passing_year_arr.forEach((element) => {
+        if (element.value != "") {
+          let yearPtn = /[0-9]{4}/;
+          if (!yearPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "your year patern should be yyyy";
+            return false;
+          }
+        }
+      });
+
+      percent_arr.forEach((element) => {
+        if (element.value != "") {
+          let percentPtn = /(^100(\.0{1,2})?$)|(^([1-9]([0-9])?|0)(\.[0-9]{1,2})?$)/;
+          if (!percentPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter correct percentage ";
+            return false;
+          }
+        }
+      })
+
+      for (let i = 0; i < 4; i++) {
+        console.log(course_name_arr);
+        if (course_name_arr[i].value != "") {
+          if (passing_year_arr[i].value == "") {
+            let div = passing_year_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
+          }
+          if (school_name_arr[i].value == "") {
+            let div = school_name_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
+          }
+          if (percent_arr[i].value == "") {
+            let div = percent_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
+          }
+          if (passing_year_arr[i].value == "" && school_name_arr[i].value == "" && percent_arr[i].value == "") {
+            return false;
           }
         }
 
-        var form = document.getElementById("edu_detail");
-        let course_type = [];
-        document.getElementsByName('course_type[]').forEach((element) => {
-          course_type.push(element.value);
-        });
-        let course_name = [];
-        document.getElementsByName('course_name[]').forEach((element) => {
-          course_name.push(element.value);
-        });
-        let school_name = [];
-        document.getElementsByName('school_name[]').forEach((element) => {
-          school_name.push(element.value);
-        })
-        let passing_year = [];
-        document.getElementsByName('passing_year[]').forEach((element) => {
-          passing_year.push(element.value);
-        })
-        let percent = [];
-        document.getElementsByName('percent[]').forEach((element) => {
-          percent.push(element.value);
-        })
-        let userId = document.getElementsByName('userId')[0].value;
-        console.log(course_name);
 
-
-        $.ajax({
-          url: `http://localhost:8080/edu?course_type=${course_type}&course_name=${course_name}&school_name=${school_name}&passing_year=${passing_year}&percent=${percent}&userId=${userId}`,
-          method: 'get',
-          crossDomain: true,
-          processData: false,
-          contentType: false,
-
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            console.log(data.userId);
-            document.getElementById('userId').value = data.userId;
-            document.getElementsByName('lang[]').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.language) {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('lhskill[]').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.lang_skill && item.language == 'hindi') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('leskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.lang_skill && item.language == 'english') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('lgskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.lang_skill && item.language == 'gujararti') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            return true;
+        if (passing_year_arr[i].value != "") {
+          if (course_name_arr[i].value == "") {
+            let div = course_name_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
           }
-        });
+          if (school_name_arr[i].value == "") {
+            let div = school_name_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
+          }
+          if (percent_arr[i].value == "") {
+            let div = percent_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
+          }
+          if (course_name_arr[i].value == "" && school_name_arr[i].value == "" && percent_arr[i].value == "") {
+            return false;
+          }
+        }
+
+        if (school_name_arr[i].value != "") {
+          if (passing_year_arr[i].value == "") {
+            let div = passing_year_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
+          }
+          if (course_name_arr[i].value == "") {
+            let div = course_name_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
+          }
+          if (percent_arr[i].value == "") {
+            let div = percent_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your percent";
+          }
+          if (passing_year_arr[i].value == "" && course_name_arr[i].value == "" && percent_arr[i].value == "") {
+            return false;
+          }
+        }
+        if (percent_arr[i].value != "") {
+          if (passing_year_arr[i].value == "") {
+            let div = passing_year_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your passing year";
+          }
+          if (school_name_arr[i].value == "") {
+            let div = school_name_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your school name";
+          }
+          if (course_name_arr[i].value == "") {
+            let div = course_name_arr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your course name";
+          }
+          if (passing_year_arr[i].value == "" && school_name_arr[i].value == "" && course_name_arr[i].value == "") {
+            return false;
+          }
+        }
       }
-      function func_lang() {
-        let langArr = document.getElementsByName('lang[]');
-        let lhskillArr = document.getElementsByName('lhskill[]');
-        let lgskillArr = document.getElementsByName('lgskill[]');
-        let leskillArr = document.getElementsByName('leskill[]');
-        for (let i = 0; i < langArr.length; i++) {
-          if (langArr[i].checked) {
-            let isCheckedFlag = 0;
-            if (lhskillArr[i].checked) {
-              isCheckedFlag++;
-            }
-            if (leskillArr[i].checked) {
-              isCheckedFlag++;
-            }
-            if (lgskillArr[i].checked) {
-              isCheckedFlag++;
-            }
-            if (isCheckedFlag == 0) {
+
+      var form = document.getElementById("edu_detail");
+      let course_type = [];
+      document.getElementsByName('course_type[]').forEach((element) => {
+        course_type.push(element.value);
+      });
+      let course_name = [];
+      document.getElementsByName('course_name[]').forEach((element) => {
+        course_name.push(element.value);
+      });
+      let school_name = [];
+      document.getElementsByName('school_name[]').forEach((element) => {
+        school_name.push(element.value);
+      });
+      let passing_year = [];
+      document.getElementsByName('passing_year[]').forEach((element) => {
+        passing_year.push(element.value);
+      });
+      let percent = [];
+      document.getElementsByName('percent[]').forEach((element) => {
+        percent.push(element.value);
+      });
+      let userId = document.getElementsByName('userId')[0].value;
+      console.log(course_name);
+
+
+      $.ajax({
+        url: `http://localhost:8080/edu?course_type=${course_type}&course_name=${course_name}&school_name=${school_name}&passing_year=${passing_year}&percent=${percent}&userId=${userId}`,
+        method: 'get',
+        crossDomain: true,
+        processData: false,
+        contentType: false,
+
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          console.log(data.userId);
+          document.getElementById('userId').value = data.userId;
+          document.getElementsByName('lang[]').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.language) {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('lhskill[]').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.lang_skill && item.language == 'hindi') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('leskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.lang_skill && item.language == 'english') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('lgskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.lang_skill && item.language == 'gujararti') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          return true;
+        }
+      });
+    }
+    function func_lang() {
+      let langArr = document.getElementsByName('lang[]');
+      let lhskillArr = document.getElementsByName('lhskill[]');
+      let lgskillArr = document.getElementsByName('lgskill[]');
+      let leskillArr = document.getElementsByName('leskill[]');
+      let langval = [];
+      let lhskillval = [];
+      let lgskillval = [];
+      let leskillval = [];
+      for (let i = 0; i < langArr.length; i++) {
+        langval.push(langArr[i].value);
+      }
+      for (let i = 0; i < lhskillArr.length; i++) {
+        lhskillval.push(lhskillArr[i].value);
+      }
+      for (let i = 0; i < lgskillArr.length; i++) {
+        lgskillval.push(lgskillArr[i].value);
+      }
+      for (let i = 0; i < leskillArr.length; i++) {
+        leskillval.push(leskillArr[i].value);
+      }
+
+      if (langval.length != 0) {
+        for (let i = 0; i < langval.length; i++) {
+          if (langval[i] == 'hindi') {
+            if (lhskillval.length == 0) {
               let div = langArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please select any language";
+              div.getElementsByTagName('span')[0].innerHTML = "please select your skill hindi";
+              return false;
+            }
+          }
+          else if (langval[i] == 'english') {
+            if (leskillval.length == 0) {
+              let div = langArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please select your skill hindi";
+              return false;
+            }
+          }
+          else {
+            if (lgskillval.length == 0) {
+              let div = langArr[i].parentElement;
+              div.getElementsByTagName('span')[0].innerHTML = "please select your skill hindi";
               return false;
             }
           }
         }
-        let userId = document.getElementsByName('userId')[0].value;
-        console.log(userId);
-        let lang = [];
-        document.getElementsByName('lang[]').forEach((element) => {
-          if (element.checked) {
-            lang.push(element.value);
-          }
-        });
-        let lhskill = [];
-        document.getElementsByName('lhskill[]').forEach((element) => {
-          if (element.checked) {
-            lhskill.push(element.value);
-          }
-        });
-        let leskill = [];
-        document.getElementsByName('leskill[]').forEach((element) => {
-          if (element.checked) {
-            leskill.push(element.value);
-          }
-        })
-        let lgskill = [];
-        document.getElementsByName('lgskill[]').forEach((element) => {
-          if (element.checked) {
-            lgskill.push(element.value);
-          }
-        })
-         
-        $.ajax({
-          url: `http://localhost:8080/lang_detail/?lang=${lang}&lhskill=${lhskill}&leskill=${leskill}&lgskill=${lgskill}&userId=${userId}`,
-          method: 'get',
-          crossDomain: true,
-          processData: false,
-          contentType: false,
-
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementById('userId').value = data.userId;
-            console.log(data.result);
-            document.getElementsByName('tech[]').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech) {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('tpskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech_skill && item.tech == 'php') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('tjskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech_skill && item.tech == 'java') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('tmskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech_skill && item.tech == 'mysql') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            return true;
-          }
-        });
       }
-      function func_tech() {
 
-        let techArr = document.getElementsByName('tech[]');
-        let tp = document.getElementsByName('tpskill');
-        let tj = document.getElementsByName('tjskill');
-        let tm = document.getElementsByName('tmskill');
-        for (let i = 0; i < techArr.length; i++) {
-          if (techArr[i].checked) {
-            let techFlag = 0;
-            if (tp[i].checked) {
-              techFlag++;
-            }
-            if (tj[i].checked) {
-              techFlag++;
-            }
-            if (tm[i].checked) {
-              techFlag++;
-            }
-            if (techFlag == 0) {
-              console.log(techFlag);
-              let div = techArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please select an option";
-              return false;
-            }
-            else {
-              let div = techArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "";
-            }
+      for (let i = 0; i < langArr.length; i++) {
+        if (langArr[i].checked) {
+          let isCheckedFlag = 0;
+          if (lhskillArr[i].checked) {
+            isCheckedFlag++;
+          }
+          if (leskillArr[i].checked) {
+            isCheckedFlag++;
+          }
+          if (lgskillArr[i].checked) {
+            isCheckedFlag++;
+          }
+          if (isCheckedFlag == 0) {
+            let div = langArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please select any language";
+            return false;
           }
         }
-        let userId = document.getElementsByName('userId')[0].value;
-        let tech = [];
-        document.getElementsByName('tech[]').forEach((element) => {
-          if (element.checked) {
-            tech.push(element.value);
-          }
-        });
-        let tpskill = '';
-        document.getElementsByName('tpskill').forEach((element) => {
-          if (element.checked) {
-            tpskill = element.value;
-          }
-        });
-        let tjskill = '';
-        document.getElementsByName('tjskill').forEach((element) => {
-          if (element.checked) {
-            tjskill = element.value;
-          }
-        });
+      }
+      let userId = document.getElementsByName('userId')[0].value;
+      console.log(userId);
+      let lang = [];
+      document.getElementsByName('lang[]').forEach((element) => {
+        if (element.checked) {
+          lang.push(element.value);
+        }
+      });
+      let lhskill = [];
+      document.getElementsByName('lhskill[]').forEach((element) => {
+        if (element.checked) {
+          lhskill.push(element.value);
+        }
+      });
+      let leskill = [];
+      document.getElementsByName('leskill[]').forEach((element) => {
+        if (element.checked) {
+          leskill.push(element.value);
+        }
+      })
+      let lgskill = [];
+      document.getElementsByName('lgskill[]').forEach((element) => {
+        if (element.checked) {
+          lgskill.push(element.value);
+        }
+      })
 
-        let tmskill = '';
-        document.getElementsByName('tmskill').forEach((element) => {
-          if (element.checked) {
-            tmskill = element.value;
-          }
-        });
+      $.ajax({
+        url: `http://localhost:8080/lang_detail/?lang=${lang}&lhskill=${lhskill}&leskill=${leskill}&lgskill=${lgskill}&userId=${userId}`,
+        method: 'get',
+        crossDomain: true,
+        processData: false,
+        contentType: false,
 
-        console.log(tech);
-        $.ajax({
-          url: `http://localhost:8080/tech_detail/?tech=${tech}&tpskill=${tpskill}&tjskill=${tjskill}&tmskill=${tmskill}&userId=${userId}`,
-          method: 'get',
-          crossDomain: true,
-          processData: false,
-          contentType: false,
-
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementById('userId').value = data.userId;
-            document.getElementsByName('location').forEach((element) => {
-              if (element.value == data.result.prefered_location) {
-                element.checked = true;
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementById('userId').value = data.userId;
+          console.log(data.result);
+          document.getElementsByName('tech[]').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech) {
+                  element.checked = true;
+                }
               }
-            });
-            document.getElementsByName('cname[]')[0].value = data.result[0].company_name;
-            document.getElementsByName('design[]')[0].value = data.result[0].design;
-            document.getElementsByName('from[]')[0].value = data.result[0].worked_from;
-            document.getElementsByName('to[]')[0].value = data.result[0].worked_till;
+            })
+          });
 
-            return true;
-          }
-        });
-      }
-
-      function func_exp() {
-
-        let cnameArr = document.getElementsByName('cname[]');
-        let designArr = document.getElementsByName('design[]');
-        let fromArr = document.getElementsByName('from[]');
-        let toArr = document.getElementsByName('to[]');
-        for (let i = 0; i < cnameArr.length; i++) {
-          if (cnameArr[i].value != "") {
-            if (designArr[i].value == "") {
-              let div = designArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
-            }
-            if (fromArr[i].value == "") {
-              let div = fromArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
-            }
-            if (toArr[i].value == "") {
-              let div = toArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
-            }
-            if (designArr[i].value == "" && fromArr[i].value == "" && toArr[i].value == "") {
-              return false;
-            }
-          }
-          if (designArr[i].value != "") {
-            if (cnameArr[i].value == "") {
-              let div = cnameArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your company's name";
-            }
-            if (fromArr[i].value == "") {
-              let div = fromArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
-            }
-            if (toArr[i].value == "") {
-              let div = toArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
-            }
-            if (cnameArr[i].value == "" && fromArr[i].value == "" && toArr[i].value == "") {
-              return false;
-            }
-          }
-          if (fromArr[i].value != "") {
-            if (designArr[i].value == "") {
-              let div = designArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
-            }
-            if (cnameArr[i].value == "") {
-              let div = cnameArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your company name";
-            }
-            if (toArr[i].value == "") {
-              let div = toArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
-            }
-            if (designArr[i].value == "" && cnameArr[i].value == "" && toArr[i].value == "") {
-              return false;
-            }
-          }
-          if (toArr[i].value != "") {
-            if (designArr[i].value == "") {
-              let div = designArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
-            }
-            if (fromArr[i].value == "") {
-              let div = fromArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
-            }
-            if (cnameArr[i].value == "") {
-              let div = cnameArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your company's name";
-            }
-            if (designArr[i].value == "" && fromArr[i].value == "" && cnameArr[i].value == "") {
-              return false;
-            }
-          }
-        }
-        let userId = document.getElementsByName('userId')[0].value;
-        let cname = [];
-        document.getElementsByName('cname[]').forEach((element) => {
-          cname.push(element.value);
-        });
-        let design = [];
-        document.getElementsByName('design[]').forEach((element) => {
-          design.push(element.value);
-        });
-        let from = [];
-        document.getElementsByName('from[]').forEach((element) => {
-          from.push(element.value);
-        });
-        let to = [];
-        document.getElementsByName('to[]').forEach((element) => {
-          to.push(element.value);
-        });
-
-        $.ajax({
-          url: `http://localhost:8080/exp_detail/?cname=${cname}&design=${design}&from=${from}&to=${to}&userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          crossDomain: true,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementById('userId').value = data.userId;
-            document.getElementsByName('location').forEach((element) => {
-              if (element.value == data.result.prefered_location) {
-                element.checked = true;
+          document.getElementsByName('tpskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech_skill && item.tech == 'php') {
+                  element.checked = true;
+                }
               }
-            });
-            document.getElementsByName('c_ctc')[0].value = data.result[0].current_ctc;
-            document.getElementsByName('e_ctc')[0].value = data.result[0].expected_ctc;
-            document.getElementsByName('n_period')[0].value = data.result[0].notice_period;
-            return true;
+            })
+          });
+
+          document.getElementsByName('tjskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech_skill && item.tech == 'java') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('tmskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech_skill && item.tech == 'mysql') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          return true;
+        }
+      });
+    }
+    function func_tech() {
+
+      let techArr = document.getElementsByName('tech[]');
+      let tp = document.getElementsByName('tpskill');
+      let tj = document.getElementsByName('tjskill');
+      let tm = document.getElementsByName('tmskill');
+
+
+      let userId = document.getElementsByName('userId')[0].value;
+      let tech = [];
+      document.getElementsByName('tech[]').forEach((element) => {
+        if (element.checked) {
+          tech.push(element.value);
+        }
+      });
+      let tpskill = '';
+      document.getElementsByName('tpskill').forEach((element) => {
+        if (element.checked) {
+          tpskill = element.value;
+        }
+      });
+      let tjskill = '';
+      document.getElementsByName('tjskill').forEach((element) => {
+        if (element.checked) {
+          tjskill = element.value;
+        }
+      });
+
+      let tmskill = '';
+      document.getElementsByName('tmskill').forEach((element) => {
+        if (element.checked) {
+          tmskill = element.value;
+        }
+      });
+
+      console.log(tech);
+      $.ajax({
+        url: `http://localhost:8080/tech_detail/?tech=${tech}&tpskill=${tpskill}&tjskill=${tjskill}&tmskill=${tmskill}&userId=${userId}`,
+        method: 'get',
+        crossDomain: true,
+        processData: false,
+        contentType: false,
+
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementById('userId').value = data.userId;
+          document.getElementsByName('location').forEach((element) => {
+            if (element.value == data.result.prefered_location) {
+              element.checked = true;
+            }
+          });
+          document.getElementsByName('cname[]')[0].value = data.result[0].company_name;
+          document.getElementsByName('design[]')[0].value = data.result[0].design;
+          document.getElementsByName('from[]')[0].value = data.result[0].worked_from;
+          document.getElementsByName('to[]')[0].value = data.result[0].worked_till;
+
+          return true;
+        }
+      });
+    }
+
+    function func_exp() {
+
+      let cnameArr = document.getElementsByName('cname[]');
+      let designArr = document.getElementsByName('design[]');
+      let fromArr = document.getElementsByName('from[]');
+      let toArr = document.getElementsByName('to[]');
+
+      cnameArr.forEach((element) => {
+        if (element.value != '') {
+          let alphaPtn = /[a-zA-Z]/;
+          if (!alphaPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter only characters";
+            return false;
           }
-        });
+        }
+      });
+
+      designArr.forEach((element) => {
+        if (element.value != '') {
+          let alphaPtn = /[a-zA-Z]/;
+          if (!alphaPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter only characters";
+            return false;
+          }
+        }
+      });
+
+      fromArr.forEach((element) => {
+        if (element.value != '') {
+          let alphaPtn = /[0-9]{4}/;
+          if (!alphaPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "your year pattern should be yyyy";
+            return false;
+          }
+        }
+      });
+
+      toArr.forEach((element) => {
+        if (element.value != '') {
+          let alphaPtn = /[0-9]{4}/;
+          if (!alphaPtn.test(element.value)) {
+            let div = element.parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "your year pattern should be yyyy";
+            return false;
+          }
+        }
+      });
+
+
+      for (let i = 0; i < cnameArr.length; i++) {
+        if (cnameArr[i].value != "") {
+          if (designArr[i].value == "") {
+            let div = designArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
+          }
+          if (fromArr[i].value == "") {
+            let div = fromArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
+          }
+          if (toArr[i].value == "") {
+            let div = toArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
+          }
+          if (designArr[i].value == "" && fromArr[i].value == "" && toArr[i].value == "") {
+            return false;
+          }
+        }
+        if (designArr[i].value != "") {
+          if (cnameArr[i].value == "") {
+            let div = cnameArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your company's name";
+          }
+          if (fromArr[i].value == "") {
+            let div = fromArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
+          }
+          if (toArr[i].value == "") {
+            let div = toArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
+          }
+          if (cnameArr[i].value == "" && fromArr[i].value == "" && toArr[i].value == "") {
+            return false;
+          }
+        }
+        if (fromArr[i].value != "") {
+          if (designArr[i].value == "") {
+            let div = designArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
+          }
+          if (cnameArr[i].value == "") {
+            let div = cnameArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your company name";
+          }
+          if (toArr[i].value == "") {
+            let div = toArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your resignation date in company";
+          }
+          if (designArr[i].value == "" && cnameArr[i].value == "" && toArr[i].value == "") {
+            return false;
+          }
+        }
+        if (toArr[i].value != "") {
+          if (designArr[i].value == "") {
+            let div = designArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your designation in company";
+          }
+          if (fromArr[i].value == "") {
+            let div = fromArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your joining date in company";
+          }
+          if (cnameArr[i].value == "") {
+            let div = cnameArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your company's name";
+          }
+          if (designArr[i].value == "" && fromArr[i].value == "" && cnameArr[i].value == "") {
+            return false;
+          }
+        }
       }
+      let userId = document.getElementsByName('userId')[0].value;
+      let cname = [];
+      document.getElementsByName('cname[]').forEach((element) => {
+        cname.push(element.value);
+      });
+      let design = [];
+      document.getElementsByName('design[]').forEach((element) => {
+        design.push(element.value);
+      });
+      let from = [];
+      document.getElementsByName('from[]').forEach((element) => {
+        from.push(element.value);
+      });
+      let to = [];
+      document.getElementsByName('to[]').forEach((element) => {
+        to.push(element.value);
+      });
 
-      function func_pref() {
+      $.ajax({
+        url: `http://localhost:8080/exp_detail/?cname=${cname}&design=${design}&from=${from}&to=${to}&userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        crossDomain: true,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementById('userId').value = data.userId;
+          document.getElementsByName('location').forEach((element) => {
+            if (element.value == data.result.prefered_location) {
+              element.checked = true;
+            }
+          });
+          document.getElementsByName('c_ctc')[0].value = data.result[0].current_ctc;
+          document.getElementsByName('e_ctc')[0].value = data.result[0].expected_ctc;
+          document.getElementsByName('n_period')[0].value = data.result[0].notice_period;
+          return true;
+        }
+      });
+    }
 
-        let loc = document.getElementsByName('location')[0];
-        let cctc = document.getElementsByName('c_ctc')[0];
-        let ectc = document.getElementsByName('e_ctc')[0];
-        let nperiod = document.getElementsByName('n_period')[0];
-        if (cctc.value == "") {
-          let div = cctc.parentElement;
-          div.getElementsByTagName('span')[0].innerHTML = "please enter your current ctc";
-        }
-        if (ectc.value == "") {
-          let div = ectc.parentElement;
-          div.getElementsByTagName('span')[0].innerHTML = "please enter your expected ctc";
-        }
-        if (nperiod.value == "") {
-          let div = nperiod.parentElement;
-          div.getElementsByTagName('span')[0].innerHTML = "please enter the notice period";
-        }
-        if (cctc.value == "" && ectc.value == "" && nperiod.value == "") {
-          return false;
-        }
-        let userId = document.getElementsByName('userId')[0].value;
-        let location = document.getElementsByName('location')[0].value;
-        let c_ctc = document.getElementsByName('c_ctc')[0].value;
-        let e_ctc = document.getElementsByName('e_ctc')[0].value;
-        let n_period = document.getElementsByName('n_period')[0].value;
+    function func_pref() {
 
-        $.ajax({
-          url: `http://localhost:8080/pref_detail/?location=${location}&c_ctc=${c_ctc}&e_ctc=${e_ctc}&n_period=${n_period}&userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          crossDomain: true,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementById('userId').value = data.userId;
-            for(let i=0; i<data.result.length; i++){
+      let loc = document.getElementsByName('location')[0];
+      let cctc = document.getElementsByName('c_ctc')[0];
+      let ectc = document.getElementsByName('e_ctc')[0];
+      let nperiod = document.getElementsByName('n_period')[0];
+      if (cctc.value == "") {
+        let div = cctc.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "please enter your current ctc";
+      }
+      if (ectc.value == "") {
+        let div = ectc.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "please enter your expected ctc";
+      }
+      if (nperiod.value == "") {
+        let div = nperiod.parentElement;
+        div.getElementsByTagName('span')[0].innerHTML = "please enter the notice period";
+      }
+      if (cctc.value == "" && ectc.value == "" && nperiod.value == "") {
+        return false;
+      }
+      let userId = document.getElementsByName('userId')[0].value;
+      let location = document.getElementsByName('location')[0].value;
+      let c_ctc = document.getElementsByName('c_ctc')[0].value;
+      let e_ctc = document.getElementsByName('e_ctc')[0].value;
+      let n_period = document.getElementsByName('n_period')[0].value;
+
+      $.ajax({
+        url: `http://localhost:8080/pref_detail/?location=${location}&c_ctc=${c_ctc}&e_ctc=${e_ctc}&n_period=${n_period}&userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        crossDomain: true,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementById('userId').value = data.userId;
+          for (let i = 0; i < data.result.length; i++) {
             document.getElementsByName('ename[]')[i].value = data.result[i].e_name;
             document.getElementsByName('edesign[]')[i].value = data.result[i].e_design;
             document.getElementsByName('erelation[]')[i].value = data.result[i].e_relation;
-            }
+          }
+          return false;
+        }
+      });
+    }
+
+    function func_ref() {
+      let enameArr = document.getElementsByName('ename[]');
+      let edesignArr = document.getElementsByName('edesign[]');
+      let erelationArr = document.getElementsByName('erelation[]');
+
+      for (let i = 0; i < enameArr.length; i++) {
+        if (enameArr[i].value != "") {
+          if (edesignArr[i].value == "") {
+            let div = edesignArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter employee's designation";
+          }
+          if (erelationArr[i].value == "") {
+            let div = erelationArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your relation with employee";
+          }
+          if (edesignArr[i].value == "" && erelationArr[i].value == "") {
             return false;
           }
-        });
-      }
-
-      function func_ref() {
-        let enameArr = document.getElementsByName('ename[]');
-        let edesignArr = document.getElementsByName('edesign[]');
-        let erelationArr = document.getElementsByName('erelation[]');
-
-        for (let i = 0; i < enameArr.length; i++) {
-          if (enameArr[i].value != "") {
-            if (edesignArr[i].value == "") {
-              let div = edesignArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's designation";
-            }
-            if (erelationArr[i].value == "") {
-              let div = erelationArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your relation with employee";
-            }
-            if (edesignArr[i].value == "" && erelationArr[i].value == "") {
-              return false;
-            }
+        }
+        if (erelationArr[i].value != "") {
+          if (edesignArr[i].value == "") {
+            let div = edesignArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter employee's designation";
           }
-          if (erelationArr[i].value != "") {
-            if (edesignArr[i].value == "") {
-              let div = edesignArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's designation";
-            }
-            if (enameArr[i].value == "") {
-              let div = enameArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's name";
-            }
-            if (edesignArr[i].value == "" && enameArr[i].value == "") {
-              return false;
-            }
+          if (enameArr[i].value == "") {
+            let div = enameArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter employee's name";
           }
-          if (edesignArr[i].value != "") {
-            if (erelationArr[i].value == "") {
-              let div = erelationArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter your relation with employee";
-            }
-            if (enameArr[i].value == "") {
-              let div = enameArr[i].parentElement;
-              div.getElementsByTagName('span')[0].innerHTML = "please enter employee's name";
-            }
-            if (erelationArr[i].value == "" && enameArr[i].value == "") {
-              return false;
-            }
+          if (edesignArr[i].value == "" && enameArr[i].value == "") {
+            return false;
           }
         }
-        let userId = document.getElementsByName('userId')[0].value;
-        let ename = document.getElementsByName('ename[]')[0].value;
-        let edesign = document.getElementsByName('edesign[]')[0].value;
-        let erelation = document.getElementsByName('erelation[]')[0].value;
-        console.log(erelation);
-        $.ajax({
-          url: `http://localhost:8080/ref_detail/?ename=${ename}&edesign=${edesign}&erelation=${erelation}&userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          crossDomain: true,
-          success: function (data) {
-            $('.sub_container').html(data.data);
+        if (edesignArr[i].value != "") {
+          if (erelationArr[i].value == "") {
+            let div = erelationArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter your relation with employee";
+          }
+          if (enameArr[i].value == "") {
+            let div = enameArr[i].parentElement;
+            div.getElementsByTagName('span')[0].innerHTML = "please enter employee's name";
+          }
+          if (erelationArr[i].value == "" && enameArr[i].value == "") {
+            return false;
+          }
+        }
+      }
+      let userId = document.getElementsByName('userId')[0].value;
+      let ename = document.getElementsByName('ename[]')[0].value;
+      let edesign = document.getElementsByName('edesign[]')[0].value;
+      let erelation = document.getElementsByName('erelation[]')[0].value;
+      console.log(erelation);
+      $.ajax({
+        url: `http://localhost:8080/ref_detail/?ename=${ename}&edesign=${edesign}&erelation=${erelation}&userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        crossDomain: true,
+        success: function (data) {
+          $('.sub_container').html(data.data);
 
-            var html = '';
-            if (data.result.length > 0) {
-              data.result.forEach(element => {
-                html += `<option value='${element.state_id}'>${element.state_name}</option>`
-              });
-              $('#state').html(html);
+          var html = '';
+          if (data.result.length > 0) {
+            data.result.forEach(element => {
+              html += `<option value='${element.state_id}'>${element.state_name}</option>`
+            });
+            $('#state').html(html);
+          }
+          return true;
+        }
+      });
+    }
+
+    function func_pref_prev() {
+      let userId = document.getElementsByName('userId')[0].value;
+      $.ajax({
+        url: `http://localhost:8080/pref_detail_pre?userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementsByName('location').forEach((element) => {
+            if (element.value == data.result.prefered_location) {
+              element.checked = true;
             }
-            return true;
-          }
-        });
-      }
+          });
+          document.getElementsByName('c_ctc')[0].value = data.result[0].current_ctc;
+          document.getElementsByName('e_ctc')[0].value = data.result[0].expected_ctc;
+          document.getElementsByName('n_period')[0].value = data.result[0].notice_period;
+          document.getElementsByName('userId')[0].value = userId;
+        }
+      });
+    }
 
-      function func_pref_prev() {
-        let userId = document.getElementsByName('userId')[0].value;
-        $.ajax({
-          url: `http://localhost:8080/pref_detail_pre?userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementsByName('location').forEach((element) => {
-              if (element.value == data.result.prefered_location) {
-                element.checked = true;
-              }
-            });
-            document.getElementsByName('c_ctc')[0].value = data.result[0].current_ctc;
-            document.getElementsByName('e_ctc')[0].value = data.result[0].expected_ctc;
-            document.getElementsByName('n_period')[0].value = data.result[0].notice_period;
-            document.getElementsByName('userId')[0].value = userId;
-          }
-        });
-      }
-
-      function func_exp_prev() {
-        console.log("calling");
-        let userId = document.getElementsByName('userId')[0].value;
-        $.ajax({
-          url: `http://localhost:8080/exp_detail_prev?userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementsByName('location').forEach((element) => {
-              if (element.value == data.result.prefered_location) {
-                element.checked = true;
-              }
-            });
-            document.getElementsByName('cname[]')[0].value = data.result[0].company_name;
-            document.getElementsByName('design[]')[0].value = data.result[0].design;
-            document.getElementsByName('from[]')[0].value = data.result[0].worked_from;
-            document.getElementsByName('to[]')[0].value = data.result[0].worked_till;
-            document.getElementById("userId").value = userId;
-          }
-        });
-      }
-      function func_tech_prev() {
-        let userId = document.getElementById('userId').value;
-        $.ajax({
-          url: `http://localhost:8080/tech_detail_prev?userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementById("userId").value = userId;
-            document.getElementsByName('tech[]').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech) {
-                    element.checked = true;
-                  }
+    function func_exp_prev() {
+      console.log("calling");
+      let userId = document.getElementsByName('userId')[0].value;
+      $.ajax({
+        url: `http://localhost:8080/exp_detail_prev?userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementsByName('location').forEach((element) => {
+            if (element.value == data.result.prefered_location) {
+              element.checked = true;
+            }
+          });
+          document.getElementsByName('cname[]')[0].value = data.result[0].company_name;
+          document.getElementsByName('design[]')[0].value = data.result[0].design;
+          document.getElementsByName('from[]')[0].value = data.result[0].worked_from;
+          document.getElementsByName('to[]')[0].value = data.result[0].worked_till;
+          document.getElementById("userId").value = userId;
+        }
+      });
+    }
+    function func_tech_prev() {
+      let userId = document.getElementById('userId').value;
+      $.ajax({
+        url: `http://localhost:8080/tech_detail_prev?userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementById("userId").value = userId;
+          document.getElementsByName('tech[]').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech) {
+                  element.checked = true;
                 }
-              })
-            });
-
-            document.getElementsByName('tpskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech_skill && item.tech == 'php') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('tjskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech_skill && item.tech == 'java') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('tmskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.tech_skill && item.tech == 'mysql') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-
-          }
-        });
-      }
-      function func_lang_prev() {
-        let userId = document.getElementById('userId').value;
-        $.ajax({
-          url: `http://localhost:8080/lang_detail_prev?userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            document.getElementById("userId").value = userId;
-
-            document.getElementsByName('lang[]').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.language) {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('lhskill[]').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.lang_skill && item.language == 'hindi') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('leskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.lang_skill && item.language == 'english') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-
-            document.getElementsByName('lgskill').forEach((element) => {
-              data.result.forEach((item) => {
-                if (!element.checked) {
-                  if (element.value == item.lang_skill && item.language == 'gujararti') {
-                    element.checked = true;
-                  }
-                }
-              })
-            });
-          }
-        });
-      }
-
-      function func_edu_prev() {
-        let userId = document.getElementsByName('userId')[0].value;
-        $.ajax({
-          url: `http://localhost:8080/edu_detail_prev?userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-            data.result.forEach((element) => {
-              for (let i = 0; i < 4; i++) {
-                if (document.getElementsByName('course_type[]')[i].value == element.course_type) {
-                  document.getElementsByName('course_name[]')[i].value = element.course_name;
-                  document.getElementsByName('school_name[]')[i].value = element.school_name;
-                  document.getElementsByName('passing_year[]')[i].value = element.passing_year;
-                  document.getElementsByName('percent[]')[i].value = element.percent;
-                }
-              }
-            });
-            document.getElementById('userId').value = userId;
-          }
-        });
-      }
-
-
-      function func_can_prev() {
-        let userId = document.getElementsByName('userId')[0].value;
-        $.ajax({
-          url: `http://localhost:8080/can_detail_prev?userId=${userId}`,
-          method: 'get',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            $('.sub_container').html(data.data);
-           
-            let opt = '';
-            data.result1.forEach((element) => {
-              opt += `<option value="${element.state_id}">${element.state_name}</option>`;
-            });
-            document.getElementById('state').innerHTML += opt;
-            document.getElementsByName('fname')[0].value = data.result[0].first_name;
-            document.getElementsByName('lname')[0].value = data.result[0].last_name;
-            document.getElementsByName('design')[0].value = data.result[0].design;
-            document.getElementsByName('contact')[0].value = data.result[0].phone;
-            document.getElementsByName('email')[0].value = data.result[0].email;
-            document.getElementsByName('add1')[0].value = data.result[0].current_addreess;
-            document.getElementsByName('add2')[0].value = data.result[0].permanent_address;
-            document.getElementsByName('zipcode')[0].value = data.result[0].zip_code;
-            document.getElementsByName('gender').forEach((element) => {
-              if (element.value == data.result[0].gender) {
-                element.checked = true;
-              }
-            });
-            document.getElementsByName('state').forEach((element) => {
-              if (element.value == data.result[0].state) {
-                element.checked = true;
-              }
-            });
-            document.getElementsByName('city').forEach((element) => {
-              if (element.value == data.result[0].city) {
-                element.checked = true;
-              }
-            });
-
-            document.getElementsByName('relation').forEach((element) => {
-              if (element.value == data.result[0].relationship_status) {
-                element.checked = true;
               }
             })
-            document.getElementById('userId').value = userId;
-          }
-        });
-      }
+          });
+
+          document.getElementsByName('tpskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech_skill && item.tech == 'php') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('tjskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech_skill && item.tech == 'java') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('tmskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.tech_skill && item.tech == 'mysql') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+
+        }
+      });
+    }
+    function func_lang_prev() {
+      let userId = document.getElementById('userId').value;
+      $.ajax({
+        url: `http://localhost:8080/lang_detail_prev?userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          document.getElementById("userId").value = userId;
+
+          document.getElementsByName('lang[]').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.language) {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('lhskill[]').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.lang_skill && item.language == 'hindi') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('leskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.lang_skill && item.language == 'english') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+
+          document.getElementsByName('lgskill').forEach((element) => {
+            data.result.forEach((item) => {
+              if (!element.checked) {
+                if (element.value == item.lang_skill && item.language == 'gujararti') {
+                  element.checked = true;
+                }
+              }
+            })
+          });
+        }
+      });
+    }
+
+    function func_edu_prev() {
+      let userId = document.getElementsByName('userId')[0].value;
+      $.ajax({
+        url: `http://localhost:8080/edu_detail_prev?userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+          data.result.forEach((element) => {
+            for (let i = 0; i < 4; i++) {
+              if (document.getElementsByName('course_type[]')[i].value == element.course_type) {
+                document.getElementsByName('course_name[]')[i].value = element.course_name;
+                document.getElementsByName('school_name[]')[i].value = element.school_name;
+                document.getElementsByName('passing_year[]')[i].value = element.passing_year;
+                document.getElementsByName('percent[]')[i].value = element.percent;
+              }
+            }
+          });
+          document.getElementById('userId').value = userId;
+        }
+      });
+    }
+
+
+    function func_can_prev() {
+      let userId = document.getElementsByName('userId')[0].value;
+      $.ajax({
+        url: `http://localhost:8080/can_detail_prev?userId=${userId}`,
+        method: 'get',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('.sub_container').html(data.data);
+
+          let opt = '';
+          data.result1.forEach((element) => {
+            opt += `<option value="${element.state_id}">${element.state_name}</option>`;
+          });
+          document.getElementById('state').innerHTML += opt;
+          document.getElementsByName('fname')[0].value = data.result[0].first_name;
+          document.getElementsByName('lname')[0].value = data.result[0].last_name;
+          document.getElementsByName('design')[0].value = data.result[0].design;
+          document.getElementsByName('contact')[0].value = data.result[0].phone;
+          document.getElementsByName('email')[0].value = data.result[0].email;
+          document.getElementsByName('add1')[0].value = data.result[0].current_addreess;
+          document.getElementsByName('add2')[0].value = data.result[0].permanent_address;
+          document.getElementsByName('zipcode')[0].value = data.result[0].zip_code;
+          document.getElementsByName('gender').forEach((element) => {
+            if (element.value == data.result[0].gender) {
+              element.checked = true;
+            }
+          });
+          document.getElementsByName('state').forEach((element) => {
+            if (element.value == data.result[0].state) {
+              element.checked = true;
+            }
+          });
+          document.getElementsByName('city').forEach((element) => {
+            if (element.value == data.result[0].city) {
+              element.checked = true;
+            }
+          });
+
+          document.getElementsByName('relation').forEach((element) => {
+            if (element.value == data.result[0].relationship_status) {
+              element.checked = true;
+            }
+          })
+          document.getElementById('userId').value = userId;
+        }
+      });
+    }
   </script>
 </body>
 

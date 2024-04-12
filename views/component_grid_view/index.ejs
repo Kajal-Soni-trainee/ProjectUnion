@@ -60,42 +60,48 @@
             align-items: center;
             gap: 20px;
         }
-        .all_filters{
-            display:flex;
+
+        .all_filters {
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        .err {
+            color: "red";
         }
     </style>
 </head>
 
 <body>
-    
+
     <div class="container">
         <div class="sub-con">
             <h1>Enter Your Query</h1>
-            <form method="post" action="/grid">
-                <input type="text" id="query" name="query" placeholder="Query" />
+            <form method="post" action="/grid" onsubmit="return validate()">
+                <div>
+                    <input type="text" id="query" name="query" placeholder="Query" />
+                    <p class="err">
+                </div>
+
                 <input type="submit" id="submit" value="Go" />
             </form>
         </div>
-      <%#
-      let keys = Object.keys(obj[0]);
-      keys.forEach((item)=>{
-      console.log(item);
-      });
-      %>
+        <%# let keys=Object.keys(obj[0]); keys.forEach((item)=>{
+            console.log(item);
+            });
+            %>
             <% if (showData==true) { %>
-                <%-include("filters",{result:result,query:query,element:element,order:order});%>
-                <%-include(tables,{result:result,element:element,order:order});%>
-                
-                    <% } %>
-        
-        <div>
-            <% if (isPagi==true) { %>
-                <%-include(pagination);%>
-                    <% } %>
-        </div>
+                <%- include("filters",{result:result,query:query,element:element,order:order}) %>
+                    <%- include(tables,{result:result,element:element,order:order});%>
+
+                        <% } %>
+                            <div>
+                                <% if (isPagi==true) { %>
+                                    <%-include(pagination);%>
+                                        <% } %>
+                            </div>
     </div>
     <% if (isPagi && !filter) { %>
         <script>
@@ -112,28 +118,28 @@
 
             function moveFirst() {
                 pageNo.innerHTML = 1;
-                window.location = "/data?id=1&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>";
+                window.location = "/datalist?id=1&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>";
             }
             function moveLast() {
 
-                
-                
+
+
 
                 pageNo.innerHTML = "<%=pages%>";
-                window.location = "/data?id=<%=pages%>&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>";
+                window.location = "/datalist?id=<%=pages%>&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>";
             }
             function increment() {
                 let pages = "<%=pages%>";
                 if (parseInt(pageNo.innerHTML) < parseInt(pages)) {
                     pageNo.innerHTML = parseInt(pageNo.innerHTML) + 1;
-                    inc.href = `/data?id=${pageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>`;
+                    inc.href = `/datalist?id=${pageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>`;
                 }
             }
             function decrement() {
                 if (parseInt(pageNo.innerHTML) > 1) {
                     console.log("true");
                     pageNo.innerHTML = parseInt(pageNo.innerHTML) - 1;
-                    dec.href = `/data?id=${pageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>`;
+                    dec.href = `/datalist?id=${pageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=false&obj=<%=obj%>`;
                 }
             }
 
@@ -141,148 +147,163 @@
         <%} %>
 
 
-        <% if (isPagi && filter) { %>
-            <script>
-                console.log("<%=obj[0]%>")
-                console.log("<%=result[0]%>")
-                let First = document.getElementById("first");
-                let Last = document.getElementById("last");
-                let Inc = document.getElementById("increment");
-                let Dec = document.getElementById("decrement");
-                let PageNo = document.getElementById("pageNo");
-                PageNo.innerHTML = "<%=id%>";
-                First.addEventListener('click', moveFirst);
-                Last.addEventListener('click', moveLast);
-                Inc.addEventListener('click', increment);
-                Dec.addEventListener('click', decrement);
-    
-                function moveFirst() {
-
-                   
-                    PageNo.innerHTML = 1;
-                    window.location = "/filter_data?id=1&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>";
-                }
-                function moveLast() {
-
-                    let queries = `select * from Student where student_name = 'Kajal Ranapratap Soni'`;
-                    console.log(queries)
-
-                    PageNo.innerHTML = "<%=pages%>";
-                    window.location = "/filter_data?id=<%=pages%>&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>";
-                }
-    
-                function increment() {
-
-
-                    let pages = "<%=pages%>";
-                    if (parseInt(PageNo.innerHTML) < parseInt(pages)) {
-                        PageNo.innerHTML = parseInt(PageNo.innerHTML) + 1;
-                        Inc.href = `/filter_data?id=${PageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>`;
-                    }
-                }
-                function decrement() {
-                    if (parseInt(PageNo.innerHTML) > 1) {
-                        console.log("true");
-                        PageNo.innerHTML = parseInt(PageNo.innerHTML) - 1;
-                        Dec.href = `/filter_data?id=${PageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>`;
-                    }
-                }
-    
-    
-            </script>
-            <%} %>
-
-
-            <%if(showData && !filter){%>
+            <% if (isPagi && filter) { %>
                 <script>
-                    const up = document.getElementById("up");
-                    const down = document.getElementById("down");
-                    function orderData(element) {
-                       if("<%=order%>"=="asc"){
-                        const id = element.id;
-                        //document.getElementById(`${id}`).style.background="red";
-                        console.log(`incrementing by ${id}`);
-                        window.location = `/data?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=desc&element=${id}&filter=false&obj=<%=obj%>`;
-                       }
-                       else{
-                        const id = element.id;
-                        //document.getElementById(`${id}`).style.background="red";
-                        console.log(`incrementing by ${id}`);
-                        window.location = `/data?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=asc&element=${id}&filter=false&obj=<%=obj%>`;
-                       }
-                        //document.getElementById("up").color="yellow";
+                    console.log("<%=obj[0]%>")
+                    console.log("<%=result[0]%>")
+                    let First = document.getElementById("first");
+                    let Last = document.getElementById("last");
+                    let Inc = document.getElementById("increment");
+                    let Dec = document.getElementById("decrement");
+                    let PageNo = document.getElementById("pageNo");
+                    PageNo.innerHTML = "<%=id%>";
+                    First.addEventListener('click', moveFirst);
+                    Last.addEventListener('click', moveLast);
+                    Inc.addEventListener('click', increment);
+                    Dec.addEventListener('click', decrement);
+
+                    function moveFirst() {
+
+
+                        PageNo.innerHTML = 1;
+                        window.location = "/filter_data?id=1&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>";
                     }
-                    console.log(document.getElementById("<%=element%>"));
-                    document.getElementById("<%=element%>").style.backgroundColor = "red";
-                    if ("<%=order%>" == "asc") {
-                        console.log("<%=order%>");
-                        let arrows = document.getElementById("<%=element%>").children[1];
-                        arrows.children[0].style.color = "yellow";
-                        arrows.children[0].style.fontsize = "50px";
+                    function moveLast() {
+
+                        let queries = `select * from Student where student_name = 'Kajal Ranapratap Soni'`;
+                        console.log(queries)
+
+                        PageNo.innerHTML = "<%=pages%>";
+                        window.location = "/filter_data?id=<%=pages%>&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>";
                     }
-                    else {
-                        let arrows = document.getElementById("<%=element%>").children[1];
-                        arrows.children[1].style.color = "yellow";
-                        arrows.children[1].style.fontsize = "50px";
-                    }
-                    function addFilter() {
-                        console.log("add filter called");
-                        if (document.getElementsByClassName("filters")[0].style.visibility == "collapse") {
-                            document.getElementsByClassName("filters")[0].style.visibility = "visible";
-                        }
-                        else {
-                            document.getElementsByClassName("filters")[0].style.visibility = "collapse";
+
+                    function increment() {
+
+
+                        let pages = "<%=pages%>";
+                        if (parseInt(PageNo.innerHTML) < parseInt(pages)) {
+                            PageNo.innerHTML = parseInt(PageNo.innerHTML) + 1;
+                            Inc.href = `/filter_data?id=${PageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>`;
                         }
                     }
+                    function decrement() {
+                        if (parseInt(PageNo.innerHTML) > 1) {
+                            console.log("true");
+                            PageNo.innerHTML = parseInt(PageNo.innerHTML) - 1;
+                            Dec.href = `/filter_data?id=${PageNo.innerHTML}&limit=<%=limit%>&isPagi=<%=true%>&showData=<%=true%>&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=<%=order%>&element=<%=element%>&filter=true&obj=<%=obj%>`;
+                        }
+                    }
+
+
                 </script>
-                <%}%>
+                <%} %>
 
 
-                <%if(showData && filter){%>
-                    <script>
-                        const Up = document.getElementById("up");
-                        const Down = document.getElementById("down");
-                        function orderData(element) {
-                           if("<%=order%>"=="asc"){
-                            const id = element.id;
-                            //document.getElementById(`${id}`).style.background="red";
-                            console.log(`incrementing by ${id}`);
-                            window.location = `/filter_data?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=desc&element=${id}&filter=true&obj=<%=obj%>`;
-                           }
-                           else{
-                            const id = element.id;
-                            //document.getElementById(`${id}`).style.background="red";
-                            console.log(`incrementing by ${id}`);
-                            window.location = `/filter_data?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=asc&element=${id}&filter=true&obj=<%=obj%>`;
-                           }
-                            //document.getElementById("up").color="yellow";
-                        }
-                        console.log(document.getElementById("<%=element%>"));
-                        document.getElementById("<%=element%>").style.backgroundColor = "red";
-                        if ("<%=order%>" == "asc") {
-                            console.log("<%=order%>");
-                            let arrows = document.getElementById("<%=element%>").children[1];
-                            arrows.children[0].style.color = "yellow";
-                            arrows.children[0].style.fontsize = "50px";
-                        }
-                        else {
-                            let arrows = document.getElementById("<%=element%>").children[1];
-                            arrows.children[1].style.color = "yellow";
-                            arrows.children[1].style.fontsize = "50px";
-                        }
-                        function addFilter() {
-                            console.log("add filter called");
-                            if (document.getElementsByClassName("filters")[0].style.visibility == "collapse") {
-                                document.getElementsByClassName("filters")[0].style.visibility = "visible";
+                    <%if(showData && !filter){%>
+                        <script>
+                            const up = document.getElementById("up");
+                            const down = document.getElementById("down");
+                            function orderData(element) {
+                                if ("<%=order%>" == "asc") {
+                                    const id = element.id;
+                                    //document.getElementById(`${id}`).style.background="red";
+                                    console.log(`incrementing by ${id}`);
+                                    window.location = `/datalist?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=desc&element=${id}&filter=false&obj=<%=obj%>`;
+                                }
+                                else {
+                                    const id = element.id;
+                                    //document.getElementById(`${id}`).style.background="red";
+                                    console.log(`incrementing by ${id}`);
+                                    window.location = `/datalist?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=asc&element=${id}&filter=false&obj=<%=obj%>`;
+                                }
+                                //document.getElementById("up").color="yellow";
+                            }
+                            console.log(document.getElementById("<%=element%>"));
+                            document.getElementById("<%=element%>").style.backgroundColor = "red";
+                            if ("<%=order%>" == "asc") {
+                                console.log("<%=order%>");
+                                let arrows = document.getElementById("<%=element%>").children[1];
+                                arrows.children[0].style.color = "yellow";
+                                arrows.children[0].style.fontsize = "50px";
                             }
                             else {
-                                document.getElementsByClassName("filters")[0].style.visibility = "collapse";
+                                let arrows = document.getElementById("<%=element%>").children[1];
+                                arrows.children[1].style.color = "yellow";
+                                arrows.children[1].style.fontsize = "50px";
                             }
-                        }
-                    </script>
-                    <%}%>
+                            function addFilter() {
+                                console.log("add filter called");
+                                if (document.getElementsByClassName("filters")[0].style.visibility == "collapse") {
+                                    document.getElementsByClassName("filters")[0].style.visibility = "visible";
+                                }
+                                else {
+                                    document.getElementsByClassName("filters")[0].style.visibility = "collapse";
+                                }
+                            }
+                        </script>
+                        <%}%>
 
 
+                            <%if(showData && filter){%>
+                                <script>
+                                    const Up = document.getElementById("up");
+                                    const Down = document.getElementById("down");
+                                    function orderData(element) {
+                                        if ("<%=order%>" == "asc") {
+                                            const id = element.id;
+                                            //document.getElementById(`${id}`).style.background="red";
+                                            console.log(`incrementing by ${id}`);
+                                            window.location = `/filter_data?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=desc&element=${id}&filter=true&obj=<%=obj%>`;
+                                        }
+                                        else {
+                                            const id = element.id;
+                                            //document.getElementById(`${id}`).style.background="red";
+                                            console.log(`incrementing by ${id}`);
+                                            window.location = `/filter_data?id=1&limit=<%=limit%>&isPagi=true&showData=true&pagination=<%=pagination%>&tables=<%=tables%>&result=<%=result%>&pages=<%=pages%>&query=<%=query%>&order=asc&element=${id}&filter=true&obj=<%=obj%>`;
+                                        }
+                                        //document.getElementById("up").color="yellow";
+                                    }
+                                    console.log(document.getElementById("<%=element%>"));
+                                    document.getElementById("<%=element%>").style.backgroundColor = "red";
+                                    if ("<%=order%>" == "asc") {
+                                        console.log("<%=order%>");
+                                        let arrows = document.getElementById("<%=element%>").children[1];
+                                        arrows.children[0].style.color = "yellow";
+                                        arrows.children[0].style.fontsize = "50px";
+                                    }
+                                    else {
+                                        let arrows = document.getElementById("<%=element%>").children[1];
+                                        arrows.children[1].style.color = "yellow";
+                                        arrows.children[1].style.fontsize = "50px";
+                                    }
+                                    function addFilter() {
+                                        console.log("add filter called");
+                                        if (document.getElementsByClassName("filters")[0].style.visibility == "collapse") {
+                                            document.getElementsByClassName("filters")[0].style.visibility = "visible";
+                                        }
+                                        else {
+                                            document.getElementsByClassName("filters")[0].style.visibility = "collapse";
+                                        }
+                                    }
+                                </script>
+                                <%}%>
+
+                                    <script>
+
+                                        function validate() {
+                                            let query = document.getElementById("query");
+                                            console.log(query.value);
+                                            if (query.value == "") {
+                                                let div = query.parentElement;
+                                                div.getElementsByTagName('p')[0].innerHTML = " please enter some value"
+                                                return false;
+                                            }
+                                            else {
+                                                return true;
+                                            }
+
+                                        }
+                                    </script>
 </body>
 
 </html>
