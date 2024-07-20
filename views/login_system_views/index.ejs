@@ -78,7 +78,7 @@
             setTimeout(()=>{
             sub_con.innerHTML=`<h1 style="color:red">Sorry! our time out please try again</h1>`;
             $.ajax({
-        url: `http://localhost:8000/checkdb/?id=<%=id%>`,
+        url: `http://localhost:8080/checkdb/?id=<%=id%>`,
         method: 'GET',
         crossDomain: true,
         processData: false,
